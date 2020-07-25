@@ -12,7 +12,7 @@ class Settings extends Equatable {
   /// Конструктор настроек.
   /// Если какие-то параметры не указаны, они инициализируются значениями
   /// по-умолчанию.
-  Settings({this.displayNotification = true});
+  const Settings({this.displayNotification = true});
 
   /// Фабрика по созданию настроек из JSON объекта.
   factory Settings.fromJson(Map<String, dynamic> json) {
