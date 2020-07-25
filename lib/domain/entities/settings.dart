@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
 /// Класс, описывающий настройки приложения, которые могут изменяться.
 ///
 /// Объекты настроек можно сравнивать с использованием оператора ==.
 /// При сравнении используются данные из [props].
+@immutable
 class Settings extends Equatable {
   /// Флаг, определяющий, нужно ли показывать уведомления
   static const DISPLAY_NOTIFICATION = 'notification';
