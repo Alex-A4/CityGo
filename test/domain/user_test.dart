@@ -6,7 +6,7 @@ void main() {
     'должен создать пользователя InApp из json фабрики',
     () async {
       var json = {
-        User.USER_NAME : 'Васян',
+        User.USER_NAME: 'Васян',
         User.USER_TYPE: UserType.InApp.index,
         InAppUser.ACCESS_TOKEN: 'someAccessToken',
       };
@@ -29,6 +29,26 @@ void main() {
 
       // assert
       expect(user, null);
+    },
+  );
+
+  test(
+    'должен конвертировать пользователя в JSON',
+    () async {
+      // arrange
+      var user = InAppUser(
+        userName: 'Вася',
+        accessToken: 'token',
+        type: UserType.InApp,
+      );
+
+      // act
+      var json = user.toJson();
+
+      // assert
+      expect(json[User.USER_TYPE], user.type.index);
+      expect(json[User.USER_NAME], user.userName);
+      expect(json[InAppUser.ACCESS_TOKEN], user.accessToken);
     },
   );
 }
