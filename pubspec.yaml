@@ -27,6 +27,8 @@ dependencies:
   package_info: ^0.4.1
   device_info: ^0.4.2+4
   connectivity: ^0.4.9
+  dio: ^3.0.9
+  dio_flutter_transformer: ^3.0.2
 
 
 
