@@ -5,6 +5,8 @@ import 'package:city_go/domain/repositories/profile_repository.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
+export 'package:city_go/domain/repositories/profile_repository.dart';
+
 /// Реализация репозитория, который читает и сохраняет профиль
 class ProfileRepositoryImpl extends ProfileRepository {
   static const kProfile = 'profile';
