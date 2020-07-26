@@ -19,7 +19,7 @@ dependencies:
 
   # Logic section
   bloc: ^6.0.1
-  shared_preferences: ^0.5.8
+  hive: ^1.4.2
   equatable: ^1.2.2
   rxdart: ^0.24.1
   get_it: ^4.0.2
