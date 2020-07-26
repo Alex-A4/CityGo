@@ -1,5 +1,5 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 /// Виджет, который хранит локализацию приложения и позволяет обновлять её
 class LocalizationBuilder extends StatefulWidget {
@@ -46,17 +46,17 @@ class _LocalizationBuilderState extends State<LocalizationBuilder> {
   /// Читаем languageCode из локального хранилища, если она там есть, то сохраняем.
   /// Затем обновляем состояние, подняв флаг, что данные загружены
   Future<void> getAppLocale() async {
-    var prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey('locale'))
-      this.locale = Locale(prefs.getString('locale'));
+    var box = await Hive.openBox('localization');
+    var l = box.get('locale');
+    if (l != null) this.locale = Locale(l);
 
     setState(() => isLoaded = true);
   }
 
   /// Сохраняем languageCode в локальное хранилище
   Future<void> saveAppLocale(Locale locale) async {
-    var prefs = await SharedPreferences.getInstance();
-    await prefs.setString('locale', locale.languageCode);
+    var box = await Hive.openBox('localization');
+    await box.put('locale', locale.languageCode);
     setState(() => this.locale = locale);
   }
 }
