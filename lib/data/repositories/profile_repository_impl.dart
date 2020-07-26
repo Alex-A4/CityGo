@@ -1,0 +1,30 @@
+import 'dart:convert' show json;
+
+import 'package:city_go/domain/entities/profile.dart';
+import 'package:city_go/domain/repositories/profile_repository.dart';
+import 'package:hive/hive.dart';
+import 'package:meta/meta.dart';
+
+/// Реализация репозитория, который читает и сохраняет профиль
+class ProfileRepositoryImpl extends ProfileRepository {
+  static const kProfile = 'profile';
+  final HiveInterface hive;
+
+  ProfileRepositoryImpl({@required this.hive});
+
+  @override
+  Future<Profile> readProfile() async {
+    var box = await hive.openBox(kProfile);
+    var data = box.get(kProfile);
+    if (data == null) return Profile.empty();
+
+    var j = json.decode(data);
+    return Profile.fromJson(j);
+  }
+
+  @override
+  Future<void> saveProfile(Profile profile) async {
+    var box = await hive.openBox(kProfile);
+    await box.put(kProfile, json.encode(profile.toJson()));
+  }
+}
