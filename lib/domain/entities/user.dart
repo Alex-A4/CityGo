@@ -13,13 +13,18 @@ abstract class User extends Equatable {
   static const USER_NAME = 'userName';
   final String userName;
 
-  User(this.userName, this.type);
+  /// Токен доступа к серверу
+  static const ACCESS_TOKEN = 'accessToken';
+  final String accessToken;
+
+  User(this.userName, this.type, this.accessToken);
 
   /// Метод для конвертации пользователя в JSON формат.
   /// Классы-наследники должны переопределить этот метод и дополнить его реализацию.
   Map<String, dynamic> toJson() => {
         USER_NAME: userName,
         USER_TYPE: type.index,
+        ACCESS_TOKEN: accessToken,
       };
 }
 
@@ -28,33 +33,57 @@ enum UserType { InApp, Google, VK, Instagram }
 
 /// Класс пользователя, который зарегистрировался в приложении
 class InAppUser extends User {
-  /// Токен доступа к серверу
-  static const ACCESS_TOKEN = 'token';
-  final String accessToken;
-
   InAppUser({
     @required String userName,
-    @required UserType type,
-    @required this.accessToken,
-  }) : super(userName, type);
+    @required String accessToken,
+  }) : super(userName, UserType.InApp, accessToken);
 
   factory InAppUser.fromJson(Map<String, dynamic> json) {
     return InAppUser(
       userName: json[User.USER_NAME],
-      type: UserType.values[json[User.USER_TYPE]],
-      accessToken: json[ACCESS_TOKEN],
+      accessToken: json[User.ACCESS_TOKEN],
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
     var json = super.toJson();
-    json[ACCESS_TOKEN] = accessToken;
     return json;
   }
 
   @override
   List<Object> get props => [userName, type, accessToken];
+}
+
+class VKUser extends User {
+  /// Токен авторизации вконтакте
+  static const VK_TOKEN = 'vkToken';
+  final String vkToken;
+
+  /// Токен авторизации на сервере, инициализируется после отправки запроса
+  VKUser({
+    @required String userName,
+    @required this.vkToken,
+    String accessToken,
+  }) : super(userName, UserType.VK, accessToken);
+
+  factory VKUser.fromJson(Map<String, dynamic> json) {
+    return VKUser(
+      userName: json[User.USER_NAME],
+      vkToken: json[VK_TOKEN],
+      accessToken: json[User.ACCESS_TOKEN],
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    var json = super.toJson();
+    json[VK_TOKEN] = vkToken;
+    return json;
+  }
+
+  @override
+  List<Object> get props => [userName, type, accessToken, vkToken];
 }
 
 /// Абстрактная фабрика по созданию пользователя из JSON формата
@@ -80,7 +109,7 @@ class DefaultUserFactory extends UserFactory {
       case UserType.Google:
         throw UnimplementedError();
       case UserType.VK:
-        throw UnimplementedError();
+        return VKUser.fromJson(json);
       case UserType.Instagram:
         throw UnimplementedError();
     }

@@ -8,7 +8,7 @@ void main() {
       var json = {
         User.USER_NAME: 'Васян',
         User.USER_TYPE: UserType.InApp.index,
-        InAppUser.ACCESS_TOKEN: 'someAccessToken',
+        User.ACCESS_TOKEN: 'someAccessToken',
       };
       // act
       var user = UserFactory.instance.fromJson(json);
@@ -17,7 +17,7 @@ void main() {
       expect(user.runtimeType, InAppUser);
       expect(user.userName, json[User.USER_NAME]);
       expect(user.type, UserType.InApp);
-      expect((user as InAppUser).accessToken, json[InAppUser.ACCESS_TOKEN]);
+      expect((user as InAppUser).accessToken, json[User.ACCESS_TOKEN]);
     },
   );
 
@@ -39,7 +39,6 @@ void main() {
       var user = InAppUser(
         userName: 'Вася',
         accessToken: 'token',
-        type: UserType.InApp,
       );
 
       // act
@@ -48,7 +47,7 @@ void main() {
       // assert
       expect(json[User.USER_TYPE], user.type.index);
       expect(json[User.USER_NAME], user.userName);
-      expect(json[InAppUser.ACCESS_TOKEN], user.accessToken);
+      expect(json[User.ACCESS_TOKEN], user.accessToken);
     },
   );
 }

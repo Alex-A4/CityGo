@@ -16,7 +16,6 @@ void main() {
   final user = InAppUser(
     userName: 'Вася',
     accessToken: 'token',
-    type: UserType.InApp,
   );
   final settings = Settings(displayNotification: false);
 

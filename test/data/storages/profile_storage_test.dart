@@ -12,12 +12,10 @@ void main() {
   final user = InAppUser(
     userName: 'Вася',
     accessToken: 'token',
-    type: UserType.InApp,
   );
   final user2 = InAppUser(
     userName: 'Петя',
     accessToken: 'token2',
-    type: UserType.InApp,
   );
   final settings = Settings(displayNotification: false);
 
