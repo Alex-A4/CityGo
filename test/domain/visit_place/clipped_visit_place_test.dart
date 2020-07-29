@@ -1,4 +1,4 @@
-import 'package:city_go/domain/repositories/visit_place/clipped_visit_place.dart';
+import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
