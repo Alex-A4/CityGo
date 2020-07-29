@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:city_go/data/repositories/profile_repository_impl.dart';
+import 'package:city_go/data/repositories/profile/profile_repository_impl.dart';
 import 'package:city_go/domain/entities/profile/profile.dart';
 import 'package:city_go/domain/entities/profile/settings.dart';
 import 'package:city_go/domain/entities/profile/user.dart';

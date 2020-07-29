@@ -1,4 +1,4 @@
-import 'package:city_go/data/repositories/profile_repository_impl.dart';
+import 'package:city_go/data/repositories/profile/profile_repository_impl.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
