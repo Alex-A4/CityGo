@@ -1,4 +1,16 @@
+import 'package:city_go/data/core/localization_constants.dart';
 import 'package:dio/dio.dart';
+
+/// Конвертирует [error] в строковую константу, которая описывает произошедшее
+String handleDioError(DioError e) {
+  var code = e.response?.statusCode;
+  if (code == null) throw UNEXPECTED_ERROR;
+
+  switch (code) {
+    default:
+      return UNEXPECTED_ERROR;
+  }
+}
 
 /// Абстрактный http клиент, который должен использоваться в приложении
 abstract class HttpClient {
