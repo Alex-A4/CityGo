@@ -1,5 +1,5 @@
 import 'package:city_go/domain/entities/future_response.dart';
-import 'package:city_go/domain/entities/user.dart';
+import 'package:city_go/domain/entities/profile/user.dart';
 
 export 'package:city_go/domain/entities/future_response.dart';
 

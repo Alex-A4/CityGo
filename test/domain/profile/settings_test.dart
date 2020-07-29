@@ -1,4 +1,4 @@
-import 'package:city_go/domain/entities/settings.dart';
+import 'package:city_go/domain/entities/profile/settings.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

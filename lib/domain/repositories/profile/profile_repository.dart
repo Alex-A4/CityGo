@@ -1,4 +1,4 @@
-import 'package:city_go/domain/entities/profile.dart';
+import 'package:city_go/domain/entities/profile/profile.dart';
 
 /// Абстрактный репозиторий профиля, который позволяет читать с диска или сохранять
 /// профиль на диск

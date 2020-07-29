@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:city_go/data/repositories/profile_repository_impl.dart';
-import 'package:city_go/domain/entities/profile.dart';
-import 'package:city_go/domain/entities/settings.dart';
-import 'package:city_go/domain/entities/user.dart';
+import 'package:city_go/domain/entities/profile/profile.dart';
+import 'package:city_go/domain/entities/profile/settings.dart';
+import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
 import 'package:mockito/mockito.dart';

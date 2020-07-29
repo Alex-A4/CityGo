@@ -1,4 +1,4 @@
-import 'package:city_go/domain/entities/profile.dart';
+import 'package:city_go/domain/entities/profile/profile.dart';
 import 'package:equatable/equatable.dart';
 
 /// Абстрактное состояние профиля

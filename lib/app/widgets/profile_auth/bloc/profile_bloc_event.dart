@@ -1,4 +1,4 @@
-import 'package:city_go/domain/entities/user.dart';
+import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:equatable/equatable.dart';
 
 /// Абстрактное событие профиля

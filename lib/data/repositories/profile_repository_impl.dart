@@ -1,11 +1,11 @@
 import 'dart:convert' show json;
 
-import 'package:city_go/domain/entities/profile.dart';
-import 'package:city_go/domain/repositories/profile_repository.dart';
+import 'package:city_go/domain/entities/profile/profile.dart';
+import 'package:city_go/domain/repositories/profile/profile_repository.dart';
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
-export 'package:city_go/domain/repositories/profile_repository.dart';
+export 'package:city_go/domain/repositories/profile/profile_repository.dart';
 
 /// Реализация репозитория, который читает и сохраняет профиль
 class ProfileRepositoryImpl extends ProfileRepository {

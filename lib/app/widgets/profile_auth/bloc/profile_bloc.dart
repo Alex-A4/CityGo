@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
-import 'package:city_go/domain/repositories/user_remote_repository.dart';
+import 'package:city_go/domain/repositories/profile/user_remote_repository.dart';
 import 'package:meta/meta.dart';
 
 /// Блок профиля, который также отвечает за авторизацию.

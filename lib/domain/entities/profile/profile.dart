@@ -1,5 +1,5 @@
-import 'package:city_go/domain/entities/settings.dart';
-import 'package:city_go/domain/entities/user.dart';
+import 'package:city_go/domain/entities/profile/settings.dart';
+import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 

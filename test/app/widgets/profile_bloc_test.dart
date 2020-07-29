@@ -1,9 +1,9 @@
 import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
-import 'package:city_go/domain/entities/profile.dart';
-import 'package:city_go/domain/entities/user.dart';
-import 'package:city_go/domain/repositories/user_remote_repository.dart';
+import 'package:city_go/domain/entities/profile/profile.dart';
+import 'package:city_go/domain/entities/profile/user.dart';
+import 'package:city_go/domain/repositories/profile/user_remote_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
