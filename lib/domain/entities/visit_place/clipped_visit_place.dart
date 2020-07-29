@@ -6,7 +6,7 @@ class ClippedVisitPlace {
   final int id;
 
   /// Заголовок, который описывает карточку
-  final String title;
+  final String name;
 
   /// Время работы объекта, может не содержать информации, например, для парков.
   /// Если время не указано, то это пустая строка
@@ -15,13 +15,13 @@ class ClippedVisitPlace {
   /// Рейтинг объекта
   final double rating;
 
-  ClippedVisitPlace(this.id, this.title, this.workTime, this.rating);
+  ClippedVisitPlace(this.id, this.name, this.workTime, this.rating);
 
   /// Фабрика для извлечения данных из JSON
   factory ClippedVisitPlace.fromJson(Map<String, dynamic> json) {
     return ClippedVisitPlace(
       json['id'],
-      json['title'],
+      json['name'],
       json['workTime'] ?? '',
       json['rating'],
     );

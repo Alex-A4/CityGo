@@ -4,14 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   final json1 = {
     'id': 1234,
-    'title': 'Ярославский музей-заповедник',
+    'name': 'Ярославский музей-заповедник',
     'workTime': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
     'rating': 4.7,
   };
 
   final json2 = {
     'id': 1234,
-    'title': 'Парк у ДК. Невтянник',
+    'name': 'Парк у ДК. Невтянник',
     'rating': 4.1,
   };
 
@@ -23,7 +23,7 @@ void main() {
 
       // assert
       expect(place.id, json1['id']);
-      expect(place.title, json1['title']);
+      expect(place.name, json1['name']);
       expect(place.workTime, json1['workTime']);
       expect(place.rating, json1['rating']);
     },
@@ -37,7 +37,7 @@ void main() {
 
       // assert
       expect(place.id, json2['id']);
-      expect(place.title, json2['title']);
+      expect(place.name, json2['name']);
       expect(place.workTime, '');
       expect(place.rating, json2['rating']);
     },
