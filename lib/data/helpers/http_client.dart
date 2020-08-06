@@ -47,6 +47,10 @@ abstract class HttpClient {
     ProgressCallback onSendProgress,
     ProgressCallback onReceiveProgress,
   });
+
+  /// Возвращает url ссылку для загрузки медиа файла (картинка/аудио) путём
+  /// слияния [path] и хоста сервера.
+  String getMediaPath(String path);
 }
 
 /// Реализация клиента, который вызывает методы [dio] c дополненным путём сервера
@@ -114,4 +118,7 @@ class HttpClientImpl extends HttpClient {
       onReceiveProgress: onReceiveProgress,
     );
   }
+
+  @override
+  String getMediaPath(String path) => '$kServerUrl/$path';
 }
