@@ -12,6 +12,7 @@ class MockHttp extends Mock implements HttpClient {}
 
 void main() {
   final token = 'someToken';
+  final defaultSort = PlaceSortType.Proximity;
   final clippedJson = <dynamic>[
     {
       'id': 1234,
@@ -60,7 +61,10 @@ void main() {
 
         // act
         var response = await repository.getPlaces(
-            placeType: PlaceType.ActiveRecreation, token: token, offset: 0);
+            placeType: PlaceType.ActiveRecreation,
+            token: token,
+            offset: 0,
+            sortType: defaultSort);
 
         // assert
         verify(checker.hasInternet);
@@ -84,7 +88,10 @@ void main() {
 
         // act
         var response = await repository.getPlaces(
-            placeType: PlaceType.ActiveRecreation, token: token, offset: 0);
+            placeType: PlaceType.ActiveRecreation,
+            token: token,
+            offset: 0,
+            sortType: defaultSort);
 
         // assert
         verify(

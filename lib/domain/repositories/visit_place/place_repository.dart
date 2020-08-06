@@ -76,8 +76,7 @@ abstract class PlaceRepository {
     @required PlaceType placeType,
     @required String token,
     @required int offset,
-    PlaceSortType sortType = PlaceSortType.Proximity,
-    int count = 15,
+    @required PlaceSortType sortType,
   });
 
   /// Получение полного объекта конкретного места.

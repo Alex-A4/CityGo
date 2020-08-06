@@ -13,6 +13,7 @@ export 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 
 class PlaceRepositoryImpl extends PlaceRepository {
   static const PLACE_PATH = '/places';
+  static const count = 15;
   final HttpClient client;
   final NetworkChecker checker;
 
@@ -23,14 +24,12 @@ class PlaceRepositoryImpl extends PlaceRepository {
     @required PlaceType placeType,
     @required String token,
     @required int offset,
-    PlaceSortType sortType = PlaceSortType.Proximity,
-    int count = 15,
+    @required PlaceSortType sortType,
   }) async {
     assert(placeType != null &&
         token != null &&
         offset != null &&
-        sortType != null &&
-        count != null);
+        sortType != null);
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
 
