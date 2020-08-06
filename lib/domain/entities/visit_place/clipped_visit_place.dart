@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
+
 /// Обрезанная модель объектов для посещения.
 /// Используется в списке, который отображает места по категориям.
 /// Данная модель является универсальной и подходит для описания любого объекта.
-class ClippedVisitPlace {
+class ClippedVisitPlace extends Equatable {
   /// Идентификатор на сервере
   final int id;
 
@@ -26,4 +28,7 @@ class ClippedVisitPlace {
       json['rating'],
     );
   }
+
+  @override
+  List<Object> get props => [id, name, workTime, rating];
 }

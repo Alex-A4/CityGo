@@ -56,4 +56,7 @@ class FullVisitPlace extends ClippedVisitPlace {
       latLng: LatLng.fromJson(json['cords']),
     );
   }
+
+  @override
+  List<Object> get props => [...super.props, objectAddress, latLng];
 }
