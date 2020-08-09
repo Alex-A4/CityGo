@@ -50,8 +50,7 @@ class PlaceRepositoryImpl extends PlaceRepository {
       if (response.statusCode != 200) throw '';
 
       var places = <ClippedVisitPlace>[];
-      response.data['result']
-          .forEach((p) => places.add(ClippedVisitPlace.fromJson(p)));
+      response.data.forEach((p) => places.add(ClippedVisitPlace.fromJson(p)));
       return FutureResponse.success(places);
     } on DioError catch (e) {
       return FutureResponse.fail(handleDioError(e));

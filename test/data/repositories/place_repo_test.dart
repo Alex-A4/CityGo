@@ -88,8 +88,7 @@ void main() {
               queryParameters: anyNamed('queryParameters'),
               options: anyNamed('options')),
         ).thenAnswer(
-          (_) => Future.value(
-              Response(data: {'result': clippedJson}, statusCode: 200)),
+          (_) => Future.value(Response(data: clippedJson, statusCode: 200)),
         );
 
         // act
@@ -151,7 +150,7 @@ void main() {
             await repository.getConcretePlace(id: 1234, token: token);
 
         // assert
-        verify(http.get(PlaceRepositoryImpl.PLACE_PATH + '/1234',
+        verify(http.get(PlaceRepositoryImpl.PLACE_PATH + '1234',
             options: anyNamed('options')));
         expect(response.data.id, 1234);
       },
