@@ -7,12 +7,22 @@ void main() {
     'name': 'Ярославский музей-заповедник',
     'workTime': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
     'rating': 4.7,
+    'logo': {
+      'title': 'some title',
+      'description': 'Some description',
+      'image': '/src/image.jpg',
+    },
   };
 
   final json2 = {
     'id': 1234,
     'name': 'Парк у ДК. Невтянник',
     'rating': 4.1,
+    'logo': {
+      'title': 'some title',
+      'description': 'Some description',
+      'image': '/src/image.jpg',
+    },
   };
 
   test(
@@ -40,6 +50,7 @@ void main() {
       expect(place.name, json2['name']);
       expect(place.workTime, '');
       expect(place.rating, json2['rating']);
+      expect(place.logo, isNotNull);
     },
   );
 }

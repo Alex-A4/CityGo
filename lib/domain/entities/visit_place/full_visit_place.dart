@@ -35,6 +35,7 @@ class FullVisitPlace extends ClippedVisitPlace {
     @required String title,
     @required String workTime,
     @required double rating,
+    @required ImageSrc logo,
     @required this.description,
     @required this.imageSrc,
     @required this.objectAddress,
@@ -42,7 +43,7 @@ class FullVisitPlace extends ClippedVisitPlace {
     @required this.latLng,
     this.objectWebSite,
     this.audioSrc,
-  }) : super(id, title, workTime, rating);
+  }) : super(id, title, workTime, rating, logo);
 
   factory FullVisitPlace.fromJson(Map<String, dynamic> json) {
     return FullVisitPlace(
@@ -50,6 +51,7 @@ class FullVisitPlace extends ClippedVisitPlace {
       title: json['name'],
       workTime: json['workTime'],
       rating: json['rating'],
+      logo: ImageSrc.fromJson(json['logo']),
       imageSrc:
           json['imgs']?.map<ImageSrc>((i) => ImageSrc.fromJson(i))?.toList() ??
               [],

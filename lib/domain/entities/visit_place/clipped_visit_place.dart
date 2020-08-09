@@ -1,3 +1,4 @@
+import 'package:city_go/domain/entities/visit_place/image_src.dart';
 import 'package:equatable/equatable.dart';
 
 /// Обрезанная модель объектов для посещения.
@@ -17,7 +18,9 @@ class ClippedVisitPlace extends Equatable {
   /// Рейтинг объекта
   final double rating;
 
-  ClippedVisitPlace(this.id, this.name, this.workTime, this.rating);
+  final ImageSrc logo;
+
+  ClippedVisitPlace(this.id, this.name, this.workTime, this.rating, this.logo);
 
   /// Фабрика для извлечения данных из JSON
   factory ClippedVisitPlace.fromJson(Map<String, dynamic> json) {
@@ -26,9 +29,10 @@ class ClippedVisitPlace extends Equatable {
       json['name'],
       json['workTime'] ?? '',
       json['rating'],
+      ImageSrc.fromJson(json['logo']),
     );
   }
 
   @override
-  List<Object> get props => [id, name, workTime, rating];
+  List<Object> get props => [id, name, workTime, rating, logo];
 }

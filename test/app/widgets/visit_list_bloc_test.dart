@@ -14,9 +14,10 @@ class MockProfileStorage extends Mock implements ProfileStorage {}
 
 void main() {
   final type = PlaceType.Museums;
+  final logo = ImageSrc('/src/logo.jpg', 'description', 'title');
   final user = InAppUser(userName: 'name', accessToken: 'token');
-  final place1 = ClippedVisitPlace(10, 'name1', '10:00-18:00', 3.3);
-  final place2 = ClippedVisitPlace(12, 'name2', '09:00-18:00', 4.2);
+  final place1 = ClippedVisitPlace(10, 'name1', '10:00-18:00', 3.3, logo);
+  final place2 = ClippedVisitPlace(12, 'name2', '09:00-18:00', 4.2, logo);
 
   final defaultSort = PlaceSortType.Proximity;
   final changedSort = PlaceSortType.Random;

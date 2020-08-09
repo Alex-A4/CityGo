@@ -21,7 +21,12 @@ void main() {
     'cords': {
       'lat': 47.23452,
       'lng': 25.32612,
-    }
+    },
+    'logo': {
+      'title': 'some title',
+      'description': 'Some description',
+      'image': '/src/image.jpg',
+    },
   };
   final json2 = <String, dynamic>{
     'id': 1234,

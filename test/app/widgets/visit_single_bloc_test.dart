@@ -26,6 +26,7 @@ void main() {
     description: 'description very big',
     generalInfo: 'Some general info',
     rating: 4.7,
+    logo: imageSrc,
     imageSrc: [imageSrc],
     latLng: LatLng(47.23452, 25.32612),
     objectWebSite: 'http://somesite.ru',
