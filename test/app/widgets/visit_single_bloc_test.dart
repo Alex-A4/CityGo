@@ -15,13 +15,18 @@ class MockProfileStorage extends Mock implements ProfileStorage {}
 
 void main() {
   final user = InAppUser(userName: 'name', accessToken: 'token');
+  final imageSrc = ImageSrc.fromJson({
+    'title': 'some title',
+    'description': 'Some description',
+    'image': '/src/image.jpg',
+  });
   final place = FullVisitPlace(
     id: 1234,
     title: 'Ярославский музей-заповедник',
     description: 'description very big',
     generalInfo: 'Some general info',
     rating: 4.7,
-    imageSrc: ['images/1.jpg'],
+    imageSrc: [imageSrc],
     latLng: LatLng(47.23452, 25.32612),
     objectWebSite: 'http://somesite.ru',
     workTime: 'Пн-пт 10:00-18:00, Сб-Вс выходной',

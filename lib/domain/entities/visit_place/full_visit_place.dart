@@ -3,6 +3,9 @@ import 'package:city_go/domain/entities/lat_lng.dart';
 
 import 'package:meta/meta.dart';
 
+import 'image_src.dart';
+export 'image_src.dart';
+
 /// Описание полного объекта места, которое может посетить пользователь.
 /// Полная модель содержит расширенную информацию об объекте.
 class FullVisitPlace extends ClippedVisitPlace {
@@ -16,7 +19,7 @@ class FullVisitPlace extends ClippedVisitPlace {
   final String description;
 
   /// Список эндпоинтов изображений, может быть пустым
-  final List<String> imageSrc;
+  final List<ImageSrc> imageSrc;
 
   /// Эндпоинт аудио файла, может отсутствовать (null)
   final String audioSrc;
@@ -47,7 +50,9 @@ class FullVisitPlace extends ClippedVisitPlace {
       title: json['name'],
       workTime: json['workTime'],
       rating: json['rating'],
-      imageSrc: json['imgs'] ?? [],
+      imageSrc:
+          json['imgs']?.map<ImageSrc>((i) => ImageSrc.fromJson(i))?.toList() ??
+              [],
       description: json['description'],
       objectAddress: json['address'],
       audioSrc: json['audio'],
