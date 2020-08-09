@@ -10,4 +10,7 @@ class RouteCord extends LatLng {
   factory RouteCord.fromJson(Map<String, dynamic> json) {
     return RouteCord(json['lat'], json['lng'], json['order']);
   }
+
+  @override
+  List<Object> get props => [...super.props, orderNumber];
 }

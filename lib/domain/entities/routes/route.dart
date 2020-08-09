@@ -1,15 +1,11 @@
+import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart';
+import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:city_go/domain/entities/routes/route_cord.dart';
 import 'package:city_go/domain/entities/routes/route_place.dart';
 
 /// Сущность описания пешего маршрута.
-class Route {
-  final int id;
-  final String title;
+class Route extends RouteClipped {
   final String description;
-  final double rating;
-
-  /// Длина маршрута в километрах
-  final double length;
 
   /// Время для преодоления маршрута. Используется строка на всякий случай
   final String goTime;
@@ -22,8 +18,19 @@ class Route {
   /// Список мест, через которые проходит маршрут
   final List<RoutePlace> routePlaces;
 
-    Route(this.id, this.title, this.description, this.rating, this.length,
-      this.goTime, this.generalInfo, this.audio, this.routePlaces, this.cords);
+  Route(
+    int id,
+    String title,
+    this.description,
+    double rating,
+    double length,
+    this.goTime,
+    this.generalInfo,
+    this.audio,
+    this.routePlaces,
+    this.cords,
+    ImageSrc image,
+  ) : super(id, title, length, image, rating);
 
   factory Route.fromJson(Map<String, dynamic> json) {
     return Route(
@@ -37,6 +44,18 @@ class Route {
       json['audio'],
       json['places']?.map<RoutePlace>((p) => RoutePlace.fromJson(p))?.toList(),
       json['cords']?.map<RouteCord>((c) => RouteCord.fromJson(c))?.toList(),
+      ImageSrc.fromJson(json['image']),
     );
   }
+
+  @override
+  List<Object> get props => [
+        ...super.props,
+        description,
+        goTime,
+        generalInfo,
+        audio,
+        cords,
+        routePlaces,
+      ];
 }
