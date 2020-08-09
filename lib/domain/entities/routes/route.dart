@@ -1,7 +1,6 @@
 import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart';
 import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:city_go/domain/entities/routes/route_cord.dart';
-import 'package:city_go/domain/entities/routes/route_place.dart';
 
 /// Сущность описания пешего маршрута.
 class Route extends RouteClipped {
@@ -15,8 +14,9 @@ class Route extends RouteClipped {
   /// Список координат, через которые проходит маршрут
   final List<RouteCord> cords;
 
-  /// Список мест, через которые проходит маршрут
-  final List<RoutePlace> routePlaces;
+  /// Список мест, через которые проходит маршрут.
+  /// Места не содержат картинок, описательной части, аудио.
+  final List<FullVisitPlace> routePlaces;
 
   Route(
     int id,
@@ -42,7 +42,7 @@ class Route extends RouteClipped {
       json['goTime'],
       json['general'],
       json['audio'],
-      json['places']?.map<RoutePlace>((p) => RoutePlace.fromJson(p))?.toList(),
+      json['places']?.map<FullVisitPlace>((p) => FullVisitPlace.fromJson(p))?.toList(),
       json['cords']?.map<RouteCord>((c) => RouteCord.fromJson(c))?.toList(),
       ImageSrc.fromJson(json['image']),
     );
