@@ -69,7 +69,7 @@ class PlaceRepositoryImpl extends PlaceRepository {
       if (!await checker.hasInternet) throw NO_INTERNET;
 
       var response = await client.get(
-        PLACE_PATH + '/$id',
+        PLACE_PATH + '$id',
         options: Options(
           responseType: ResponseType.json,
           headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
