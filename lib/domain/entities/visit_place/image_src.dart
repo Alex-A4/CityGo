@@ -9,6 +9,8 @@ class ImageSrc extends Equatable {
   ImageSrc(this.path, this.description, this.title);
 
   factory ImageSrc.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
+
     return ImageSrc(
       json['image'],
       json['description'],
