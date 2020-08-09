@@ -31,7 +31,13 @@ void main() {
     'name': 'Ярославский музей-заповедник',
     'workTime': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
     'rating': 4.7,
-    'imgs': ['images/1.jpg'],
+    'imgs': [
+      {
+        'title': 'some title',
+        'description': 'Some description',
+        'image': '/src/image.jpg',
+      },
+    ],
     'general': 'Some general info',
     'description': 'description very big',
     'audio': 'audio/1.mp4',
