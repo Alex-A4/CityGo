@@ -1,5 +1,7 @@
+import 'package:equatable/equatable.dart';
+
 /// Объект, описывающий широту и долготу
-class LatLng {
+class LatLng extends Equatable{
   /// Широта
   final double latitude;
 
@@ -11,4 +13,7 @@ class LatLng {
   factory LatLng.fromJson(Map<String, dynamic> json) {
     return LatLng(json['lat'], json['lng']);
   }
+
+  @override
+  List<Object> get props => [latitude, longitude];
 }
