@@ -12,7 +12,7 @@ export 'package:city_go/domain/entities/future_response.dart';
 export 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 
 class PlaceRepositoryImpl extends PlaceRepository {
-  static const PLACE_PATH = '/places';
+  static const PLACE_PATH = '/api/places/';
   static const count = 15;
   final HttpClient client;
   final NetworkChecker checker;
