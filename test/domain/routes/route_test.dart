@@ -1,7 +1,36 @@
 import 'package:city_go/domain/entities/routes/route.dart';
+import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test(
+    'должен извлечь обрезанную модель из JSON',
+    () async {
+      // arrange
+      final json = {
+        'id': 123,
+        'title': 'Some title',
+        'rating': 3.1,
+        'length': 2.1,
+        'image': {
+          'title': 'some title',
+          'description': 'Some description',
+          'image': '/src/image.jpg',
+        },
+      };
+
+      // act
+      final route = RouteClipped.fromJson(json);
+
+      // assert
+      expect(route.id, json['id']);
+      expect(route.title, json['title']);
+      expect(route.rating, json['rating']);
+      expect(route.length, json['length']);
+      expect(route.image, isNotNull);
+    },
+  );
+
   test(
     'должен создать объект из JSON',
     () async {
@@ -15,6 +44,11 @@ void main() {
         'goTime': '1 час, 5 минут',
         'general': 'Some general info',
         'audio': '/src/someMP.mp3',
+        'image': {
+          'title': 'some title',
+          'description': 'Some description',
+          'image': '/src/image.jpg',
+        },
         'cords': [
           {
             'lat': 41.512,
@@ -53,6 +87,7 @@ void main() {
       expect(route.audio, json['audio']);
       expect(route.cords.length, json['cords'].length);
       expect(route.routePlaces.length, json['places'].length);
+      expect(route.image, isNotNull);
     },
   );
 }
