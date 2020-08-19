@@ -1,0 +1,1 @@
+const MAP_API_KEY = 'AIzaSyBQbZ1QyH70n-w3q5C2vA8v2hb6TnYGAcA';
