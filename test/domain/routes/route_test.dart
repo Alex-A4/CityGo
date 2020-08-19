@@ -1,3 +1,4 @@
+import 'package:city_go/domain/entities/lat_lng.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -88,6 +89,29 @@ void main() {
       expect(route.cords.length, json['cords'].length);
       expect(route.routePlaces.length, json['places'].length);
       expect(route.image, isNotNull);
+    },
+  );
+
+  test(
+    'должен отсортировать координаты маршрута',
+    () async {
+      // arrange
+      final route = Route.fromJson({
+        'cords': [
+          {'order': 3, 'lat': 33.0, 'lng': 0.0},
+          {'order': 1, 'lat': 31.0, 'lng': 0.0},
+          {'order': 2, 'lat': 32.0, 'lng': 0.0},
+        ]
+      });
+
+      // act
+      var sorted = route.sortedPoints;
+
+      // assert
+      expect(
+        sorted,
+        equals([LatLng(31.0, 0.0), LatLng(32.0, 0.0), LatLng(33.0, 0.0)]),
+      );
     },
   );
 }
