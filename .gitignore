@@ -30,6 +30,8 @@
 .pub/
 /build/
 pubspec.lock
+Podfile.lock
+.last_build_id
 
 # Web related
 lib/generated_plugin_registrant.dart
