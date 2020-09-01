@@ -25,3 +25,9 @@ class PathMapBlocChangeType extends PathMapBlocEvent {
   @override
   List<Object> get props => [type];
 }
+
+/// Событие для поиска позиции пользователя
+class PathMapBlocFindLocation extends PathMapBlocEvent {
+  @override
+  List<Object> get props => [];
+}

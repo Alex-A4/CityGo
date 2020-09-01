@@ -30,14 +30,7 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
   Stream<PathMapBlocState> mapEventToState(PathMapBlocEvent event) async* {
     if (event is PathMapBlocInitEvent) {
       controller = event.controller;
-      try {
-        var position = await geolocator.getCurrentPosition();
-        userPosition = FutureResponse.success(
-            LatLng(position.latitude, position.longitude));
-      } catch (_) {
-        userPosition = FutureResponse.fail(LOCATION_ACCESS_DENIED);
-      }
-
+      await findUserLocation();
       await calculatePath();
 
       yield PathMapBlocMapState(
@@ -59,12 +52,38 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
         type: type,
       );
     }
+
+    if (event is PathMapBlocFindLocation) {
+      await findUserLocation();
+      await calculatePath();
+
+      yield PathMapBlocMapState(
+        controller: controller,
+        userPosition: userPosition,
+        route: route,
+        type: type,
+      );
+    }
   }
 
   Future<void> calculatePath() async {
     if (userPosition.hasData) {
       route = await mapRepository.calculatePathBetweenPoints(
           userPosition.data, destPoint, type);
+    }
+  }
+
+  Future<void> findUserLocation() async {
+    try {
+      bool isEnabled = await geolocator.isLocationServiceEnabled();
+      if (isEnabled) {
+        var position = await geolocator.getCurrentPosition();
+        userPosition = FutureResponse.success(
+            LatLng(position.latitude, position.longitude));
+      } else
+        userPosition = FutureResponse.fail(LOCATION_SERVICE_DISABLED);
+    } catch (_) {
+      userPosition = FutureResponse.fail(LOCATION_ACCESS_DENIED);
     }
   }
 }
