@@ -1,4 +1,10 @@
-import 'package:city_go/app/pages/path_map/path_map_page.dart';
+import 'package:city_go/app/widgets/path_map/bloc/bloc.dart';
+import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
+import 'package:city_go/app/widgets/route_list/bloc/bloc.dart';
+import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
+import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
+import 'package:city_go/app/widgets/visit_place_list/bloc/bloc.dart';
+import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/data/helpers/network_checker.dart';
 import 'package:city_go/data/repositories/map/distance_calculator.dart';
@@ -8,9 +14,11 @@ import 'package:city_go/data/repositories/profile/user_remote_repo_impl.dart';
 import 'package:city_go/data/repositories/routes/route_repository_impl.dart';
 import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
+import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
@@ -33,6 +41,7 @@ Future<void> initServiceLocator() async {
   sl.registerSingleton<HiveInterface>(Hive);
   sl.registerSingleton<Connectivity>(Connectivity());
   sl.registerFactory<Dio>(() => Dio());
+  sl.registerSingleton<Geolocator>(Geolocator());
 
   sl.registerSingleton<PolylinePoints>(PolylinePoints());
   sl.registerSingleton<NetworkChecker>(NetworkCheckerImpl(sl()));
@@ -52,6 +61,21 @@ Future<void> initServiceLocator() async {
   sl.registerSingleton<ProfileStorage>(ProfileStorageImpl(repository: sl()));
 
   /// Blocs
-  sl.registerFactoryParam<PathMapPage, LatLng, void>(
-      (p1, _) => PathMapPage(dest: p1));
+  sl.registerFactory<ProfileBloc>(
+      () => (ProfileBloc(storage: sl(), repository: sl())));
+
+  sl.registerFactory<RouteListBloc>(
+      () => RouteListBloc(storage: sl(), repository: sl()));
+  sl.registerFactoryParam<RouteSingleBloc, int, void>(
+      (p1, _) => RouteSingleBloc(id: p1, repository: sl(), storage: sl()));
+
+  sl.registerFactoryParam<VisitListBloc, PlaceType, void>(
+      (p1, _) => VisitListBloc(type: p1, repository: sl(), storage: sl()));
+  sl.registerFactoryParam<VisitSingleBloc, int, void>(
+      (p1, _) => VisitSingleBloc(id: p1, repository: sl(), storage: sl()));
+
+  sl.registerFactoryParam<PathMapBloc, LatLng, void>(
+      (p1, _) => PathMapBloc(sl(), p1, sl()));
+  sl.registerFactoryParam<RouteMapBloc, Route, void>(
+      (p1, _) => RouteMapBloc(p1, sl()));
 }
