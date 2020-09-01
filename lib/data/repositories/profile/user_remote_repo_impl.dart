@@ -4,6 +4,8 @@ import 'package:city_go/data/helpers/network_checker.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/repositories/profile/user_remote_repository.dart';
 
+export 'package:city_go/domain/repositories/profile/user_remote_repository.dart';
+
 /// Реализация репозитория, который отправляет данные на удалённый сервер
 class UserRemoteRepositoryImpl extends UserRemoteRepository {
   final HttpClient client;
