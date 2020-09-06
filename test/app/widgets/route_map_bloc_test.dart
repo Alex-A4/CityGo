@@ -93,6 +93,8 @@ void main() {
             ),
           ]),
         );
+
+        expect(bloc.showError, isTrue);
         verify(geolocator.getCurrentPosition());
         verify(geolocator.isLocationServiceEnabled());
       },
@@ -130,6 +132,7 @@ void main() {
             )
           ]),
         );
+        expect(bloc.showError, isTrue);
         verify(repo.calculatePathForRoute(route));
         verify(geolocator.getCurrentPosition());
         verify(geolocator.isLocationServiceEnabled());
@@ -175,6 +178,8 @@ void main() {
             ),
           ]),
         );
+
+        expect(bloc.showError, isFalse);
         verify(repo.calculatePathForRoute(route));
         verify(geolocator.getCurrentPosition());
         verify(geolocator.isLocationServiceEnabled());
@@ -211,6 +216,8 @@ void main() {
             ),
           ]),
         );
+
+        expect(bloc.showError, isTrue);
         verify(geolocator.isLocationServiceEnabled());
         verifyNever(geolocator.getCurrentPosition());
       },
@@ -246,6 +253,7 @@ void main() {
           ]),
         );
 
+        expect(bloc.showError, isTrue);
         verify(geolocator.getCurrentPosition());
         verify(geolocator.isLocationServiceEnabled());
       },
@@ -284,6 +292,8 @@ void main() {
             ),
           ]),
         );
+
+        expect(bloc.showError, isFalse);
         verify(geolocator.getCurrentPosition());
         verify(geolocator.isLocationServiceEnabled());
       },

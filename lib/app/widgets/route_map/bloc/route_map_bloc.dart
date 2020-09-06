@@ -23,6 +23,7 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
 
   FutureResponse<LatLng> userPosition;
   bool isLocationSearching = false;
+  bool showError = false;
 
   @override
   Stream<RouteMapBlocState> mapEventToState(RouteMapBlocEvent event) async* {
@@ -65,6 +66,7 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
 
   Future<void> calculatePath() async {
     mapRoute = await mapRepository.calculatePathForRoute(route);
+    if (mapRoute?.hasError == true) showError = true;
   }
 
   Future<void> findUserLocation() async {
@@ -74,10 +76,13 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
         var position = await geolocator.getCurrentPosition();
         userPosition = FutureResponse.success(
             LatLng(position.latitude, position.longitude));
-      } else
+      } else {
         userPosition = FutureResponse.fail(LOCATION_SERVICE_DISABLED);
+        showError = true;
+      }
     } catch (_) {
       userPosition = FutureResponse.fail(LOCATION_ACCESS_DENIED);
+      showError = true;
     }
   }
 }
