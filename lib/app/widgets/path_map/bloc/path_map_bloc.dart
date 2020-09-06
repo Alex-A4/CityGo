@@ -26,45 +26,55 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
   FutureResponse<LatLng> userPosition;
   FutureResponse<MapRoute> route;
 
+  bool isLocationSearching = false;
+
   @override
   Stream<PathMapBlocState> mapEventToState(PathMapBlocEvent event) async* {
     if (event is PathMapBlocInitEvent) {
       controller = event.controller;
-      await findUserLocation();
-      await calculatePath();
-
-      yield PathMapBlocMapState(
-        controller: controller,
-        userPosition: userPosition,
-        route: route,
-        type: type,
-      );
+      yield* defaultAlg;
     }
 
     if (event is PathMapBlocChangeType) {
       type = event.type;
       await calculatePath();
 
-      yield PathMapBlocMapState(
-        controller: controller,
-        userPosition: userPosition,
-        route: route,
-        type: type,
-      );
+      yield pathState;
     }
 
     if (event is PathMapBlocFindLocation) {
-      await findUserLocation();
-      await calculatePath();
+      yield* defaultAlg;
+    }
+  }
 
-      yield PathMapBlocMapState(
+  /// Стандартный алгоритм, который включает в себя поиск позиции пользователя,
+  /// а затем построение маршрута.
+  Stream<PathMapBlocMapState> get defaultAlg async* {
+    yield turnOnFinding;
+    await findUserLocation();
+    yield turnOffFinding;
+    await calculatePath();
+
+    yield pathState;
+  }
+
+  PathMapBlocMapState get turnOnFinding {
+    isLocationSearching = true;
+    return pathState;
+  }
+
+  PathMapBlocMapState get turnOffFinding {
+    isLocationSearching = false;
+    return pathState;
+  }
+
+  PathMapBlocMapState get pathState => PathMapBlocMapState(
         controller: controller,
         userPosition: userPosition,
         route: route,
         type: type,
+        isLocationSearching: isLocationSearching,
       );
-    }
-  }
 
   Future<void> calculatePath() async {
     if (userPosition.hasData) {

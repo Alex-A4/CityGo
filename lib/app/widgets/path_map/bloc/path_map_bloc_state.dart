@@ -27,13 +27,17 @@ class PathMapBlocMapState extends PathMapBlocState {
 
   final PathType type;
 
+  final bool isLocationSearching;
+
   PathMapBlocMapState({
     @required this.type,
     this.controller,
     this.userPosition,
     this.route,
+    this.isLocationSearching = false,
   });
 
   @override
-  List<Object> get props => [controller?.mapId, userPosition, route, type];
+  List<Object> get props =>
+      [controller?.mapId, userPosition, route, type, isLocationSearching];
 }

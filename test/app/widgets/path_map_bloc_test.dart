@@ -35,7 +35,7 @@ void main() {
 
   test(
     'должен инициализироваться с состоянием без данных',
-    () async {
+        () async {
       // assert
       expect(bloc.state, PathMapBlocMapState(type: walk));
     },
@@ -44,7 +44,9 @@ void main() {
   group('PathMapBlocInitEvent', () {
     test(
       'должен инициализировать гугл контроллер',
-      () async {
+          () async {
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
         when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
 
         // act
@@ -56,20 +58,58 @@ void main() {
           emitsInOrder([
             PathMapBlocMapState(
               controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
               type: walk,
             )
           ]),
         );
         verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
+      },
+    );
+
+    test(
+      'должен инициализировать позицию пользователя с ошибкой, что сервис выключен',
+          () async {
+        // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(false));
+
+        // act
+        bloc.add(PathMapBlocInitEvent(controller));
+
+        // assert
+        await expectLater(
+          bloc,
+          emitsInOrder([
+            PathMapBlocMapState(
+              controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.fail(LOCATION_SERVICE_DISABLED),
+              type: walk,
+            )
+          ]),
+        );
+        verify(geolocator.isLocationServiceEnabled());
       },
     );
 
     test(
       '''должен инициализировать позицию пользователя с ошибкой, а также не 
       должен инициализировать точки маршрута (нет позиции пользователя)''',
-      () async {
+          () async {
         // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
         when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
 
         // act
@@ -81,23 +121,32 @@ void main() {
           emitsInOrder([
             PathMapBlocMapState(
               controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
               type: walk,
             )
           ]),
         );
         verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
       },
     );
 
     test(
       'должен инициализировать позицию пользователя',
-      () async {
+          () async {
         // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
         when(geolocator.getCurrentPosition()).thenAnswer(
-          (_) => Future.value(Position(
-              latitude: userPosition.latitude,
-              longitude: userPosition.longitude)),
+              (_) =>
+              Future.value(Position(
+                  latitude: userPosition.latitude,
+                  longitude: userPosition.longitude)),
         );
 
         // act
@@ -107,6 +156,11 @@ void main() {
         await expectLater(
           bloc,
           emitsInOrder([
+            PathMapBlocMapState(
+              controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
             PathMapBlocMapState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
@@ -115,17 +169,21 @@ void main() {
           ]),
         );
         verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
       },
     );
 
     test(
       'должен инициализировать точки маршрута с ошибкой',
-      () async {
+          () async {
         // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
         when(geolocator.getCurrentPosition()).thenAnswer(
-          (_) => Future.value(Position(
-              latitude: userPosition.latitude,
-              longitude: userPosition.longitude)),
+              (_) =>
+              Future.value(Position(
+                  latitude: userPosition.latitude,
+                  longitude: userPosition.longitude)),
         );
         when(repo.calculatePathBetweenPoints(any, any, any))
             .thenAnswer((_) => Future.value(FutureResponse.fail(NO_INTERNET)));
@@ -139,6 +197,16 @@ void main() {
           emitsInOrder([
             PathMapBlocMapState(
               controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.success(userPosition),
+              type: walk,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
               userPosition: FutureResponse.success(userPosition),
               route: FutureResponse.fail(NO_INTERNET),
               type: walk,
@@ -146,23 +214,28 @@ void main() {
           ]),
         );
         verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
         verify(repo.calculatePathBetweenPoints(userPosition, dest, walk));
       },
     );
 
     test(
       'должен инициализировать точки маршрута успешно',
-      () async {
+          () async {
         // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
         when(geolocator.getCurrentPosition()).thenAnswer(
-          (_) => Future.value(Position(
-              latitude: userPosition.latitude,
-              longitude: userPosition.longitude)),
+              (_) =>
+              Future.value(Position(
+                  latitude: userPosition.latitude,
+                  longitude: userPosition.longitude)),
         );
         when(repo.calculatePathBetweenPoints(any, any, any)).thenAnswer(
-          (_) => Future.value(
-            FutureResponse.success(MapRoute(10, [userPosition, dest])),
-          ),
+              (_) =>
+              Future.value(
+                FutureResponse.success(MapRoute(10, [userPosition, dest])),
+              ),
         );
 
         // act
@@ -174,6 +247,16 @@ void main() {
           emitsInOrder([
             PathMapBlocMapState(
               controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.success(userPosition),
+              type: walk,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
               userPosition: FutureResponse.success(userPosition),
               route: FutureResponse.success(MapRoute(10, [userPosition, dest])),
               type: walk,
@@ -181,6 +264,7 @@ void main() {
           ]),
         );
         verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
         verify(repo.calculatePathBetweenPoints(userPosition, dest, walk));
       },
     );
@@ -189,14 +273,15 @@ void main() {
   group('PathMapBlocChangeType', () {
     test(
       'должен изменить тип и расчитать новые значения маршрута',
-      () async {
+          () async {
         // arrange
         expect(bloc.type, walk);
         bloc.userPosition = FutureResponse.success(userPosition);
         when(repo.calculatePathBetweenPoints(any, any, any)).thenAnswer(
-          (_) => Future.value(
-            FutureResponse.success(MapRoute(10, [userPosition, dest])),
-          ),
+              (_) =>
+              Future.value(
+                FutureResponse.success(MapRoute(10, [userPosition, dest])),
+              ),
         );
 
         // act
@@ -215,6 +300,204 @@ void main() {
           ]),
         );
         verify(repo.calculatePathBetweenPoints(userPosition, dest, car));
+      },
+    );
+  });
+
+  group('PathMapBlocFindLocation', () {
+    test(
+      'должен инициализировать позицию пользователя с ошибкой, что сервис выключен',
+          () async {
+        // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(false));
+
+        // act
+        bloc.add(PathMapBlocFindLocation());
+
+        // assert
+        await expectLater(
+          bloc,
+          emitsInOrder([
+            PathMapBlocMapState(
+              controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.fail(LOCATION_SERVICE_DISABLED),
+              type: walk,
+            )
+          ]),
+        );
+        verify(geolocator.isLocationServiceEnabled());
+      },
+    );
+
+    test(
+      '''должен инициализировать позицию пользователя с ошибкой, а также не 
+      должен инициализировать точки маршрута (нет позиции пользователя)''',
+          () async {
+        // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
+        when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
+
+        // act
+        bloc.add(PathMapBlocFindLocation());
+
+        // assert
+        await expectLater(
+          bloc,
+          emitsInOrder([
+            PathMapBlocMapState(
+              controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
+              type: walk,
+            )
+          ]),
+        );
+        verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
+      },
+    );
+
+    test(
+      'должен инициализировать позицию пользователя',
+          () async {
+        // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
+        when(geolocator.getCurrentPosition()).thenAnswer(
+              (_) =>
+              Future.value(Position(
+                  latitude: userPosition.latitude,
+                  longitude: userPosition.longitude)),
+        );
+
+        // act
+        bloc.add(PathMapBlocFindLocation());
+
+        // assert
+        await expectLater(
+          bloc,
+          emitsInOrder([
+            PathMapBlocMapState(
+              controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.success(userPosition),
+              type: walk,
+            )
+          ]),
+        );
+        verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
+      },
+    );
+
+    test(
+      'должен инициализировать точки маршрута с ошибкой',
+          () async {
+        // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
+        when(geolocator.getCurrentPosition()).thenAnswer(
+              (_) =>
+              Future.value(Position(
+                  latitude: userPosition.latitude,
+                  longitude: userPosition.longitude)),
+        );
+        when(repo.calculatePathBetweenPoints(any, any, any))
+            .thenAnswer((_) => Future.value(FutureResponse.fail(NO_INTERNET)));
+
+        // act
+        bloc.add(PathMapBlocFindLocation());
+
+        // assert
+        await expectLater(
+          bloc,
+          emitsInOrder([
+            PathMapBlocMapState(
+              controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.success(userPosition),
+              type: walk,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.success(userPosition),
+              route: FutureResponse.fail(NO_INTERNET),
+              type: walk,
+            )
+          ]),
+        );
+        verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
+        verify(repo.calculatePathBetweenPoints(userPosition, dest, walk));
+      },
+    );
+
+    test(
+      'должен инициализировать точки маршрута успешно',
+          () async {
+        // arrange
+        when(geolocator.isLocationServiceEnabled())
+            .thenAnswer((_) => Future.value(true));
+        when(geolocator.getCurrentPosition()).thenAnswer(
+              (_) =>
+              Future.value(Position(
+                  latitude: userPosition.latitude,
+                  longitude: userPosition.longitude)),
+        );
+        when(repo.calculatePathBetweenPoints(any, any, any)).thenAnswer(
+              (_) =>
+              Future.value(
+                FutureResponse.success(MapRoute(10, [userPosition, dest])),
+              ),
+        );
+
+        // act
+        bloc.add(PathMapBlocFindLocation());
+
+        // assert
+        await expectLater(
+          bloc,
+          emitsInOrder([
+            PathMapBlocMapState(
+              controller: controller,
+              type: walk,
+              isLocationSearching: true,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.success(userPosition),
+              type: walk,
+            ),
+            PathMapBlocMapState(
+              controller: controller,
+              userPosition: FutureResponse.success(userPosition),
+              route: FutureResponse.success(MapRoute(10, [userPosition, dest])),
+              type: walk,
+            )
+          ]),
+        );
+        verify(geolocator.getCurrentPosition());
+        verify(geolocator.isLocationServiceEnabled());
+        verify(repo.calculatePathBetweenPoints(userPosition, dest, walk));
       },
     );
   });
