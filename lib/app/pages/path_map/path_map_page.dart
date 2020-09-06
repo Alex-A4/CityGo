@@ -108,10 +108,7 @@ class _PathMapPageState extends State<PathMapPage> {
                 myLocationButtonEnabled: false,
                 minMaxZoomPreference: MinMaxZoomPreference(minZoom, null),
                 initialCameraPosition: kYaroslavlPos,
-                cameraTargetBounds: CameraTargetBounds(LatLngBounds(
-                  northeast: LatLng(57.73314725724288, 40.060845874249935),
-                  southwest: LatLng(57.4612200009501, 39.716095849871635),
-                )),
+                cameraTargetBounds: kYaroslavlBounds,
                 onTap: (lng) {
                   print(lng);
                 },
