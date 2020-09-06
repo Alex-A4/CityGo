@@ -1,5 +1,6 @@
 import 'package:city_go/app/widgets/path_map/bloc/bloc.dart';
 import 'package:city_go/data/core/localization_constants.dart';
+import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/repositories/map/map_repository.dart';

@@ -5,6 +5,7 @@ import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
 import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_list/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
+import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/data/helpers/network_checker.dart';
 import 'package:city_go/data/repositories/map/distance_calculator.dart';
@@ -18,7 +19,6 @@ import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
@@ -41,7 +41,7 @@ Future<void> initServiceLocator() async {
   sl.registerSingleton<HiveInterface>(Hive);
   sl.registerSingleton<Connectivity>(Connectivity());
   sl.registerFactory<Dio>(() => Dio());
-  sl.registerSingleton<Geolocator>(Geolocator());
+  sl.registerSingleton<Geolocator>(GeolocatorImpl());
 
   sl.registerSingleton<PolylinePoints>(PolylinePoints());
   sl.registerSingleton<NetworkChecker>(NetworkCheckerImpl(sl()));

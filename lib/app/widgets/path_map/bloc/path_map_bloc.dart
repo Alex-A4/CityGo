@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:city_go/app/widgets/path_map/bloc/bloc.dart';
 import 'package:city_go/data/core/localization_constants.dart';
+import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/repositories/map/map_repository.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /// Блока построения пути на карте, позволяет строить маршрут между местоположением
