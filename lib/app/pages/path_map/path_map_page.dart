@@ -1,4 +1,6 @@
+import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
+import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/widgets/path_map/bloc/bloc.dart';
 import 'package:city_go/constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
@@ -58,8 +60,7 @@ class _PathMapPageState extends State<PathMapPage> {
 
   @override
   Widget build(BuildContext context) {
-    CityToast.appContext = context;
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size.height - kToolbarHeight;
 
     return Scaffold(
       key: Key('PathPageScaffold'),
@@ -121,25 +122,26 @@ class _PathMapPageState extends State<PathMapPage> {
               Positioned(
                 left: 15,
                 top: MediaQuery.of(context).padding.top + 15,
-                child: getButton(
-                    Icon(Icons.arrow_back), () => Navigator.of(context).pop()),
-              ),
-              Positioned(
-                right: 10,
-                top: size.height * 0.4,
-                child: getButton(
-                  Icon(Icons.add),
-                  () {
-                    state.controller?.animateCamera(CameraUpdate.zoomIn());
-                  },
+                child: AdaptiveButton.orangeLight(
+                  icon: Icons.arrow_back,
+                  onTap: () => Navigator.of(context).pop(),
                 ),
               ),
               Positioned(
                 right: 10,
-                top: size.height * 0.5,
-                child: getButton(
-                  Icon(Icons.remove),
-                  () async {
+                top: size * 0.4,
+                child: AdaptiveButton.orangeLight(
+                  icon: Icons.add,
+                  onTap: () =>
+                      state.controller?.animateCamera(CameraUpdate.zoomIn()),
+                ),
+              ),
+              Positioned(
+                right: 10,
+                top: size * 0.5,
+                child: AdaptiveButton.orangeLight(
+                  icon: Icons.remove,
+                  onTap: () async {
                     var level =
                         await state.controller?.getZoomLevel() ?? minZoom;
                     print(level);
@@ -151,35 +153,25 @@ class _PathMapPageState extends State<PathMapPage> {
               Positioned(
                 right: 15,
                 bottom: 55,
-                child: getButton(
-                  state.isLocationSearching
-                      ? CircularProgressIndicator()
-                      : Icon(Icons.my_location),
-                  () {
-                    needShowPosition = true;
-                    bloc.add(PathMapBlocFindLocation());
-                  },
-                ),
+                child: !state.isLocationSearching
+                    ? AdaptiveButton.orangeLight(
+                        icon: Icons.my_location,
+                        onTap: () {
+                          needShowPosition = true;
+                          bloc.add(PathMapBlocFindLocation());
+                        },
+                      )
+                    : AdaptiveButton.widget(
+                        widget: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(orangeColor),
+                        ),
+                        onTap: null,
+                      ),
               ),
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget getButton(Widget icon, Function onPressed) {
-    return ClipOval(
-      child: Material(
-        color: Colors.orange[100], // button color
-        child: InkWell(
-            splashColor: Colors.orange, // inkwell color
-            child: SizedBox(
-              width: 56,
-              height: 56,
-              child: icon,
-            ),
-            onTap: onPressed),
       ),
     );
   }
