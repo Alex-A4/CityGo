@@ -15,7 +15,7 @@ class AdaptiveButton extends StatelessWidget {
     @required this.onTap,
     this.iconBorderColor = orangeColor,
     this.backgroundColor = Colors.white,
-  })  : assert(child != null && onTap != null),
+  })  : assert(child != null),
         super(key: key);
 
   factory AdaptiveButton.orangeLight({
