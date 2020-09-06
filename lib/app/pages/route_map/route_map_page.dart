@@ -154,7 +154,6 @@ class _RouteMapPageState extends State<RouteMapPage> {
                   onTap: () async {
                     var level =
                         await state.controller?.getZoomLevel() ?? minZoom;
-                    print(level);
                     if (level > minZoom)
                       state.controller?.animateCamera(CameraUpdate.zoomOut());
                   },

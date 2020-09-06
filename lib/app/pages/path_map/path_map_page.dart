@@ -144,7 +144,6 @@ class _PathMapPageState extends State<PathMapPage> {
                   onTap: () async {
                     var level =
                         await state.controller?.getZoomLevel() ?? minZoom;
-                    print(level);
                     if (level > minZoom)
                       state.controller?.animateCamera(CameraUpdate.zoomOut());
                   },
@@ -178,8 +177,6 @@ class _PathMapPageState extends State<PathMapPage> {
 
   /// Инициализация маркеров с точкой назначения и от позиции пользователя
   void initMarkers(LatLng userPosition, GoogleMapController controller) {
-    print(markers?.length);
-    print(userPosition);
     if ((markers == null || markers?.length == 1) && userPosition != null) {
       markers = {};
 
