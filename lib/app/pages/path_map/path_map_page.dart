@@ -1,3 +1,4 @@
+import 'package:city_go/app/general_widgets/toast_widget.dart';
 import 'package:city_go/app/widgets/path_map/bloc/bloc.dart';
 import 'package:city_go/constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
@@ -57,6 +58,7 @@ class _PathMapPageState extends State<PathMapPage> {
 
   @override
   Widget build(BuildContext context) {
+    CityToast.appContext = context;
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -81,6 +83,17 @@ class _PathMapPageState extends State<PathMapPage> {
                 CameraPosition(target: state.userPosition.data, zoom: 15),
               )),
             );
+          }
+
+          if (state.userPosition?.hasError == true) {
+            print('Show Error user: ${state.userPosition.errorCode}');
+            WidgetsBinding.instance.addPostFrameCallback((_) =>
+                CityToast.showToastAppLevel(state.userPosition.errorCode));
+          }
+          if (state.route?.hasError == true) {
+            print('Show Error route: ${state.route.errorCode}');
+            WidgetsBinding.instance.addPostFrameCallback(
+                (_) => CityToast.showToastAppLevel(state.route.errorCode));
           }
 
           return Stack(
@@ -113,7 +126,8 @@ class _PathMapPageState extends State<PathMapPage> {
               Positioned(
                 left: 15,
                 top: MediaQuery.of(context).padding.top + 15,
-                child: getButton(Icon(Icons.arrow_back), () {}),
+                child: getButton(
+                    Icon(Icons.arrow_back), () => Navigator.of(context).pop()),
               ),
               Positioned(
                 right: 10,
@@ -141,9 +155,11 @@ class _PathMapPageState extends State<PathMapPage> {
               ),
               Positioned(
                 right: 15,
-                bottom: 15,
+                bottom: 55,
                 child: getButton(
-                  Icon(Icons.my_location),
+                  state.isLocationSearching
+                      ? CircularProgressIndicator()
+                      : Icon(Icons.my_location),
                   () {
                     needShowPosition = true;
                     bloc.add(PathMapBlocFindLocation());
@@ -175,7 +191,9 @@ class _PathMapPageState extends State<PathMapPage> {
 
   /// Инициализация маркеров с точкой назначения и от позиции пользователя
   void initMarkers(LatLng userPosition, GoogleMapController controller) {
-    if (markers == null && userPosition != null) {
+    print(markers?.length);
+    print(userPosition);
+    if ((markers == null || markers?.length == 1) && userPosition != null) {
       markers = {};
 
       Marker startMarker = Marker(
@@ -202,7 +220,28 @@ class _PathMapPageState extends State<PathMapPage> {
       markers.add(destinationMarker);
 
       changeCameraPositionAfterWayFound(controller, userPosition, widget.dest);
+    } else if (markers == null) {
+      markers = {};
+
+      Marker destinationMarker = Marker(
+        markerId: MarkerId('${widget.dest}'),
+        position: LatLng(
+          widget.dest.latitude,
+          widget.dest.longitude,
+        ),
+        infoWindow: InfoWindow(title: 'Destination'),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+      );
+
+      markers.add(destinationMarker);
+      changeCameraPositionToDestination(controller);
     }
+  }
+
+  /// Позиционирование камеры на точку назначения, если остальные элементы не
+  /// удалось инициализировать
+  void changeCameraPositionToDestination(GoogleMapController controller) {
+    controller.animateCamera(CameraUpdate.newLatLng(widget.dest));
   }
 
   /// Перемещение камеры так, чтобы входила позиция пользователя и точка назначения
