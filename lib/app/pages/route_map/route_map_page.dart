@@ -1,0 +1,257 @@
+import 'package:city_go/app/general_widgets/toast_widget.dart';
+import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
+import 'package:city_go/constants.dart';
+import 'package:city_go/data/core/service_locator.dart';
+import 'package:city_go/domain/entities/map/map_route.dart';
+import 'package:city_go/domain/entities/routes/route.dart' as r;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+/// Страница для построения маршрута route.
+/// Также у пользователя есть возможность смотреть своё местоположение на карте
+class RouteMapPage extends StatefulWidget {
+  final r.Route route;
+
+  RouteMapPage({
+    Key key,
+    @required this.route,
+  })  : assert(route != null),
+        super(key: key);
+
+  @override
+  _RouteMapPageState createState() => _RouteMapPageState();
+}
+
+class _RouteMapPageState extends State<RouteMapPage> {
+  static const minZoom = 12.0;
+
+  // ignore: close_sinks
+  RouteMapBloc bloc;
+  LatLng userPosition;
+
+  /// Флаг, обозначающий, что нужно переключиться на позицию пользователя.
+  /// Активируется, когда пользователь нажимает специальную кнопку
+  bool needShowPosition = false;
+
+  bool needShowRoute = true;
+
+  bool isRoutePathShowed = false;
+
+  Map<PolylineId, Polyline> polylines;
+
+  @override
+  void initState() {
+    bloc = sl<RouteMapBloc>(param1: widget.route);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    CityToast.appContext = context;
+    final size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      key: Key('RoutePageScaffold'),
+      body: StreamBuilder<RouteMapBlocState>(
+        key: Key('RoutePageStreamBuilder'),
+        initialData: bloc.state,
+        stream: bloc,
+        builder: (_, snap) {
+          var state = snap.data as RouteMapBlocMapState;
+
+          if (state.route?.hasData == true) initPolylines(state.route.data);
+
+          if (state.route?.hasData == true &&
+              state.controller != null &&
+              needShowRoute) {
+            needShowRoute = false;
+            var data = state.route.data;
+            changeCameraPositionAfterWayFound(state.controller,
+                data.coordinates.first, data.coordinates.last);
+          }
+
+          if (state.userPosition?.hasData == true && needShowPosition) {
+            needShowPosition = false;
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) => state.controller
+                  ?.animateCamera(CameraUpdate.newCameraPosition(
+                CameraPosition(target: state.userPosition.data, zoom: 15),
+              )),
+            );
+          }
+
+          if (state.userPosition?.hasError == true && bloc.showError) {
+            bloc.showError = false;
+            WidgetsBinding.instance.addPostFrameCallback((_) =>
+                CityToast.showToastAppLevel(state.userPosition.errorCode));
+          }
+          if (state.route?.hasError == true && bloc.showError) {
+            bloc.showError = false;
+            WidgetsBinding.instance.addPostFrameCallback(
+                (_) => CityToast.showToastAppLevel(state.route.errorCode));
+          }
+
+          return Stack(
+            children: [
+              GoogleMap(
+                key: Key('RoutePageGoogleMap'),
+                onMapCreated: (c) => bloc.add(RouteMapBlocInitEvent(c)),
+                polylines: polylines != null
+                    ? Set<Polyline>.from(polylines.values)
+                    : null,
+                mapType: MapType.normal,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: false,
+                minMaxZoomPreference: MinMaxZoomPreference(minZoom, null),
+                initialCameraPosition: kYaroslavlPos,
+                cameraTargetBounds: kYaroslavlBounds,
+                onTap: (lng) {
+                  print(lng);
+                },
+                compassEnabled: true,
+                zoomGesturesEnabled: true,
+                zoomControlsEnabled: false,
+                indoorViewEnabled: true,
+                buildingsEnabled: true,
+              ),
+              Positioned(
+                left: 15,
+                top: MediaQuery.of(context).padding.top + 15,
+                child: getButton(
+                    Icon(Icons.arrow_back), () => Navigator.of(context).pop()),
+              ),
+              Positioned(
+                right: 10,
+                top: size.height * 0.4,
+                child: getButton(
+                  Icon(Icons.add),
+                  () {
+                    state.controller?.animateCamera(CameraUpdate.zoomIn());
+                  },
+                ),
+              ),
+              Positioned(
+                right: 10,
+                top: size.height * 0.5,
+                child: getButton(
+                  Icon(Icons.remove),
+                  () async {
+                    var level =
+                        await state.controller?.getZoomLevel() ?? minZoom;
+                    print(level);
+                    if (level > minZoom)
+                      state.controller?.animateCamera(CameraUpdate.zoomOut());
+                  },
+                ),
+              ),
+              Positioned(
+                right: 15,
+                bottom: 55,
+                child: getButton(
+                  state.isLocationSearching
+                      ? CircularProgressIndicator()
+                      : Icon(Icons.my_location),
+                  () {
+                    needShowPosition = true;
+                    bloc.add(RouteMapBlocFindLocation());
+                  },
+                ),
+              ),
+              Positioned(
+                left: 15,
+                bottom: 55,
+                child: getButton(
+                  Icon(Icons.map),
+                  () {
+                    setState(() => needShowRoute = true);
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget getButton(Widget icon, Function onPressed) {
+    return ClipOval(
+      child: Material(
+        color: Colors.orange[100], // button color
+        child: InkWell(
+            splashColor: Colors.orange, // inkwell color
+            child: SizedBox(
+              width: 56,
+              height: 56,
+              child: icon,
+            ),
+            onTap: onPressed),
+      ),
+    );
+  }
+
+  /// Перемещение камеры так, чтобы входила позиция пользователя и точка назначения
+  void changeCameraPositionAfterWayFound(
+      GoogleMapController controller, LatLng start, LatLng dest) {
+    // Define two position variables
+    LatLng _northeastCoordinates;
+    LatLng _southwestCoordinates;
+
+    // Calculating to check that
+    // southwest coordinate <= northeast coordinate
+    if (start.latitude <= dest.latitude) {
+      _southwestCoordinates = start;
+      _northeastCoordinates = dest;
+    } else {
+      _southwestCoordinates = start;
+      _northeastCoordinates = dest;
+    }
+
+    // Accommodate the two locations within the
+    // camera view of the map
+    controller.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          northeast: LatLng(
+            _northeastCoordinates.latitude,
+            _northeastCoordinates.longitude,
+          ),
+          southwest: LatLng(
+            _southwestCoordinates.latitude,
+            _southwestCoordinates.longitude,
+          ),
+        ),
+        100.0, // padding
+      ),
+    );
+  }
+
+  /// Инициализация маршрута
+  void initPolylines(MapRoute data) {
+    if (polylines == null) {
+      var id = PolylineId('route_path_points');
+      polylines = {
+        id: Polyline(
+          polylineId: id,
+          points: data.coordinates,
+          width: 3,
+          color: Colors.blue,
+        ),
+      };
+    }
+  }
+}
