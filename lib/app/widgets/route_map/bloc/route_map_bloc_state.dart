@@ -16,12 +16,25 @@ class RouteMapBlocMapState extends RouteMapBlocState {
   /// Может быть null.
   final FutureResponse<MapRoute> route;
 
+  /// Позиция пользователя на карте. Может быть равна null, если отключена геопозиция
+  /// Если при получении позиции возникла ошибка, то она будет отображена в
+  /// качестве уведомления пользователю.
+  /// Может быть null.
+  final FutureResponse<LatLng> userPosition;
+
+  final bool isLocationSearching;
+
   RouteMapBlocMapState({
     this.controller,
     this.route,
+    this.userPosition,
+    this.isLocationSearching = false,
   });
 
+  @override
+  bool get stringify => true;
 
   @override
-  List<Object> get props => [controller?.mapId, route];
+  List<Object> get props =>
+      [controller?.mapId, route, userPosition, isLocationSearching];
 }

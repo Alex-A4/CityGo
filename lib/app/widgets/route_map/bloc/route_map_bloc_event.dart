@@ -13,3 +13,9 @@ class RouteMapBlocInitEvent extends RouteMapBlocEvent {
   @override
   List<Object> get props => [];
 }
+
+/// Событие для поиска позиции пользователя
+class RouteMapBlocFindLocation extends RouteMapBlocEvent {
+  @override
+  List<Object> get props => [];
+}
