@@ -1,3 +1,8 @@
 {
-  "title" : "CityGo Ярославль"
+  "title" : "CityGo Ярославль",
+  "no_internet": "No internet",
+  "unexpected_error": "Unexpected error",
+  "user_not_auth": "User not authenticated",
+  "location_access_denied": "Location access denied, please allow it",
+  "location_service_disabled": "Location service disabled, please turn it on"
 }
