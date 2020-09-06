@@ -14,7 +14,7 @@
         android:label="city_go">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBQbZ1QyH70n-w3q5C2vA8v2hb6TnYGAcA" />
+            android:value="AIzaSyD2k7DPFq9u8w2FcQgjtD1mzXoE9ULTEJc" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
