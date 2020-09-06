@@ -21,7 +21,6 @@ class CityToast {
   }
 
   static void showToast(BuildContext context, String messageId) async {
-    print(_isVisible);
     if (_isVisible) return;
 
     overlayState = Overlay.of(context);
