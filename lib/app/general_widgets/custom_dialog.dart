@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 /// Кастомная версия диалогового окна, которая позволяет отобразить какой-нибудь
 /// виджет поверх с затемнённым экраном.
 /// Должен использоваться в Navigator.push() с передачей билдера, который
@@ -11,7 +10,7 @@ class DialogRoute<T> extends PopupRoute<T> {
   DialogRoute({@required this.builder}) : assert(builder != null);
 
   @override
-  Color get barrierColor => Colors.black54;
+  Color get barrierColor => Colors.black12;
 
   @override
   bool get barrierDismissible => true;
@@ -25,7 +24,9 @@ class DialogRoute<T> extends PopupRoute<T> {
     return SafeArea(
       child: SizeTransition(
         sizeFactor: animation.drive(Tween(begin: 0.0, end: 1.0)),
-        child: builder(context),
+        child: Center(
+          child: Material(child: builder(context)),
+        ),
       ),
     );
   }
