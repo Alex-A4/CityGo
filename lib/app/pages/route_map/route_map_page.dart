@@ -40,6 +40,8 @@ class _RouteMapPageState extends State<RouteMapPage> {
 
   bool isRoutePathShowed = false;
 
+  Set<Marker> markers;
+
   Map<PolylineId, Polyline> polylines;
 
   @override
@@ -111,6 +113,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
               GoogleMap(
                 key: Key('RoutePageGoogleMap'),
                 onMapCreated: (c) => bloc.add(RouteMapBlocInitEvent(c)),
+                markers: markers != null ? Set<Marker>.from(markers) : null,
                 polylines: polylines != null
                     ? Set<Polyline>.from(polylines.values)
                     : null,
@@ -233,6 +236,28 @@ class _RouteMapPageState extends State<RouteMapPage> {
   void initPolylines(MapRoute data) {
     if (polylines == null) {
       var id = PolylineId('route_path_points');
+      markers.addAll([
+        Marker(
+          markerId: MarkerId('start_point'),
+          infoWindow: InfoWindow(title: 'Start'),
+          position: LatLng(
+            data.coordinates.first.latitude,
+            data.coordinates.first.longitude,
+          ),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+        ),
+        Marker(
+          markerId: MarkerId('end_point'),
+          infoWindow: InfoWindow(title: 'End'),
+          position: LatLng(
+            data.coordinates.last.latitude,
+            data.coordinates.last.longitude,
+          ),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+        )
+      ]);
       polylines = {
         id: Polyline(
           polylineId: id,
