@@ -47,15 +47,42 @@ flutter:
   fonts:
     - family: Jost
       fonts:
-        - asset: assets/fonts/jost/
+        - asset: assets/fonts/jost/TrueType/Jost-100-Hairline.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-100-HairlineItalic.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-200-Thin.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-200-ThinItalic.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-400-Book.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-400-BookItalic.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-600-Semi.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-600-SemiItalic.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-800-Heavy.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-800-HeavyItalic.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-900-Black.ttf
+        - asset: assets/fonts/jost/TrueType/Jost-900-BlackItalic.ttf
           style: italic
     - family: MonsterRat
       fonts:
-        - asset: assets/fonts/monsterrat/
+        - asset: assets/fonts/monsterrat/Montserrat-Black.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-BlackItalic.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-Bold.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-BoldItalic.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-Light.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-LightItalic.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-Medium.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-MediumItalic.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-Thin.ttf
+        - asset: assets/fonts/monsterrat/Montserrat-ThinItalic.ttf
           style: italic
     - family: AleGrey
       fonts:
-        - asset: assets/fonts/alegreyasanssc/
+        - asset: assets/fonts/alegreyasanssc/AlegreyaSansSC-Black.ttf
+        - asset: assets/fonts/alegreyasanssc/AlegreyaSansSC-BlackItalic.ttf
+        - asset: assets/fonts/alegreyasanssc/AlegreyaSansSC-Bold.ttf
+        - asset: assets/fonts/alegreyasanssc/AlegreyaSansSC-BoldItalic.ttf
+        - asset: assets/fonts/alegreyasanssc/AlegreyaSansSC-Light.ttf
+        - asset: assets/fonts/alegreyasanssc/AlegreyaSansSC-LightItalic.ttf
+        - asset: assets/fonts/alegreyasanssc/AlegreyaSansSC-Medium.ttf
+        - asset: assets/fonts/alegreyasanssc/AlegreyaSansSC-MediumItalic.ttf
           style: italic
   assets:
     - assets/localization/
