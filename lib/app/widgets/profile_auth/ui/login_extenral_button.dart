@@ -14,20 +14,23 @@ class LoginExternalButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(90),
-      child: Padding(
-        padding: EdgeInsets.all(10),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(90),
-            color: Colors.grey[400],
-          ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(90),
+        child: Padding(
           padding: EdgeInsets.all(10),
-          width: 60,
-          height: 60,
-          child: Image.asset(imagePath, fit: BoxFit.contain),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(90),
+              color: Colors.grey[400],
+            ),
+            padding: EdgeInsets.all(10),
+            width: 60,
+            height: 60,
+            child: Image.asset(imagePath, fit: BoxFit.contain),
+          ),
         ),
       ),
     );
