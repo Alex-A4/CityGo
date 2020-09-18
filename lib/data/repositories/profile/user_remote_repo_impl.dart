@@ -18,14 +18,14 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
       String userName, String password) async {
     if (!await checker.hasInternet) return FutureResponse.fail(NO_INTERNET);
 
-    return null;
+    return FutureResponse.fail(NO_INTERNET);
   }
 
   @override
   Future<FutureResponse<User>> authWithExternalService(User user) async {
     if (!await checker.hasInternet) return FutureResponse.fail(NO_INTERNET);
 
-    return null;
+    return FutureResponse.fail(NO_INTERNET);
   }
 
   @override
@@ -33,6 +33,6 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
       String userName, String password) async {
     if (!await checker.hasInternet) return FutureResponse.fail(NO_INTERNET);
 
-    return null;
+    return FutureResponse.fail(NO_INTERNET);
   }
 }
