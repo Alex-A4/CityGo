@@ -44,5 +44,19 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Jost
+      fonts:
+        - asset: assets/fonts/jost/
+          style: italic
+    - family: MonsterRat
+      fonts:
+        - asset: assets/fonts/monsterrat/
+          style: italic
+    - family: AleGrey
+      fonts:
+        - asset: assets/fonts/alegreyasanssc/
+          style: italic
   assets:
     - assets/localization/
+    - assets/images/
