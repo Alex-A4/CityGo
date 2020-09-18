@@ -50,3 +50,9 @@ class ProfileGoToLoginEvent extends ProfileEvent {
   @override
   List<Object> get props => [];
 }
+
+/// Пользователь нажимает кнопку "создать аккаунт"
+class ProfileGoToAuthEvent extends ProfileEvent {
+  @override
+  List<Object> get props => [];
+}

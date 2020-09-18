@@ -57,6 +57,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is ProfileGoToLoginEvent) {
       yield ProfileNeedLoginState();
     }
+    if (event is ProfileGoToAuthEvent) {
+      yield ProfileNeedAuthState();
+    }
     if (event is ProfileLogoutEvent) {
       await storage.clearField(user: true);
       yield ProfileNeedAuthState();
