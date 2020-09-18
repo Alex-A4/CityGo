@@ -1,8 +1,18 @@
 {
-  "title" : "CityGo Ярославль",
+  "title": "CityGo Ярославль",
   "no_internet": "No internet",
   "unexpected_error": "Unexpected error",
   "user_not_auth": "User not authenticated",
   "location_access_denied": "Location access denied, please allow it",
-  "location_service_disabled": "Location service disabled, please turn it on"
+  "location_service_disabled": "Location service disabled, please turn it on",
+  "auth_word": "Зарегистрироваться",
+  "login_word": "Войти",
+  "your_name": "Ваше имя",
+  "your_password": "Ваш пароль",
+  "or_word": "или",
+  "welcome_word": "Добро пожаловать",
+  "have_account": "Есть аккаунт?",
+  "create_account": "Создать аккаунт",
+  "password_not_empty": "Пароль не должен быть пустым",
+  "login_not_empty": "Логин не должен быть пустым"
 }

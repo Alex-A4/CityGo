@@ -4,5 +4,15 @@
   "unexpected_error": "Unexpected error",
   "user_not_auth": "User not authenticated",
   "location_access_denied": "Location access denied, please allow it",
-  "location_service_disabled": "Location service disabled, please turn it on"
+  "location_service_disabled": "Location service disabled, please turn it on",
+  "auth_word": "Authenticate",
+  "login_word": "Login",
+  "your_name": "Your name",
+  "your_password": "Your password",
+  "or_word": "or",
+  "welcome_word": "Welcome",
+  "have_account": "Have an account?",
+  "create_account": "Create account",
+  "password_not_empty": "Password should not empty",
+  "login_not_empty": "Login should not empty"
 }
