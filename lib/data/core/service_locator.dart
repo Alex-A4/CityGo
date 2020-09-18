@@ -59,6 +59,7 @@ Future<void> initServiceLocator() async {
 
   /// Storage
   sl.registerSingleton<ProfileStorage>(ProfileStorageImpl(repository: sl()));
+  await sl<ProfileStorage>().initStorage();
 
   /// Blocs
   sl.registerFactory<ProfileBloc>(
