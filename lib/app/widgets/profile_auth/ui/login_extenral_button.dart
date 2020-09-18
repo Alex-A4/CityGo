@@ -24,7 +24,7 @@ class LoginExternalButton extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(90),
-              color: Colors.grey[400],
+              color: Color(0xFFb5b5b5),
             ),
             padding: EdgeInsets.all(10),
             width: 60,

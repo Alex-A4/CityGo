@@ -21,7 +21,7 @@ class AuthLoginButton extends StatelessWidget {
     return FlatButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       onPressed: onTap,
-      color: Colors.grey[400],
+      color: Color(0xFFb5b5b5),
       child: SizedBox(
         height: 53,
         width: 248,
