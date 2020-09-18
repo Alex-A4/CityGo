@@ -1,3 +1,4 @@
+import 'package:city_go/app/general_widgets/toast_widget.dart';
 import 'package:city_go/app/pages/profile_auth/auth_page.dart';
 import 'package:city_go/app/pages/profile_auth/settings_page.dart';
 import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
@@ -25,9 +26,15 @@ class ProfileAuthPage extends StatelessWidget {
           return SettingsPage(bloc: bloc);
         }
         if (state is ProfileNeedAuthState) {
+          if (state.errorCode != null)
+            WidgetsBinding.instance.addPostFrameCallback(
+                (_) => CityToast.showToast(context, state.errorCode));
           return AuthPage(bloc: bloc, isAuth: true);
         }
         if (state is ProfileNeedLoginState) {
+          if (state.errorCode != null)
+            WidgetsBinding.instance.addPostFrameCallback(
+                (_) => CityToast.showToast(context, state.errorCode));
           return AuthPage(bloc: bloc, isAuth: false);
         }
 
