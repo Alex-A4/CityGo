@@ -22,11 +22,11 @@ class CityAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).textTheme;
     return AppBar(
       backgroundColor: Colors.grey[800],
       iconTheme: IconThemeData(color: lightGrey),
-      textTheme:
-          TextTheme(headline6: TextStyle(color: lightGrey, fontSize: 20)),
+      textTheme: theme,
       automaticallyImplyLeading: automaticallyImplyLeading,
       title: title,
       actions: actions,
