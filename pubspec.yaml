@@ -60,18 +60,18 @@ flutter:
         - asset: assets/fonts/jost/TrueType/Jost-900-Black.ttf
         - asset: assets/fonts/jost/TrueType/Jost-900-BlackItalic.ttf
           style: italic
-    - family: MonsterRat
+    - family: MontserRat
       fonts:
-        - asset: assets/fonts/monsterrat/Montserrat-Black.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-BlackItalic.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-Bold.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-BoldItalic.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-Light.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-LightItalic.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-Medium.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-MediumItalic.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-Thin.ttf
-        - asset: assets/fonts/monsterrat/Montserrat-ThinItalic.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Black.ttf
+        - asset: assets/fonts/montserrat/Montserrat-BlackItalic.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Bold.ttf
+        - asset: assets/fonts/montserrat/Montserrat-BoldItalic.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Light.ttf
+        - asset: assets/fonts/montserrat/Montserrat-LightItalic.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Medium.ttf
+        - asset: assets/fonts/montserrat/Montserrat-MediumItalic.ttf
+        - asset: assets/fonts/montserrat/Montserrat-Thin.ttf
+        - asset: assets/fonts/montserrat/Montserrat-ThinItalic.ttf
           style: italic
     - family: AleGrey
       fonts:
