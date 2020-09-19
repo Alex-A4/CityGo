@@ -1,3 +1,4 @@
+import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -35,6 +36,28 @@ class CityGoApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
+      theme: ThemeData(
+        textTheme: TextTheme(
+          headline6: TextStyle(
+            fontFamily: 'Jost',
+            color: lightGrey,
+            fontSize: 25,
+            letterSpacing: 1.5,
+          ),
+          subtitle1: TextStyle(
+            fontSize: 18,
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+            fontFamily: 'MontserRat'
+          ),
+          bodyText2: TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+            fontFamily: 'Jost',
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
       initialRoute: ROOT,
       routes: routes,
       onGenerateRoute: generateRoute,
