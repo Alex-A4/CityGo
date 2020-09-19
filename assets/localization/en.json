@@ -14,5 +14,10 @@
   "have_account": "Have an account?",
   "create_account": "Create account",
   "password_not_empty": "Password should not empty",
-  "login_not_empty": "Login should not empty"
+  "login_not_empty": "Login should not empty",
+  "profile_word": "Profile",
+  "notification_word": "Notifications",
+  "training_word": "Training",
+  "language_word": "Language",
+  "change_profile": "Change profile"
 }

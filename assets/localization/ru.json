@@ -14,5 +14,10 @@
   "have_account": "Есть аккаунт?",
   "create_account": "Создать аккаунт",
   "password_not_empty": "Пароль не должен быть пустым",
-  "login_not_empty": "Логин не должен быть пустым"
+  "login_not_empty": "Логин не должен быть пустым",
+  "profile_word": "Профиль",
+  "notification_word": "Уведомления",
+  "training_word": "Обучение",
+  "language_word": "Язык",
+  "change_profile": "Сменить профиль"
 }
