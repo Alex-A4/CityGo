@@ -23,7 +23,7 @@ class ProfileAuthPage extends StatelessWidget {
       builder: (_, snap) {
         final state = snap.data;
         if (state is ProfileAuthenticatedState) {
-          return SettingsPage(bloc: bloc);
+          return SettingsPage(bloc: bloc, profile: state.profile);
         }
         if (state is ProfileNeedAuthState) {
           if (state.errorCode != null)
