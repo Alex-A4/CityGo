@@ -38,6 +38,12 @@ class CityGoApp extends StatelessWidget {
       ],
       theme: ThemeData(
         textTheme: TextTheme(
+          headline4: TextStyle(
+            fontSize: 30,
+            fontFamily: 'MontserRat',
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
           headline6: TextStyle(
             fontFamily: 'Jost',
             color: lightGrey,
@@ -45,11 +51,10 @@ class CityGoApp extends StatelessWidget {
             letterSpacing: 1.5,
           ),
           subtitle1: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-            fontFamily: 'MontserRat'
-          ),
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontFamily: 'MontserRat'),
           bodyText2: TextStyle(
             fontSize: 16,
             color: Colors.black,
