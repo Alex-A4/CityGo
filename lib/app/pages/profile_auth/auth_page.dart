@@ -34,14 +34,6 @@ class _AuthPageState extends State<AuthPage> {
   bool get isAuth => widget.isAuth;
 
   @override
-  void initState() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.black),
-    );
-    super.initState();
-  }
-
-  @override
   void dispose() {
     loginController.dispose();
     passwordController.dispose();
@@ -53,6 +45,7 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       key: Key('AuthPageScaffold'),
       resizeToAvoidBottomPadding: false,
+      backgroundColor: Colors.black,
       body: SafeArea(
         key: Key('AuthPageSafeArea'),
         child: Stack(
