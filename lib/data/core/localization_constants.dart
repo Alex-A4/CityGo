@@ -28,3 +28,5 @@ const PARKS_WORD = 'parks_word';
 const PUBS_WORD = 'pubs_word';
 const THEATRES_WORD = 'theatres_word';
 const MALLS_WORD = 'malls_word';
+const ROUTE_WORD = 'route_word';
+const KILOMETERS_WORD = 'kilometers_word';
