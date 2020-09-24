@@ -20,6 +20,10 @@ class RouteListBloc extends Bloc<RouteListBlocEvent, RouteListBlocState> {
 
   List<RouteClipped> routes = [];
 
+  RouteListBlocDisplayState getDataState(bool isEnd, [String error]) {
+    return RouteListBlocDisplayState(List.from(routes), isEnd, error);
+  }
+
   @override
   Stream<RouteListBlocState> mapEventToState(RouteListBlocEvent event) async* {
     if (event is RouteListDownloadEvent) {
@@ -27,19 +31,19 @@ class RouteListBloc extends Bloc<RouteListBlocEvent, RouteListBlocState> {
 
       var user = storage.profile.user;
       if (user == null)
-        yield RouteListBlocDisplayState(routes, true, USER_NOT_AUTH);
+        yield getDataState(true, USER_NOT_AUTH);
       else {
         final response = await repository.getRoutes(
             token: user.accessToken, offset: routes.length);
 
         if (response.hasError)
-          yield RouteListBlocDisplayState(routes, true, NO_INTERNET);
+          yield getDataState(true, NO_INTERNET);
         else {
           if (response.data.isNotEmpty) {
             routes.addAll(response.data);
-            yield RouteListBlocDisplayState(routes, false);
+            yield getDataState(false);
           } else {
-            yield RouteListBlocDisplayState(routes, true);
+            yield getDataState(true);
           }
         }
       }
