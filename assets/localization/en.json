@@ -42,5 +42,7 @@
   "proximity": "Proximity",
   "rating": "Rating",
   "random": "Random",
-  "sort_by_word": "Sort by"
+  "sort_by_word": "Sort by",
+  "detail_word": "Detailed",
+  "work_time": "Work time"
 }

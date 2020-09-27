@@ -38,3 +38,5 @@ const GO_TIME = 'go_time';
 const KM_WORD = 'km_word';
 const DESCRIPTION_WORD = 'description_word';
 const SORT_BY_WORD = 'sort_by_word';
+const DETAIL_WORD = 'detail_word';
+const WORK_TIME = 'work_time';

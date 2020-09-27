@@ -42,5 +42,7 @@
   "proximity": "Близости",
   "rating": "Рейтингу",
   "random": "Случайно",
-  "sort_by_word": "Сортировать по"
+  "sort_by_word": "Сортировать по",
+  "detail_word": "Подробнее",
+  "work_time": "Время работы"
 }
