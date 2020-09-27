@@ -37,3 +37,4 @@ const LENGTH_WORD = 'length_word';
 const GO_TIME = 'go_time';
 const KM_WORD = 'km_word';
 const DESCRIPTION_WORD = 'description_word';
+const SORT_BY_WORD = 'sort_by_word';

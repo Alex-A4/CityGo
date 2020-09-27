@@ -38,5 +38,9 @@
   "length_word": "Протяженность",
   "go_time": "Время в пути",
   "km_word": "км",
-  "description_word": "Описание"
+  "description_word": "Описание",
+  "proximity": "Близости",
+  "rating": "Рейтингу",
+  "random": "Случайно",
+  "sort_by_word": "Сортировать по"
 }

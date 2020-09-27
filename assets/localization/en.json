@@ -38,5 +38,9 @@
   "length_word": "Length",
   "go_time": "Travel time",
   "km_word": "km",
-  "description_word": "Description"
+  "description_word": "Description",
+  "proximity": "Proximity",
+  "rating": "Rating",
+  "random": "Random",
+  "sort_by_word": "Sort by"
 }
