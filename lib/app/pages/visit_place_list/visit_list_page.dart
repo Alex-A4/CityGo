@@ -4,6 +4,7 @@ import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/widgets/visit_place_list/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/filter_widget.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/visit_item.dart';
+import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:flutter/material.dart';
@@ -115,6 +116,7 @@ class _VisitListPageState extends State<VisitListPage> {
                 key: Key('VisitItem$index'),
                 place: places[index],
                 height: height,
+                client: sl(),
               );
             },
           ),
