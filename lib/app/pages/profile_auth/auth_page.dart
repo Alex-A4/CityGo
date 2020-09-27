@@ -6,7 +6,6 @@ import 'package:city_go/app/widgets/profile_auth/ui/auth_login_button.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/login_extenral_button.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:city_go/localization/localization.dart';
 
 class AuthPage extends StatefulWidget {
