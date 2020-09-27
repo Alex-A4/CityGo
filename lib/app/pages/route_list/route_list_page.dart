@@ -31,6 +31,7 @@ class RouteListPage extends StatefulWidget {
 class _RouteListPageState extends State<RouteListPage> {
   final ScrollController controller = ScrollController();
   bool isLoading = true;
+  bool isEndOfList = false;
 
   @override
   void initState() {
@@ -65,6 +66,7 @@ class _RouteListPageState extends State<RouteListPage> {
             if (state.errorCode != null)
               WidgetsBinding.instance.addPostFrameCallback(
                   (_) => CityToast.showToast(c, state.errorCode));
+            isEndOfList = state.isEndOfList;
           } else if (state is RouteListBlocLoadingState) {
             routes = state.routes;
             isLoading = true;
@@ -96,7 +98,7 @@ class _RouteListPageState extends State<RouteListPage> {
   }
 
   void _scrollListener() {
-    if (controller.position.extentAfter < 200 && !isLoading) {
+    if (controller.position.extentAfter < 200 && !isLoading && !isEndOfList) {
       isLoading = true;
       widget.bloc.add(RouteListDownloadEvent());
     }
