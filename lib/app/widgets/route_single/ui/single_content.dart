@@ -1,6 +1,9 @@
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/rating_widget.dart';
+import 'package:city_go/app/navigator/router.dart';
+import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
+import 'package:city_go/localization/localization.dart';
 import 'package:flutter/material.dart';
 
 /// Виджет контента, который отображает информацию о маршруте
@@ -29,12 +32,17 @@ class SingleRouteContent extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    getIconWithSub(Icons.volume_up, () {
-                      print('VOLUME');
-                    }, 'Воспроизвести звук'),
-                    getIconWithSub(Icons.add_road, () {
-                      print('ROAD');
-                    }, 'Построить маршрут'),
+                    getIconWithSub(
+                      Icons.volume_up,
+                      () => print('VOLUME'),
+                      context.localization(START_SOUND),
+                    ),
+                    getIconWithSub(
+                      Icons.add_road,
+                      () => Navigator.of(context)
+                          .pushNamed(ROUTE_MAP_PAGE, arguments: route),
+                      context.localization(CREATE_PATH),
+                    ),
                   ],
                 ),
               ),
@@ -44,14 +52,15 @@ class SingleRouteContent extends StatelessWidget {
                   print('ОБЩАЯ ИНФА');
                 },
                 child: Text(
-                  'Общая информация',
+                  context.localization(GENERAL_INFO),
                   style: style.copyWith(fontSize: 18),
                 ),
               ),
               SizedBox(height: 30),
-              getInfoRow('Протяженность', '${route.length} km'),
+              getInfoRow(LENGTH_WORD,
+                  '${route.length} ${context.localization(KM_WORD)}', context),
               SizedBox(height: 20),
-              getInfoRow('Время в пути', '${route.goTime}'),
+              getInfoRow(GO_TIME, '${route.goTime}', context),
               SizedBox(height: 50),
               RatingWidget(rating: route.rating),
               SizedBox(height: bottomSize + 40),
@@ -62,7 +71,7 @@ class SingleRouteContent extends StatelessWidget {
     );
   }
 
-  Widget getInfoRow(String titleCode, String text) {
+  Widget getInfoRow(String titleCode, String text, BuildContext context) {
     final f = style.copyWith(
       decoration: TextDecoration.none,
       fontSize: 18,
@@ -70,7 +79,7 @@ class SingleRouteContent extends StatelessWidget {
     );
     return Row(
       children: [
-        Text('$titleCode:', style: f),
+        Text('${context.localization(titleCode)}:', style: f),
         SizedBox(width: 10),
         Text(text, style: f),
       ],

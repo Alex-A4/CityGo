@@ -1,4 +1,6 @@
 import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/localization/localization.dart';
+import 'package:city_go/data/core/localization_constants.dart';
 import 'package:flutter/material.dart';
 
 /// Виджет, содержащий описание к какому-то объекту, используется вместе с
@@ -33,7 +35,7 @@ class DescriptionWidget extends StatelessWidget {
               ),
             ),
             Text(
-              'Описание',
+              context.localization(DESCRIPTION_WORD),
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 22,
