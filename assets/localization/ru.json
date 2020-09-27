@@ -31,5 +31,12 @@
   "theatres_word": "Театры и кино",
   "malls_word": "Торговые центры",
   "route_word": "Маршрут",
-  "kilometers_word": "километра"
+  "kilometers_word": "километров",
+  "start_sound": "Воспроизвести звук",
+  "create_path": "Построить маршрут",
+  "general_info": "Общая информация",
+  "length_word": "Протяженность",
+  "go_time": "Время в пути",
+  "km_word": "км",
+  "description_word": "Описание"
 }

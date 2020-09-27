@@ -31,5 +31,12 @@
   "theatres_word": "Theatres and cinema",
   "malls_word": "Malls",
   "route_word": "Route",
-  "kilometers_word": "kilometers"
+  "kilometers_word": "kilometers",
+  "start_sound": "Play sound",
+  "create_path": "Create route",
+  "general_info": "General information",
+  "length_word": "Length",
+  "go_time": "Travel time",
+  "km_word": "km",
+  "description_word": "Description"
 }
