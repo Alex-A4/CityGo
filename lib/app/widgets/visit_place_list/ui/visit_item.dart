@@ -24,6 +24,7 @@ class VisitItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(minHeight: 150),
       height: height,
       decoration: BoxDecoration(
         image: DecorationImage(
