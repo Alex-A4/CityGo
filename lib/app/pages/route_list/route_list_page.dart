@@ -1,5 +1,6 @@
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
+import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/widgets/route_list/bloc/bloc.dart';
 import 'package:city_go/app/widgets/route_list/ui/route_list_item.dart';
 import 'package:city_go/data/core/localization_constants.dart';
@@ -78,7 +79,9 @@ class _RouteListPageState extends State<RouteListPage> {
             itemCount: routes.length + (isLoading ? 1 : 0),
             itemBuilder: (_, index) {
               if (index == routes.length) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(orangeColor),
+                ));
               }
 
               return RouteItem(
