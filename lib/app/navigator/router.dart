@@ -64,7 +64,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       final place = settings.arguments;
       return MaterialPageRoute(
         builder: (_) => VisitSinglePage(
-          bloc: sl.call<VisitSingleBloc>(param1: place),
+          bloc: sl.call<VisitSingleBloc>(param1: (place as dynamic).id),
           place: place,
         ),
       );
