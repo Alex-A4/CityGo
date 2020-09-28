@@ -4,8 +4,6 @@ import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
 import 'package:city_go/app/general_widgets/description_widget.dart';
 import 'package:city_go/app/widgets/route_single/ui/single_content.dart';
-import 'package:city_go/data/core/service_locator.dart';
-import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
 import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:flutter/material.dart';
@@ -13,30 +11,23 @@ import 'package:flutter/material.dart';
 /// Экран отображения информации об одном конкретном маршруте
 class RouteSinglePage extends StatefulWidget {
   final RouteClipped clipped;
-  final HttpClient client;
+  final RouteSingleBloc bloc;
 
   RouteSinglePage({
     Key key = const Key('RouteSinglePage'),
     @required this.clipped,
-    this.client,
-  })  : assert(clipped != null),
-        super(key: key);
+    @required this.bloc,
+  })  : assert(clipped != null && bloc != null),
+        super(key: key) {
+    bloc.add(RouteSingleBlocLoadEvent());
+  }
 
   @override
   _RouteSinglePageState createState() => _RouteSinglePageState();
 }
 
 class _RouteSinglePageState extends State<RouteSinglePage> {
-  // ignore: close_sinks
-  RouteSingleBloc bloc;
-
-  @override
-  void initState() {
-    bloc =
-        RouteSingleBloc(storage: sl(), repository: sl(), id: widget.clipped.id);
-    bloc.add(RouteSingleBlocLoadEvent());
-    super.initState();
-  }
+  RouteSingleBloc get bloc => widget.bloc;
 
   @override
   Widget build(BuildContext context) {

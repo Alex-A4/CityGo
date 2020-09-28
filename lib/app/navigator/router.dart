@@ -6,6 +6,7 @@ import 'package:city_go/app/pages/route_map/route_map_page.dart';
 import 'package:city_go/app/pages/route_single/route_single_page.dart';
 import 'package:city_go/app/pages/visit_place_list/visit_list_page.dart';
 import 'package:city_go/app/pages/visit_place_single/visit_single_page.dart';
+import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -54,10 +55,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         settings: settings,
       );
     case ROUTE_SINGLE:
+      final route = settings.arguments as dynamic;
       return MaterialPageRoute(
         builder: (_) => RouteSinglePage(
-          clipped: settings.arguments,
-          client: sl(),
+          clipped: route,
+          bloc: sl.call<RouteSingleBloc>(param1: route.id),
         ),
       );
     case VISIT_SINGLE:
