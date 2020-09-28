@@ -1,13 +1,8 @@
-import 'dart:ui';
-
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
-import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/app/widgets/route_list/bloc/bloc.dart';
+import 'package:city_go/app/widgets/route_list/ui/route_list_item.dart';
 import 'package:city_go/data/core/localization_constants.dart';
-import 'package:city_go/data/core/service_locator.dart';
-import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
@@ -52,7 +47,7 @@ class _RouteListPageState extends State<RouteListPage> {
     final width = mq.size.width / 2;
 
     return Scaffold(
-      backgroundColor: orangeColor,
+      backgroundColor: Colors.grey[800],
       appBar: CityAppBar(title: Text(context.localization(PATHS_WORD))),
       body: StreamBuilder<RouteListBlocState>(
         stream: widget.bloc,
@@ -105,74 +100,3 @@ class _RouteListPageState extends State<RouteListPage> {
   }
 }
 
-/// Карточка маршрута
-class RouteItem extends StatelessWidget {
-  final RouteClipped route;
-  final HttpClient client = sl();
-
-  RouteItem({
-    Key key,
-    @required this.route,
-  })  : assert(route != null),
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () =>
-          Navigator.of(context).pushNamed(ROUTE_SINGLE, arguments: route),
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            // image: NetworkImage(client.getMediaPath(route.image.path)),
-            image: NetworkImage(route.image.path),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Container(
-          color: Colors.black38,
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(child: Container(), flex: 2),
-              Text(
-                context.localization(ROUTE_WORD),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              Text(
-                route.title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'MontserRat',
-                  fontSize: 22,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              Expanded(
-                flex: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      '${route.length.toString().replaceAll('.', ',')} ${context.localization(KILOMETERS_WORD)}',
-                      style: TextStyle(
-                        color: orangeColor,
-                        fontFamily: 'Jost',
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
