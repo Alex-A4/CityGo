@@ -21,6 +21,7 @@ class InfoAppBar extends StatelessWidget implements PreferredSizeWidget {
               icon: Icons.arrow_back,
               onTap: () => Navigator.of(context).pop(),
             ),
+            SizedBox(width: 20),
             Expanded(
               child: Text(
                 title,
