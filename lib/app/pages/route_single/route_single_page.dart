@@ -88,12 +88,15 @@ class _RouteSinglePageState extends State<RouteSinglePage> {
                             height: constraints.maxHeight,
                             width: constraints.maxWidth,
                             child: DraggableScrollableSheet(
+                              key: Key('DraggableScrollableSheet${route.id}'),
                               minChildSize: 0.1,
                               maxChildSize: heightPercent,
                               initialChildSize: 0.1,
                               builder: (_, c) {
                                 return SingleChildScrollView(
+                                  key: Key('DescriptionScrollView${route.id}'),
                                   child: DescriptionWidget(
+                                    key: Key('DescriptionWidget${route.id}'),
                                     description: route.description,
                                     minHeight: height,
                                   ),
