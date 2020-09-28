@@ -1,4 +1,5 @@
 import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/rating_button.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/data/helpers/http_client.dart';
@@ -80,7 +81,8 @@ class VisitItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     side: BorderSide(color: Colors.white, width: 5),
                   ),
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context)
+                      .pushNamed(VISIT_SINGLE, arguments: place),
                   child: Text(
                     context.localization(DETAIL_WORD).toUpperCase(),
                     style: TextStyle(

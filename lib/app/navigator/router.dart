@@ -5,6 +5,8 @@ import 'package:city_go/app/pages/route_list/route_list_page.dart';
 import 'package:city_go/app/pages/route_map/route_map_page.dart';
 import 'package:city_go/app/pages/route_single/route_single_page.dart';
 import 'package:city_go/app/pages/visit_place_list/visit_list_page.dart';
+import 'package:city_go/app/pages/visit_place_single/visit_single_page.dart';
+import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,7 @@ const PROFILE = '/profile';
 const VISIT_LIST = '/visit_list';
 const ROUTE_LIST = '/route_list';
 const ROUTE_SINGLE = '/route_single';
+const VISIT_SINGLE = '/visit_single';
 
 /// Роуты, в которые не нужно передавать данные, они основаны на DI
 final routes = <String, WidgetBuilder>{
@@ -55,6 +58,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (_) => RouteSinglePage(
           clipped: settings.arguments,
           client: sl(),
+        ),
+      );
+    case VISIT_SINGLE:
+      final place = settings.arguments;
+      return MaterialPageRoute(
+        builder: (_) => VisitSinglePage(
+          bloc: sl.call<VisitSingleBloc>(param1: place),
+          place: place,
         ),
       );
     default:
