@@ -95,7 +95,6 @@ class _RouteSinglePageState extends State<RouteSinglePage> {
                                 return SingleChildScrollView(
                                   child: DescriptionWidget(
                                     description: route.description,
-                                    controller: c,
                                     minHeight: height,
                                   ),
                                   controller: c,
