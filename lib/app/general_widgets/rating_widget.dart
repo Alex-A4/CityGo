@@ -1,3 +1,4 @@
+import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:flutter/material.dart';
 
 /// Виджет рейтинга, который показывает 5 звезд и заполняет их в соответствии
@@ -42,6 +43,6 @@ class RatingWidget extends StatelessWidget {
   }
 
   Widget getIcon(IconData icon) {
-    return Icon(icon, color: Colors.white, size: 30);
+    return Icon(icon, color: orangeColor, size: 30);
   }
 }
