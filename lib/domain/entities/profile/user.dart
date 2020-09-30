@@ -58,12 +58,15 @@ class InAppUser extends User {
 class VKUser extends User {
   /// Токен авторизации вконтакте
   static const VK_TOKEN = 'vkToken';
+  static const VK_ID = 'vkId';
   final String vkToken;
+  final int vkId;
 
   /// Токен авторизации на сервере, инициализируется после отправки запроса
   VKUser({
     @required String userName,
     @required this.vkToken,
+    this.vkId,
     String accessToken,
   }) : super(userName, UserType.VK, accessToken);
 
@@ -71,6 +74,7 @@ class VKUser extends User {
     return VKUser(
       userName: json[User.USER_NAME],
       vkToken: json[VK_TOKEN],
+      vkId: json[VK_ID],
       accessToken: json[User.ACCESS_TOKEN],
     );
   }
@@ -79,11 +83,12 @@ class VKUser extends User {
   Map<String, dynamic> toJson() {
     var json = super.toJson();
     json[VK_TOKEN] = vkToken;
+    json[VK_ID] = vkId;
     return json;
   }
 
   @override
-  List<Object> get props => [userName, type, accessToken, vkToken];
+  List<Object> get props => [userName, type, accessToken, vkToken, vkId];
 }
 
 /// Абстрактная фабрика по созданию пользователя из JSON формата
