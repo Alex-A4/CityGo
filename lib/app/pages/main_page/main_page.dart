@@ -22,14 +22,14 @@ class MainPage extends StatelessWidget {
     MALLS_WORD,
   ];
   final images = [
-    'assets/images/profile_background.jpg',
-    'assets/images/profile_background.jpg',
-    'assets/images/profile_background.jpg',
-    'assets/images/profile_background.jpg',
-    'assets/images/profile_background.jpg',
-    'assets/images/profile_background.jpg',
-    'assets/images/profile_background.jpg',
-    'assets/images/profile_background.jpg',
+    'assets/images/museums.jpg',
+    'assets/images/restaurant.jpg',
+    'assets/images/cathedrals.jpg',
+    'assets/images/active_recreation.jpg',
+    'assets/images/parks.jpg',
+    'assets/images/pubs.jpg',
+    'assets/images/theatres.jpg',
+    'assets/images/malls.jpg',
   ];
 
   MainPage({Key key}) : super(key: key);
@@ -55,7 +55,7 @@ class MainPage extends StatelessWidget {
         itemBuilder: (_, i) {
           if (i == 0)
             return PlaceTypeCard(
-              imagePath: 'assets/images/profile_background.jpg',
+              imagePath: 'assets/images/walks.jpg',
               nameCode: PATHS_WORD,
               onTap: () => Navigator.of(context).pushNamed(ROUTE_LIST),
               height: height,
