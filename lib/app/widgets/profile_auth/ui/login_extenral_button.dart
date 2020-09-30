@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Кнопка с картинкой для входа через внешние источники
 class LoginExternalButton extends StatelessWidget {
   final String imagePath;
-  final Function onTap;
+  final Function(BuildContext) onTap;
 
   LoginExternalButton({
     Key key,
@@ -17,7 +17,7 @@ class LoginExternalButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onTap,
+        onTap: () => onTap(context),
         borderRadius: BorderRadius.circular(90),
         child: Padding(
           padding: EdgeInsets.all(10),
