@@ -4,6 +4,7 @@ import 'package:city_go/app/general_widgets/toast_widget.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_single/ui/single_visit_content.dart';
+import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,13 @@ import 'package:flutter/material.dart';
 class VisitSinglePage extends StatefulWidget {
   final ClippedVisitPlace place;
   final VisitSingleBloc bloc;
+  final HttpClient client;
 
   VisitSinglePage({
     Key key = const Key('VisitSinglePage'),
     @required this.bloc,
     @required this.place,
+    @required this.client,
   })  : assert(bloc != null && place != null),
         super(key: key) {
     bloc.add(VisitSingleBlocLoadEvent());
@@ -57,8 +60,8 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      // widget.client.getMediaPath(widget.clipped.image.path),
-                      widget.place.logo.path,
+                      widget.client.getMediaPath(widget.place.logo.path),
+                      // widget.place.logo.path,
                     ),
                     fit: BoxFit.cover,
                   ),

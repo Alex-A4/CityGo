@@ -30,8 +30,8 @@ class VisitItem extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
-            // client.getMediaPath(place.logo.path),
-            place.logo.path,
+            client.getMediaPath(place.logo.path),
+            // place.logo.path,
           ),
           fit: BoxFit.cover,
         ),
