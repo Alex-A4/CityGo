@@ -36,10 +36,10 @@ class PlaceRepositoryImpl extends PlaceRepository {
       var response = await client.get(
         PLACE_PATH,
         queryParameters: {
-          'type': placeType.placeName,
+          'type': placeType.index,
           'sort': sortType.sortName,
-          'count': count,
-          'offset': offset,
+          'page_size': count,
+          'page': offset ~/ count + 1,
         },
         options: Options(
           responseType: ResponseType.json,
@@ -50,7 +50,8 @@ class PlaceRepositoryImpl extends PlaceRepository {
       if (response.statusCode != 200) throw '';
 
       var places = <ClippedVisitPlace>[];
-      response.data.forEach((p) => places.add(ClippedVisitPlace.fromJson(p)));
+      response.data['results']
+          .forEach((p) => places.add(ClippedVisitPlace.fromJson(p)));
       return FutureResponse.success(places);
     } on DioError catch (e) {
       return FutureResponse.fail(handleDioError(e));

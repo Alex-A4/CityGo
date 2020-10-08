@@ -31,7 +31,7 @@ class RouteRepositoryImpl implements RouteRepository {
 
       final response = await client.get(
         ROUTE_PATH,
-        queryParameters: {'offset': offset},
+        queryParameters: {'page': offset ~/ count + 1, 'page_size': count},
         options: Options(
           responseType: ResponseType.json,
           headers: {HttpHeaders.authorizationHeader: 'Token $token'},
@@ -41,7 +41,8 @@ class RouteRepositoryImpl implements RouteRepository {
       if (response.statusCode != 200) throw '';
 
       var routes = <RouteClipped>[];
-      response.data.forEach((r) => routes.add(RouteClipped.fromJson(r)));
+      response.data['results']
+          .forEach((r) => routes.add(RouteClipped.fromJson(r)));
       return FutureResponse.success(routes);
     } on DioError catch (e) {
       return FutureResponse.fail(handleDioError(e));
