@@ -60,6 +60,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (_) => RouteSinglePage(
           clipped: route,
           bloc: sl.call<RouteSingleBloc>(param1: route.id),
+          client: sl(),
         ),
       );
     case VISIT_SINGLE:
@@ -68,6 +69,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         builder: (_) => VisitSinglePage(
           bloc: sl.call<VisitSingleBloc>(param1: (place as dynamic).id),
           place: place,
+          client: sl(),
         ),
       );
     default:
