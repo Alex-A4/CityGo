@@ -241,8 +241,8 @@ class _PathMapPageState extends State<PathMapPage> {
       _southwestCoordinates = start;
       _northeastCoordinates = dest;
     } else {
-      _southwestCoordinates = start;
-      _northeastCoordinates = dest;
+      _southwestCoordinates = dest;
+      _northeastCoordinates = start;
     }
 
     // Accommodate the two locations within the
