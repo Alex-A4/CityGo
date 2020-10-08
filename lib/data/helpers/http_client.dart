@@ -55,7 +55,7 @@ abstract class HttpClient {
 
 /// Реализация клиента, который вызывает методы [dio] c дополненным путём сервера
 class HttpClientImpl extends HttpClient {
-  static const kServerUrl = 'http://serverUrl.ru';
+  static const kServerUrl = 'http://45.90.35.170';
   final Dio dio;
 
   HttpClientImpl(this.dio);
