@@ -133,7 +133,9 @@ class DescriptionImageCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          child: Image.network(image.path, fit: BoxFit.cover),
+          child: image.path == null
+              ? Container()
+              : Image.network(image?.path, fit: BoxFit.cover),
         ),
       ),
     );
