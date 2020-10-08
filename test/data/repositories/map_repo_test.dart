@@ -72,8 +72,7 @@ void main() {
         );
 
         // act
-        final response =
-            await mapRepository.calculatePathBetweenPoints(start, dest, walk);
+        await mapRepository.calculatePathBetweenPoints(start, dest, walk);
 
         // assert
         verify(polyline.getRouteBetweenCoordinates(MAP_API_KEY, any, any,
@@ -94,8 +93,7 @@ void main() {
         );
 
         // act
-        final response =
-            await mapRepository.calculatePathBetweenPoints(start, dest, car);
+        await mapRepository.calculatePathBetweenPoints(start, dest, car);
 
         // assert
         verify(polyline.getRouteBetweenCoordinates(MAP_API_KEY, any, any,
@@ -200,8 +198,6 @@ void main() {
       'должен вернуть результат',
       () async {
         // arrange
-        final sorted = route.sortedPoints;
-
         when(checker.hasInternet).thenAnswer((_) => Future.value(true));
         when(
           polyline.getRouteBetweenCoordinates(any, any, any,
