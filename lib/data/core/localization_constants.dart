@@ -40,3 +40,7 @@ const DESCRIPTION_WORD = 'description_word';
 const SORT_BY_WORD = 'sort_by_word';
 const DETAIL_WORD = 'detail_word';
 const WORK_TIME = 'work_time';
+const SERVER_ERROR = 'server_error';
+const SERVER_TECH_SERVICE = 'server_tech_service';
+const DATA_NOT_FOUND = 'data_not_found';
+const REPEAT_AUTH = 'repeat_auth';

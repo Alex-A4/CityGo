@@ -7,6 +7,14 @@ String handleDioError(DioError e) {
   if (code == null) throw UNEXPECTED_ERROR;
 
   switch (code) {
+    case 401:
+      return REPEAT_AUTH;
+    case 404:
+      return DATA_NOT_FOUND;
+    case 500:
+      return SERVER_ERROR;
+    case 503:
+      return SERVER_TECH_SERVICE;
     default:
       return UNEXPECTED_ERROR;
   }
