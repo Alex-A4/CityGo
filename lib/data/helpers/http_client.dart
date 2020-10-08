@@ -7,6 +7,8 @@ String handleDioError(DioError e) {
   if (code == null) throw UNEXPECTED_ERROR;
 
   switch (code) {
+    case 400:
+      return INCORRECT_DATA;
     case 401:
       return REPEAT_AUTH;
     case 404:
@@ -128,5 +130,8 @@ class HttpClientImpl extends HttpClient {
   }
 
   @override
-  String getMediaPath(String path) => '$kServerUrl/$path';
+  String getMediaPath(String path) {
+    if (path == null) return null;
+    return '$kServerUrl/$path';
+  }
 }
