@@ -12,6 +12,8 @@ class LatLng extends Equatable {
   LatLng(this.latitude, this.longitude);
 
   factory LatLng.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
+
     return LatLng(json['lat'], json['lng']);
   }
 
