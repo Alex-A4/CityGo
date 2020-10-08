@@ -34,7 +34,7 @@ class RouteRepositoryImpl implements RouteRepository {
         queryParameters: {'offset': offset},
         options: Options(
           responseType: ResponseType.json,
-          headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+          headers: {HttpHeaders.authorizationHeader: 'Token $token'},
         ),
       );
 
@@ -62,7 +62,7 @@ class RouteRepositoryImpl implements RouteRepository {
         ROUTE_PATH + '$id',
         options: Options(
           responseType: ResponseType.json,
-          headers: {HttpHeaders.authorizationHeader: 'Bearer $token'},
+          headers: {HttpHeaders.authorizationHeader: 'Token $token'},
         ),
       );
 
