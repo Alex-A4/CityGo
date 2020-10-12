@@ -31,7 +31,7 @@ class RouteRepositoryImpl implements RouteRepository {
 
       final response = await client.get(
         ROUTE_PATH,
-        queryParameters: {'page': offset ~/ count + 1, 'page_size': count},
+        queryParameters: {'offset': offset, 'limit': count},
         options: Options(
           responseType: ResponseType.json,
           headers: {HttpHeaders.authorizationHeader: 'Token $token'},

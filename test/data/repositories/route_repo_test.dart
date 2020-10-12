@@ -16,11 +16,7 @@ void main() {
     'title': 'Some title',
     'rating': 3.1,
     'length': 2.1,
-    'image': {
-      'title': 'some title',
-      'description': 'Some description',
-      'image': '/src/image.jpg',
-    },
+    'logo': '/src/image.jpg',
   };
   final id = 123;
   final route = <String, dynamic>{
@@ -32,12 +28,8 @@ void main() {
     'goTime': '1 час, 5 минут',
     'general': 'Some general info',
     'audio': '/src/someMP.mp3',
-    'image': {
-      'title': 'some title',
-      'description': 'Some description',
-      'image': '/src/image.jpg',
-    },
-    'cords': [
+    'logo': '/src/image.jpg',
+    'parts': [
       {
         'lat': 41.512,
         'lng': 41.42,
@@ -104,7 +96,9 @@ void main() {
               options: anyNamed('options')),
         ).thenAnswer(
           (_) => Future.value(
-            Response(data: [clippedRoute], statusCode: 200),
+            Response(data: {
+              'results': [clippedRoute]
+            }, statusCode: 200),
           ),
         );
 
@@ -116,7 +110,10 @@ void main() {
         verify(checker.hasInternet);
         verify(http.get(
           RouteRepositoryImpl.ROUTE_PATH,
-          queryParameters: {'offset': offset},
+          queryParameters: {
+            'offset': offset,
+            'limit': RouteRepositoryImpl.count,
+          },
           options: anyNamed('options'),
         ));
 

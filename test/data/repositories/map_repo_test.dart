@@ -23,7 +23,7 @@ void main() {
   final walk = PathType.Walk;
   final route = Route.fromJson({
     'length': 20.0,
-    'cords': [
+    'parts': [
       {'order': 3, 'lat': 33.0, 'lng': 0.0},
       {'order': 1, 'lat': 31.0, 'lng': 0.0},
       {'order': 2, 'lat': 32.0, 'lng': 0.0},

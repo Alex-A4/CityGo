@@ -6,6 +6,7 @@ import 'package:city_go/data/helpers/network_checker.dart';
 import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:dio/dio.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 
 export 'package:city_go/domain/entities/future_response.dart';
@@ -25,22 +26,30 @@ class PlaceRepositoryImpl extends PlaceRepository {
     @required String token,
     @required int offset,
     @required PlaceSortType sortType,
+    LatLng latLng,
   }) async {
     assert(placeType != null &&
         token != null &&
         offset != null &&
         sortType != null);
+    assert(latLng != null && sortType == PlaceSortType.Distance ||
+        sortType != PlaceSortType.Distance);
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
+      final params = {
+        'type': placeType.index,
+        'sort': sortType.sortName,
+        'limit': count,
+        'offset': offset,
+      };
+      if (latLng != null) {
+        params['lat'] = latLng.latitude;
+        params['lng'] = latLng.longitude;
+      }
 
       var response = await client.get(
         PLACE_PATH,
-        queryParameters: {
-          'type': placeType.index,
-          'sort': sortType.sortName,
-          'page_size': count,
-          'page': offset ~/ count + 1,
-        },
+        queryParameters: params,
         options: Options(
           responseType: ResponseType.json,
           headers: {HttpHeaders.authorizationHeader: 'Token $token'},
