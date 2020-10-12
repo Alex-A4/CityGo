@@ -5,7 +5,6 @@ import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/repositories/map/map_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/mockito.dart';
 
@@ -36,7 +35,7 @@ void main() {
 
   test(
     'должен инициализироваться с состоянием без данных',
-        () async {
+    () async {
       // assert
       expect(bloc.state, PathMapBlocMapState(type: walk));
     },
@@ -45,10 +44,8 @@ void main() {
   group('PathMapBlocInitEvent', () {
     test(
       'должен инициализировать гугл контроллер',
-          () async {
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
+      () async {
+        when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
 
         // act
         bloc.add(PathMapBlocInitEvent(controller));
@@ -69,17 +66,15 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
     test(
       'должен инициализировать позицию пользователя с ошибкой, что сервис выключен',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(false));
+        when(geolocator.getPosition()).thenThrow(LOCATION_SERVICE_DISABLED);
 
         // act
         bloc.add(PathMapBlocInitEvent(controller));
@@ -100,18 +95,16 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
     test(
       '''должен инициализировать позицию пользователя с ошибкой, а также не 
       должен инициализировать точки маршрута (нет позиции пользователя)''',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
+        when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
 
         // act
         bloc.add(PathMapBlocInitEvent(controller));
@@ -132,23 +125,16 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
     test(
       'должен инициализировать позицию пользователя',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenAnswer(
-              (_) =>
-              Future.value(Position(
-                  latitude: userPosition.latitude,
-                  longitude: userPosition.longitude)),
-        );
+        when(geolocator.getPosition())
+            .thenAnswer((_) => Future.value(userPosition));
 
         // act
         bloc.add(PathMapBlocInitEvent(controller));
@@ -169,23 +155,16 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
     test(
       'должен инициализировать точки маршрута с ошибкой',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenAnswer(
-              (_) =>
-              Future.value(Position(
-                  latitude: userPosition.latitude,
-                  longitude: userPosition.longitude)),
-        );
+        when(geolocator.getPosition())
+            .thenAnswer((_) => Future.value(userPosition));
         when(repo.calculatePathBetweenPoints(any, any, any))
             .thenAnswer((_) => Future.value(FutureResponse.fail(NO_INTERNET)));
 
@@ -214,29 +193,21 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
         verify(repo.calculatePathBetweenPoints(userPosition, dest, walk));
       },
     );
 
     test(
       'должен инициализировать точки маршрута успешно',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenAnswer(
-              (_) =>
-              Future.value(Position(
-                  latitude: userPosition.latitude,
-                  longitude: userPosition.longitude)),
-        );
+        when(geolocator.getPosition())
+            .thenAnswer((_) => Future.value(userPosition));
         when(repo.calculatePathBetweenPoints(any, any, any)).thenAnswer(
-              (_) =>
-              Future.value(
-                FutureResponse.success(MapRoute(10, [userPosition, dest])),
-              ),
+          (_) => Future.value(
+            FutureResponse.success(MapRoute(10, [userPosition, dest])),
+          ),
         );
 
         // act
@@ -264,8 +235,7 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
         verify(repo.calculatePathBetweenPoints(userPosition, dest, walk));
       },
     );
@@ -274,15 +244,14 @@ void main() {
   group('PathMapBlocChangeType', () {
     test(
       'должен изменить тип и расчитать новые значения маршрута',
-          () async {
+      () async {
         // arrange
         expect(bloc.type, walk);
         bloc.userPosition = FutureResponse.success(userPosition);
         when(repo.calculatePathBetweenPoints(any, any, any)).thenAnswer(
-              (_) =>
-              Future.value(
-                FutureResponse.success(MapRoute(10, [userPosition, dest])),
-              ),
+          (_) => Future.value(
+            FutureResponse.success(MapRoute(10, [userPosition, dest])),
+          ),
         );
 
         // act
@@ -308,10 +277,9 @@ void main() {
   group('PathMapBlocFindLocation', () {
     test(
       'должен инициализировать позицию пользователя с ошибкой, что сервис выключен',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(false));
+        when(geolocator.getPosition()).thenThrow(LOCATION_SERVICE_DISABLED);
 
         // act
         bloc.add(PathMapBlocFindLocation());
@@ -332,18 +300,16 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
     test(
       '''должен инициализировать позицию пользователя с ошибкой, а также не 
       должен инициализировать точки маршрута (нет позиции пользователя)''',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
+        when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
 
         // act
         bloc.add(PathMapBlocFindLocation());
@@ -364,23 +330,16 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
     test(
       'должен инициализировать позицию пользователя',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenAnswer(
-              (_) =>
-              Future.value(Position(
-                  latitude: userPosition.latitude,
-                  longitude: userPosition.longitude)),
-        );
+        when(geolocator.getPosition())
+            .thenAnswer((_) => Future.value(userPosition));
 
         // act
         bloc.add(PathMapBlocFindLocation());
@@ -401,23 +360,16 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
     test(
       'должен инициализировать точки маршрута с ошибкой',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenAnswer(
-              (_) =>
-              Future.value(Position(
-                  latitude: userPosition.latitude,
-                  longitude: userPosition.longitude)),
-        );
+        when(geolocator.getPosition())
+            .thenAnswer((_) => Future.value(userPosition));
         when(repo.calculatePathBetweenPoints(any, any, any))
             .thenAnswer((_) => Future.value(FutureResponse.fail(NO_INTERNET)));
 
@@ -446,29 +398,21 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
         verify(repo.calculatePathBetweenPoints(userPosition, dest, walk));
       },
     );
 
     test(
       'должен инициализировать точки маршрута успешно',
-          () async {
+      () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenAnswer(
-              (_) =>
-              Future.value(Position(
-                  latitude: userPosition.latitude,
-                  longitude: userPosition.longitude)),
-        );
+        when(geolocator.getPosition())
+            .thenAnswer((_) => Future.value(userPosition));
         when(repo.calculatePathBetweenPoints(any, any, any)).thenAnswer(
-              (_) =>
-              Future.value(
-                FutureResponse.success(MapRoute(10, [userPosition, dest])),
-              ),
+          (_) => Future.value(
+            FutureResponse.success(MapRoute(10, [userPosition, dest])),
+          ),
         );
 
         // act
@@ -496,8 +440,7 @@ void main() {
             )
           ]),
         );
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
         verify(repo.calculatePathBetweenPoints(userPosition, dest, walk));
       },
     );
