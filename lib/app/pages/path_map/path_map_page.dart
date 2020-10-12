@@ -88,11 +88,11 @@ class _PathMapPageState extends State<PathMapPage> {
 
           if (state.userPosition?.hasError == true) {
             WidgetsBinding.instance.addPostFrameCallback((_) =>
-                CityToast.showToastAppLevel(state.userPosition.errorCode));
+                CityToast.showToast(context, state.userPosition.errorCode));
           }
           if (state.route?.hasError == true) {
             WidgetsBinding.instance.addPostFrameCallback(
-                (_) => CityToast.showToastAppLevel(state.route.errorCode));
+                (_) => CityToast.showToast(context, state.route.errorCode));
           }
 
           return Stack(

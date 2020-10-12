@@ -100,12 +100,12 @@ class _RouteMapPageState extends State<RouteMapPage> {
           if (state.userPosition?.hasError == true && bloc.showError) {
             bloc.showError = false;
             WidgetsBinding.instance.addPostFrameCallback((_) =>
-                CityToast.showToastAppLevel(state.userPosition.errorCode));
+                CityToast.showToast(context, state.userPosition.errorCode));
           }
           if (state.route?.hasError == true && bloc.showError) {
             bloc.showError = false;
             WidgetsBinding.instance.addPostFrameCallback(
-                (_) => CityToast.showToastAppLevel(state.route.errorCode));
+                (_) => CityToast.showToast(context, state.route.errorCode));
           }
 
           return Stack(
@@ -186,7 +186,10 @@ class _RouteMapPageState extends State<RouteMapPage> {
                 bottom: 55,
                 child: AdaptiveButton.orangeLight(
                   icon: Icons.map,
-                  onTap: () => setState(() => needShowRoute = true),
+                  onTap: () {
+                    bloc.add(RouteMapBlocUpdatePath());
+                    setState(() => needShowRoute = true);
+                  },
                 ),
               ),
             ],
