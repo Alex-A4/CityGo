@@ -13,11 +13,7 @@ void main() {
         'title': 'Some title',
         'rating': 3.1,
         'length': 2.1,
-        'image': {
-          'title': 'some title',
-          'description': 'Some description',
-          'image': '/src/image.jpg',
-        },
+        'logo': '/src/image.jpg',
       };
 
       // act
@@ -28,7 +24,7 @@ void main() {
       expect(route.title, json['title']);
       expect(route.rating, json['rating']);
       expect(route.length, json['length']);
-      expect(route.image, isNotNull);
+      expect(route.logo, json['logo']);
     },
   );
 
@@ -42,15 +38,11 @@ void main() {
         'description': 'Some description',
         'rating': 3.1,
         'length': 2.1,
-        'goTime': '1 час, 5 минут',
+        'go_time': '1 час, 5 минут',
         'general': 'Some general info',
         'audio': '/src/someMP.mp3',
-        'image': {
-          'title': 'some title',
-          'description': 'Some description',
-          'image': '/src/image.jpg',
-        },
-        'cords': [
+        'logo': '/src/image.jpg',
+        'parts': [
           {
             'lat': 41.512,
             'lng': 41.42,
@@ -67,7 +59,7 @@ void main() {
             'website': 'http://sdfsd.ru',
             'type': 1,
             'general': 'Какая-то инфа',
-            'cords': {
+            'coords': {
               'lat': 23.1252,
               'lng': 52.2512,
             }
@@ -83,12 +75,12 @@ void main() {
       expect(route.title, json['title']);
       expect(route.description, json['description']);
       expect(route.rating, json['rating']);
-      expect(route.goTime, json['goTime']);
+      expect(route.goTime, json['go_time']);
       expect(route.generalInfo, json['general']);
       expect(route.audio, json['audio']);
-      expect(route.cords.length, json['cords'].length);
+      expect(route.cords.length, json['parts'].length);
       expect(route.routePlaces.length, json['places'].length);
-      expect(route.image, isNotNull);
+      expect(route.logo, json['logo']);
     },
   );
 
@@ -97,7 +89,7 @@ void main() {
     () async {
       // arrange
       final route = Route.fromJson({
-        'cords': [
+        'parts': [
           {'order': 3, 'lat': 33.0, 'lng': 0.0},
           {'order': 1, 'lat': 31.0, 'lng': 0.0},
           {'order': 2, 'lat': 32.0, 'lng': 0.0},

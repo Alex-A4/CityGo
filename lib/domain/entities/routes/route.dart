@@ -30,24 +30,24 @@ class Route extends RouteClipped {
     this.audio,
     this.routePlaces,
     this.cords,
-    ImageSrc image,
+    String image,
   ) : super(id, title, length, image, rating);
 
   factory Route.fromJson(Map<String, dynamic> json) {
     return Route(
       json['id'],
-      json['title'],
-      json['description'],
-      json['rating'],
-      json['length'],
-      json['goTime'],
-      json['general'],
+      json['title'] ?? '',
+      json['description'] ?? '',
+      json['rating'] ?? 0.0,
+      json['length'] ?? 0.0,
+      json['go_time'] ?? '',
+      json['general'] ?? '',
       json['audio'],
       json['places']
           ?.map<FullVisitPlace>((p) => FullVisitPlace.fromJson(p))
           ?.toList(),
-      json['cords']?.map<RouteCord>((c) => RouteCord.fromJson(c))?.toList(),
-      ImageSrc.fromJson(json['image']),
+      json['parts']?.map<RouteCord>((c) => RouteCord.fromJson(c))?.toList(),
+      json['logo'],
     );
   }
 

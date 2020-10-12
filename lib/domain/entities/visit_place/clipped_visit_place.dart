@@ -1,4 +1,3 @@
-import 'package:city_go/domain/entities/visit_place/image_src.dart';
 import 'package:equatable/equatable.dart';
 
 /// Обрезанная модель объектов для посещения.
@@ -18,7 +17,7 @@ class ClippedVisitPlace extends Equatable {
   /// Рейтинг объекта
   final double rating;
 
-  final ImageSrc logo;
+  final String logo;
 
   ClippedVisitPlace(this.id, this.name, this.workTime, this.rating, this.logo);
 
@@ -26,10 +25,10 @@ class ClippedVisitPlace extends Equatable {
   factory ClippedVisitPlace.fromJson(Map<String, dynamic> json) {
     return ClippedVisitPlace(
       json['id'],
-      json['name'],
+      json['name'] ?? '',
       json['workTime'] ?? '',
-      json['rating'],
-      ImageSrc.fromJson(json['logo']),
+      json['rating'] ?? 0.0,
+      json['logo'],
     );
   }
 

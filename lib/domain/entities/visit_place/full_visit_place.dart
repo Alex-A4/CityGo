@@ -35,7 +35,7 @@ class FullVisitPlace extends ClippedVisitPlace {
     @required String title,
     @required String workTime,
     @required double rating,
-    @required ImageSrc logo,
+    @required String logo,
     @required this.description,
     @required this.imageSrc,
     @required this.objectAddress,
@@ -48,19 +48,19 @@ class FullVisitPlace extends ClippedVisitPlace {
   factory FullVisitPlace.fromJson(Map<String, dynamic> json) {
     return FullVisitPlace(
       id: json['id'],
-      title: json['name'],
-      workTime: json['workTime'],
-      rating: json['rating'],
-      logo: ImageSrc.fromJson(json['logo']),
+      title: json['name'] ?? '',
+      workTime: json['workTime'] ?? '',
+      rating: json['rating'] ?? 0.0,
+      logo: json['logo'],
       imageSrc:
-          json['imgs']?.map<ImageSrc>((i) => ImageSrc.fromJson(i))?.toList() ??
+          json['images']?.map<ImageSrc>((i) => ImageSrc.fromJson(i))?.toList() ??
               [],
-      description: json['description'],
-      objectAddress: json['address'],
+      description: json['description'] ?? '',
+      objectAddress: json['address'] ?? '',
       audioSrc: json['audio'],
-      objectWebSite: json['website'],
-      generalInfo: json['general'],
-      latLng: LatLng.fromJson(json['cords']),
+      objectWebSite: json['website'] ?? '',
+      generalInfo: json['general'] ?? '',
+      latLng: LatLng.fromJson(json['coords']),
     );
   }
 

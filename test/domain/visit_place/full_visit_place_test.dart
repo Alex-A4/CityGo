@@ -7,7 +7,7 @@ void main() {
     'name': 'Ярославский музей-заповедник',
     'workTime': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
     'rating': 4.7,
-    'imgs': [
+    'images': [
       {
         'title': 'some title',
         'description': 'Some description',
@@ -18,22 +18,18 @@ void main() {
     'description': 'description very big',
     'audio': 'audio/1.mp4',
     'website': 'http://somesite.ru',
-    'cords': {
+    'coords': {
       'lat': 47.23452,
       'lng': 25.32612,
     },
-    'logo': {
-      'title': 'some title',
-      'description': 'Some description',
-      'image': '/src/image.jpg',
-    },
+    'logo': '/src/image.jpg',
   };
   final json2 = <String, dynamic>{
     'id': 1234,
     'name': 'Ярославский музей-заповедник',
     'workTime': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
     'rating': 4.7,
-    'imgs': [
+    'images': [
       {
         'title': 'some title',
         'description': 'Some description',
@@ -42,7 +38,7 @@ void main() {
     ],
     'general': 'Some general info',
     'description': 'description very big',
-    'cords': {
+    'coords': {
       'lat': 47.23452,
       'lng': 25.32612,
     }
@@ -60,13 +56,13 @@ void main() {
       expect(place.rating, json1['rating']);
       expect(place.workTime, json1['workTime']);
       expect(place.description, json1['description']);
-      expect(place.objectAddress, json1['address']);
+      expect(place.objectAddress, '');
       expect(place.objectWebSite, json1['website']);
       expect(place.generalInfo, json1['general']);
       expect(place.audioSrc, json1['audio']);
-      expect(place.imageSrc.length, json1['imgs'].length);
-      expect(place.latLng.latitude, json1['cords']['lat']);
-      expect(place.latLng.longitude, json1['cords']['lng']);
+      expect(place.imageSrc.length, json1['images'].length);
+      expect(place.latLng.latitude, json1['coords']['lat']);
+      expect(place.latLng.longitude, json1['coords']['lng']);
     },
   );
 
@@ -82,13 +78,13 @@ void main() {
       expect(place.rating, json2['rating']);
       expect(place.workTime, json2['workTime']);
       expect(place.description, json2['description']);
-      expect(place.objectAddress, json2['address']);
-      expect(place.objectWebSite, null);
+      expect(place.objectAddress, '');
+      expect(place.objectWebSite, '');
       expect(place.generalInfo, json2['general']);
       expect(place.audioSrc, null);
-      expect(place.imageSrc.length, json2['imgs'].length);
-      expect(place.latLng.latitude, json2['cords']['lat']);
-      expect(place.latLng.longitude, json2['cords']['lng']);
+      expect(place.imageSrc.length, json2['images'].length);
+      expect(place.latLng.latitude, json2['coords']['lat']);
+      expect(place.latLng.longitude, json2['coords']['lng']);
     },
   );
 }
