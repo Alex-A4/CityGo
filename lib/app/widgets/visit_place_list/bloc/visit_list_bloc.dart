@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:city_go/data/core/localization_constants.dart';
+import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -12,12 +14,14 @@ class VisitListBloc extends Bloc<VisitListBlocEvent, VisitListBlocState> {
   final PlaceRepository repository;
   final PlaceType type;
   final ProfileStorage storage;
+  final Geolocator geolocator;
 
   VisitListBloc({
     @required this.type,
     @required this.repository,
     @required this.storage,
-    this.sortType = PlaceSortType.Proximity,
+    @required this.geolocator,
+    this.sortType = PlaceSortType.Rating,
   }) : super(VisitListBlocPlaceState(type, [], sortType, false));
 
   PlaceSortType sortType;
@@ -46,11 +50,22 @@ class VisitListBloc extends Bloc<VisitListBlocEvent, VisitListBlocState> {
       yield VisitListBlocPlaceState(
           type, places, sortType, true, USER_NOT_AUTH);
     else {
+      LatLng latLng;
+      if (sortType == PlaceSortType.Distance) {
+        try {
+          latLng = await geolocator.getPosition();
+        } catch (e) {
+          yield VisitListBlocPlaceState(type, places, sortType, true, e);
+          return;
+        }
+      }
+
       var response = await repository.getPlaces(
         placeType: type,
         token: user.accessToken,
         offset: places.length,
         sortType: sortType,
+        latLng: latLng,
       );
       if (response.hasError)
         yield VisitListBlocPlaceState(

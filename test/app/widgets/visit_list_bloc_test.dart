@@ -1,36 +1,47 @@
 import 'package:city_go/app/widgets/visit_place_list/bloc/bloc.dart';
 import 'package:city_go/data/core/localization_constants.dart';
+import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/profile/profile.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/mockito.dart';
 
 class MockPlaceRepository extends Mock implements PlaceRepository {}
 
 class MockProfileStorage extends Mock implements ProfileStorage {}
 
+class MockGeolocator extends Mock implements Geolocator {}
+
 void main() {
   final type = PlaceType.Museums;
   final logo = ImageSrc('/src/logo.jpg', 'description', 'title');
   final user = InAppUser(userName: 'name', accessToken: 'token');
-  final place1 = ClippedVisitPlace(10, 'name1', '10:00-18:00', 3.3, logo);
-  final place2 = ClippedVisitPlace(12, 'name2', '09:00-18:00', 4.2, logo);
+  final place1 = ClippedVisitPlace(10, 'name1', '10:00-18:00', 3.3, logo.path);
+  final place2 = ClippedVisitPlace(12, 'name2', '09:00-18:00', 4.2, logo.path);
 
-  final defaultSort = PlaceSortType.Proximity;
-  final changedSort = PlaceSortType.Random;
+  final defaultSort = PlaceSortType.Rating;
+  final changedSort = PlaceSortType.Distance;
 
   MockPlaceRepository repository;
   MockProfileStorage storage;
+  MockGeolocator geolocator;
   // ignore: close_sinks
   VisitListBloc bloc;
 
   setUp(() {
     repository = MockPlaceRepository();
     storage = MockProfileStorage();
-    bloc = VisitListBloc(repository: repository, type: type, storage: storage);
+    geolocator = MockGeolocator();
+    bloc = VisitListBloc(
+      repository: repository,
+      type: type,
+      storage: storage,
+      geolocator: geolocator,
+    );
   });
 
   test(
@@ -231,13 +242,16 @@ void main() {
       'должен поменять локальную переменную и сделать запрос на сервер',
       () async {
         // arrange
+        final latLng = LatLng(57.0, 38.0);
+        when(geolocator.getPosition()).thenAnswer((_) => Future.value(latLng));
         when(storage.profile).thenReturn(Profile(user: user));
         when(
           repository.getPlaces(
               placeType: anyNamed('placeType'),
               token: anyNamed('token'),
               offset: anyNamed('offset'),
-              sortType: anyNamed('sortType')),
+              sortType: anyNamed('sortType'),
+              latLng: anyNamed('latLng')),
         ).thenAnswer(
           (_) => Future.value(FutureResponse.success([place1])),
         );
@@ -260,7 +274,72 @@ void main() {
           token: user.accessToken,
           offset: 0,
           sortType: changedSort,
+          latLng: latLng,
         ));
+      },
+    );
+
+    test(
+      'должен поменять локальную переменную и не сделать запрос, если геолокация выключена',
+      () async {
+        // arrange
+        when(geolocator.getPosition()).thenThrow(LOCATION_SERVICE_DISABLED);
+        when(storage.profile).thenReturn(Profile(user: user));
+        expect(bloc.sortType, defaultSort);
+
+        // act
+        bloc.add(VisitListBlocChangeSortType(changedSort));
+
+        // assert
+        await expectLater(
+          bloc,
+          emitsInOrder([
+            VisitListBlocPlaceLoadingState(type, [], changedSort),
+            VisitListBlocPlaceState(
+                type, [], changedSort, true, LOCATION_SERVICE_DISABLED),
+          ]),
+        );
+        expect(bloc.sortType, changedSort);
+        verifyNever(
+          repository.getPlaces(
+              placeType: anyNamed('placeType'),
+              token: anyNamed('token'),
+              offset: anyNamed('offset'),
+              sortType: anyNamed('sortType'),
+              latLng: anyNamed('latLng')),
+        );
+      },
+    );
+
+    test(
+      'должен поменять локальную переменную и не сделать запрос, если геолокация заблокирована',
+      () async {
+        // arrange
+        when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
+        when(storage.profile).thenReturn(Profile(user: user));
+        expect(bloc.sortType, defaultSort);
+
+        // act
+        bloc.add(VisitListBlocChangeSortType(changedSort));
+
+        // assert
+        await expectLater(
+          bloc,
+          emitsInOrder([
+            VisitListBlocPlaceLoadingState(type, [], changedSort),
+            VisitListBlocPlaceState(
+                type, [], changedSort, true, LOCATION_ACCESS_DENIED),
+          ]),
+        );
+        expect(bloc.sortType, changedSort);
+        verifyNever(
+          repository.getPlaces(
+              placeType: anyNamed('placeType'),
+              token: anyNamed('token'),
+              offset: anyNamed('offset'),
+              sortType: anyNamed('sortType'),
+              latLng: anyNamed('latLng')),
+        );
       },
     );
 
@@ -282,10 +361,11 @@ void main() {
         expect(bloc.sortType, defaultSort);
         verifyNever(storage.profile);
         verifyNever(repository.getPlaces(
-            placeType: anyNamed('placeType'),
-            token: anyNamed('token'),
-            offset: anyNamed('offset'),
-            sortType: anyNamed('sortType')));
+          placeType: anyNamed('placeType'),
+          token: anyNamed('token'),
+          offset: anyNamed('offset'),
+          sortType: anyNamed('sortType'),
+        ));
       },
     );
   });
