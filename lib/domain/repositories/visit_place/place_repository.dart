@@ -1,6 +1,7 @@
 import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 
 export 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
@@ -19,7 +20,7 @@ enum PlaceType {
 }
 
 /// Способ сортировки мест
-enum PlaceSortType { Proximity, Rating, Random }
+enum PlaceSortType { Distance, Rating, Random }
 
 /// Расширение для получения названия места по его типу.
 /// Используется в репозитории, чтобы упростить формирование данных
@@ -52,8 +53,8 @@ extension PlaceTypeString on PlaceType {
 extension PlaceSortString on PlaceSortType {
   String get sortName {
     switch (this) {
-      case PlaceSortType.Proximity:
-        return 'proximity';
+      case PlaceSortType.Distance:
+        return 'distance';
       case PlaceSortType.Rating:
         return 'rating';
       case PlaceSortType.Random:
@@ -68,15 +69,18 @@ extension PlaceSortString on PlaceSortType {
 /// посетить.
 abstract class PlaceRepository {
   /// Получение списка обрезанных мест по входным параметрам.
-  /// [offset] и [count] - параметры для реализации пагинации.
+  /// [offset] - параметр для реализации пагинации.
   /// [placeType] - тип объекта, который нужно получить
   /// [sortType] - способ сортировки.
   /// [token] - токен авторизации пользователем на нашем сервере.
+  /// [latLng] - координаты, относительно которых нужно делать сортировку, если
+  /// пользователь выбрал сортировку по близости.
   Future<FutureResponse<List<ClippedVisitPlace>>> getPlaces({
     @required PlaceType placeType,
     @required String token,
     @required int offset,
     @required PlaceSortType sortType,
+    LatLng latLng,
   });
 
   /// Получение полного объекта конкретного места.
