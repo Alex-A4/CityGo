@@ -28,13 +28,12 @@ class VisitItem extends StatelessWidget {
       constraints: BoxConstraints(minHeight: 150),
       height: height,
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(
-            client.getMediaPath(place.logo.path),
-            // place.logo.path,
-          ),
-          fit: BoxFit.cover,
-        ),
+        image: place.logo == null
+            ? null
+            : DecorationImage(
+                image: NetworkImage(client.getMediaPath(place.logo)),
+                fit: BoxFit.cover,
+              ),
       ),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),

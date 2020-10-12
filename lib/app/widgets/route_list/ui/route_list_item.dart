@@ -25,10 +25,12 @@ class RouteItem extends StatelessWidget {
           Navigator.of(context).pushNamed(ROUTE_SINGLE, arguments: route),
       child: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: NetworkImage(client.getMediaPath(route.image.path)),
-            fit: BoxFit.cover,
-          ),
+          image: route.logo == null
+              ? null
+              : DecorationImage(
+                  image: NetworkImage(client.getMediaPath(route.logo)),
+                  fit: BoxFit.cover,
+                ),
         ),
         child: Container(
           color: Colors.black38,
