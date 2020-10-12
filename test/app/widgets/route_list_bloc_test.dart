@@ -15,8 +15,13 @@ class MockProfileStorage extends Mock implements ProfileStorage {}
 
 void main() {
   final user = InAppUser(userName: 'name', accessToken: 'token');
-  final route = RouteClipped(123, 'Some title', 2.1,
-      ImageSrc('/src/image.jpg', 'Some description', 'some title'), 3.3);
+  final route = RouteClipped(
+    123,
+    'Some title',
+    2.1,
+    '/src/image.jpg',
+    3.3,
+  );
   MockRouteRepo repository;
   MockProfileStorage storage;
   // ignore: close_sinks

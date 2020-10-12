@@ -49,11 +49,7 @@ void main() {
         'order': 1,
       }),
     ],
-    ImageSrc.fromJson({
-      'title': 'some title',
-      'description': 'Some description',
-      'image': '/src/image.jpg',
-    }),
+    '/src/image.jpg',
   );
 
   MockRouteRepo repository;
