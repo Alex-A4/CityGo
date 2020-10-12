@@ -71,17 +71,9 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
 
   Future<void> findUserLocation() async {
     try {
-      bool isEnabled = await geolocator.isLocationServiceEnabled();
-      if (isEnabled) {
-        var position = await geolocator.getCurrentPosition();
-        userPosition = FutureResponse.success(
-            LatLng(position.latitude, position.longitude));
-      } else {
-        userPosition = FutureResponse.fail(LOCATION_SERVICE_DISABLED);
-        showError = true;
-      }
-    } catch (_) {
-      userPosition = FutureResponse.fail(LOCATION_ACCESS_DENIED);
+      userPosition = FutureResponse.success(await geolocator.getPosition());
+    } catch (e) {
+      userPosition = FutureResponse.fail(e);
       showError = true;
     }
   }

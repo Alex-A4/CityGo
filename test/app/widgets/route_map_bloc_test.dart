@@ -6,7 +6,6 @@ import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:city_go/domain/repositories/map/map_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/mockito.dart';
 
@@ -72,9 +71,7 @@ void main() {
       'должен инициализировать гугл контроллер',
       () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
+        when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
 
         // act
         bloc.add(RouteMapBlocInitEvent(controller));
@@ -95,8 +92,7 @@ void main() {
         );
 
         expect(bloc.showError, isTrue);
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
@@ -104,9 +100,7 @@ void main() {
       'должен инициализировать точки маршрута с ошибкой',
       () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
+        when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
         when(repo.calculatePathForRoute(any))
             .thenAnswer((_) => Future.value(FutureResponse.fail(NO_INTERNET)));
 
@@ -134,8 +128,7 @@ void main() {
         );
         expect(bloc.showError, isTrue);
         verify(repo.calculatePathForRoute(route));
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
@@ -143,13 +136,8 @@ void main() {
       'должен инициализировать точки маршрута успешно',
       () async {
         // arrange
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenAnswer(
-          (_) => Future.value(Position(
-              latitude: userPosition.latitude,
-              longitude: userPosition.longitude)),
-        );
+        when(geolocator.getPosition())
+            .thenAnswer((_) => Future.value(userPosition));
         when(repo.calculatePathForRoute(any)).thenAnswer(
           (_) => Future.value(
             FutureResponse.success(mapRoute),
@@ -181,8 +169,7 @@ void main() {
 
         expect(bloc.showError, isFalse);
         verify(repo.calculatePathForRoute(route));
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
   });
@@ -194,8 +181,7 @@ void main() {
         // arrange
         bloc.controller = controller;
         bloc.mapRoute = FutureResponse.success(mapRoute);
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(false));
+        when(geolocator.getPosition()).thenThrow(LOCATION_SERVICE_DISABLED);
 
         // act
         bloc.add(RouteMapBlocFindLocation());
@@ -218,8 +204,7 @@ void main() {
         );
 
         expect(bloc.showError, isTrue);
-        verify(geolocator.isLocationServiceEnabled());
-        verifyNever(geolocator.getCurrentPosition());
+        verify(geolocator.getPosition());
       },
     );
 
@@ -229,9 +214,7 @@ void main() {
         // arrange
         bloc.controller = controller;
         bloc.mapRoute = FutureResponse.success(mapRoute);
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenThrow(Exception(''));
+        when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
 
         // act
         bloc.add(RouteMapBlocFindLocation());
@@ -254,8 +237,7 @@ void main() {
         );
 
         expect(bloc.showError, isTrue);
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
 
@@ -265,13 +247,8 @@ void main() {
         // arrange
         bloc.controller = controller;
         bloc.mapRoute = FutureResponse.success(mapRoute);
-        when(geolocator.isLocationServiceEnabled())
-            .thenAnswer((_) => Future.value(true));
-        when(geolocator.getCurrentPosition()).thenAnswer(
-          (_) => Future.value(Position(
-              latitude: userPosition.latitude,
-              longitude: userPosition.longitude)),
-        );
+        when(geolocator.getPosition())
+            .thenAnswer((_) => Future.value(userPosition));
 
         // act
         bloc.add(RouteMapBlocFindLocation());
@@ -294,8 +271,7 @@ void main() {
         );
 
         expect(bloc.showError, isFalse);
-        verify(geolocator.getCurrentPosition());
-        verify(geolocator.isLocationServiceEnabled());
+        verify(geolocator.getPosition());
       },
     );
   });
