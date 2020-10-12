@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
-import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
@@ -35,6 +34,13 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
       yield turnOffFinding;
       await calculatePath();
 
+      yield routeState;
+    }
+
+    if (event is RouteMapBlocUpdatePath) {
+      if (!mapRoute.hasData) {
+        await calculatePath();
+      }
       yield routeState;
     }
 

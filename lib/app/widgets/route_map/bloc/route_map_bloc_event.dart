@@ -19,3 +19,9 @@ class RouteMapBlocFindLocation extends RouteMapBlocEvent {
   @override
   List<Object> get props => [];
 }
+
+/// Событие для обновления пути, если этого не было сделано
+class RouteMapBlocUpdatePath extends RouteMapBlocEvent {
+  @override
+  List<Object> get props => [];
+}
