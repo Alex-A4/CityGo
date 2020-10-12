@@ -57,13 +57,14 @@ class _RouteSinglePageState extends State<RouteSinglePage> {
               final heightPercent = (height) / constraints.maxHeight;
               return Container(
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      widget.client.getMediaPath(widget.clipped.image.path),
-                      // widget.clipped.image.path,
-                    ),
-                    fit: BoxFit.cover,
-                  ),
+                  image: widget.clipped.logo == null
+                      ? null
+                      : DecorationImage(
+                          image: NetworkImage(
+                            widget.client.getMediaPath(widget.clipped.logo),
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 child: Container(
                   color: Color(0xBB000000),

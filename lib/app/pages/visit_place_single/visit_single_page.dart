@@ -58,13 +58,14 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
               final heightPercent = (height) / constraints.maxHeight;
               return Container(
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      widget.client.getMediaPath(widget.place.logo.path),
-                      // widget.place.logo.path,
-                    ),
-                    fit: BoxFit.cover,
-                  ),
+                  image: widget.place.logo == null
+                      ? null
+                      : DecorationImage(
+                          image: NetworkImage(
+                            widget.client.getMediaPath(widget.place.logo),
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 child: Container(
                   color: Color(0xBB000000),
