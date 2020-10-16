@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 /// expires_in - время окончания (0) для нашего
 /// user_id - идентификатор пользователя.
 class VkLoginWidget extends StatelessWidget {
-  final url = 'https://oauth.vk.com/authorize?client_id=7610473&' +
+  final url = 'https://oauth.vk.com/authorize?client_id=7631071&' +
       'display=page&scope=65538&response_type=token&v=5.124';
 
   VkLoginWidget({Key key}) : super(key: key);
@@ -18,8 +18,6 @@ class VkLoginWidget extends StatelessWidget {
     return CityWebviewScaffold(
       appBar: AppBar(),
       url: url,
-      clearCache: true,
-      clearCookies: true,
       onUrlChanged: (u, c) {
         Uri uri = Uri.parse(u);
         if ('${uri.host}${uri.path}' == 'oauth.vk.com/blank.html') {
