@@ -51,7 +51,7 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
           'grant_type': 'convert_token',
           'backend': user.type.backend,
           'token': user.accessToken,
-          'client_id': 'RutIxLet0pl9bALbEJW78afIVg2EQldaJoahxck0',
+          'client_id': 'PvyAa9F2GHJVCCzsF4IMpn0qdMtkKClCLCdQ1WwE',
         },
       );
 
