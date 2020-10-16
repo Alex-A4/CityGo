@@ -71,6 +71,7 @@ class CityAudioPlayerImpl extends BackgroundAudioTask
     if (playerSubscription == null)
       playerSubscription = player.positionStream
           .listen((d) => status = PlayerData(currentDuration, d));
+    await continuePlayer();
   }
 
   @override
