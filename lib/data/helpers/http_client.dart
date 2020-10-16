@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 String handleDioError(DioError e, {Map<int, String> overrideData = const {}}) {
   var code = e.response?.statusCode;
   if (code == null) throw UNEXPECTED_ERROR;
-  if (overrideData.containsKey(code)) return overrideData[code];
+  if (overrideData[code] != null) return overrideData[code];
 
   switch (code) {
     case 400:
