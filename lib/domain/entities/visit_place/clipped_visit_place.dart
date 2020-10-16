@@ -26,7 +26,7 @@ class ClippedVisitPlace extends Equatable {
     return ClippedVisitPlace(
       json['id'],
       json['name'] ?? '',
-      json['workTime'] ?? '',
+      json['work_time'] ?? '',
       json['rating'] ?? 0.0,
       json['logo'],
     );

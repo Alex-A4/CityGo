@@ -5,7 +5,7 @@ void main() {
   final json1 = {
     'id': 1234,
     'name': 'Ярославский музей-заповедник',
-    'workTime': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
+    'work_time': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
     'rating': 4.7,
     'logo': '/src/image.jpg',
   };
@@ -25,7 +25,7 @@ void main() {
       // assert
       expect(place.id, json1['id']);
       expect(place.name, json1['name']);
-      expect(place.workTime, json1['workTime']);
+      expect(place.workTime, json1['work_time']);
       expect(place.rating, json1['rating']);
       expect(place.logo, json1['logo']);
     },

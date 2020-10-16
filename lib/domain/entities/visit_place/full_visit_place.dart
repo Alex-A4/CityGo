@@ -49,7 +49,7 @@ class FullVisitPlace extends ClippedVisitPlace {
     return FullVisitPlace(
       id: json['id'],
       title: json['name'] ?? '',
-      workTime: json['workTime'] ?? '',
+      workTime: json['work_time'] ?? '',
       rating: json['rating'] ?? 0.0,
       logo: json['logo'],
       imageSrc:
