@@ -78,25 +78,32 @@ class CityAudioPlayerWidget extends StatelessWidget {
           }
 
           return Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
             constraints: BoxConstraints(
               maxWidth: double.infinity,
-              maxHeight: 70,
+              maxHeight: 45,
             ),
-            child: ListTile(
-              leading: leadingButton,
-              title: Text(
-                text,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Jost',
-                  fontWeight: FontWeight.w100,
+            alignment: Alignment.center,
+            child: Row(
+              children: [
+                leadingButton,
+                SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Jost',
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
                 ),
-              ),
-              trailing: IconButton(
-                color: Colors.white,
-                icon: Icon(Icons.close),
-                onPressed: () => player.closePlayer(),
-              ),
+                IconButton(
+                  color: Colors.white,
+                  icon: Icon(Icons.close),
+                  onPressed: () => player.closePlayer(),
+                ),
+              ],
             ),
           );
         },
