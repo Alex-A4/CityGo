@@ -37,6 +37,8 @@ class CityGoApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       theme: ThemeData(
+        primaryColor: Colors.grey[800],
+        accentColor: Colors.grey[800],
         textTheme: TextTheme(
           headline4: TextStyle(
             fontSize: 30,

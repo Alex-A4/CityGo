@@ -24,7 +24,6 @@ class CityAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     return AppBar(
-      backgroundColor: Colors.grey[800],
       iconTheme: IconThemeData(color: lightGrey),
       textTheme: theme,
       automaticallyImplyLeading: automaticallyImplyLeading,
