@@ -39,7 +39,7 @@
   "go_time": "Travel time",
   "km_word": "km",
   "description_word": "Description",
-  "proximity": "Proximity",
+  "distance": "Distance",
   "rating": "Rating",
   "random": "Random",
   "sort_by_word": "Sort by",
@@ -50,5 +50,6 @@
   "data_not_found": "Data not found",
   "repeat_auth": "Repeat auth, please",
   "incorrect_data": "Incorrect data",
-  "login_already_used": "Login already used"
+  "login_already_used": "Login already used",
+  "password_is_easy": "Password much easy"
 }

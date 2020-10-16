@@ -28,8 +28,11 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
 
       return await logInUser(userName, password);
     } on DioError catch (e) {
+      String mess400;
+      if (e.response.data['username'] != null) mess400 = LOGIN_ALREADY_USED;
+      if (e.response.data['password'] != null) mess400 = PASSWORD_IS_EASY;
       return FutureResponse.fail(
-        handleDioError(e, overrideData: {400: LOGIN_ALREADY_USED}),
+        handleDioError(e, overrideData: {400: mess400}),
       );
     } catch (e) {
       return FutureResponse.fail(UNEXPECTED_ERROR);

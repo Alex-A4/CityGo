@@ -46,3 +46,4 @@ const DATA_NOT_FOUND = 'data_not_found';
 const REPEAT_AUTH = 'repeat_auth';
 const INCORRECT_DATA = 'incorrect_data';
 const LOGIN_ALREADY_USED = 'login_already_used';
+const PASSWORD_IS_EASY = 'password_is_easy';

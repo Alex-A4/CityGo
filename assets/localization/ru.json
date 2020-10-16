@@ -39,7 +39,7 @@
   "go_time": "Время в пути",
   "km_word": "км",
   "description_word": "Описание",
-  "proximity": "Близости",
+  "distance": "Близости",
   "rating": "Рейтингу",
   "random": "Случайно",
   "sort_by_word": "Сортировать по",
@@ -50,5 +50,6 @@
   "data_not_found": "Данные не найдены",
   "repeat_auth": "Повторите авторизацию",
   "incorrect_data": "Неправильные данные",
-  "login_already_used": "Логин уже занят"
+  "login_already_used": "Логин уже занят",
+  "password_is_easy": "Пароль слишком простой"
 }
