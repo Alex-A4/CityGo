@@ -49,5 +49,6 @@
   "server_tech_service": "Server on tech service, try later",
   "data_not_found": "Data not found",
   "repeat_auth": "Repeat auth, please",
-  "incorrect_data": "Incorrect data"
+  "incorrect_data": "Incorrect data",
+  "login_already_used": "Login already used"
 }

@@ -49,5 +49,6 @@
   "server_tech_service": "Сервер на тех. обслуживании, попробуйте позже",
   "data_not_found": "Данные не найдены",
   "repeat_auth": "Повторите авторизацию",
-  "incorrect_data": "Неправильные данные"
+  "incorrect_data": "Неправильные данные",
+  "login_already_used": "Логин уже занят"
 }
