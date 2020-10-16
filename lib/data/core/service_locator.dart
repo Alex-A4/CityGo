@@ -8,6 +8,7 @@ import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/data/helpers/network_checker.dart';
+import 'package:city_go/data/repositories/audio_player/audio_player.dart';
 import 'package:city_go/data/repositories/map/distance_calculator.dart';
 import 'package:city_go/data/repositories/map/map_repository_impl.dart';
 import 'package:city_go/data/repositories/profile/profile_repository_impl.dart';
@@ -60,6 +61,7 @@ Future<void> initServiceLocator() async {
   /// Storage
   sl.registerSingleton<ProfileStorage>(ProfileStorageImpl(repository: sl()));
   await sl<ProfileStorage>().initStorage();
+  sl.registerSingleton<CityAudioPlayer>(CityAudioPlayerImpl(sl()));
 
   /// Blocs
   sl.registerFactory<ProfileBloc>(

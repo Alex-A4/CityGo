@@ -15,6 +15,12 @@ class PlayerPause extends PlayerStatus {
   List<Object> get props => [];
 }
 
+/// Статус, сообщающий, что плеер загружает данные
+class PlayerLoading extends PlayerStatus {
+  @override
+  List<Object> get props => [];
+}
+
 /// Статус, описывающая статус проигрывания плеера
 class PlayerData extends PlayerStatus {
   /// Время длительности некоторого трека
