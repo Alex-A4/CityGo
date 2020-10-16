@@ -22,6 +22,7 @@ class PlaceTypeCard extends StatelessWidget {
     final style = Theme.of(context).textTheme.headline4;
 
     return Container(
+      constraints: BoxConstraints(minHeight: 150),
       margin: EdgeInsets.only(bottom: 3),
       height: height - 3,
       decoration: BoxDecoration(
