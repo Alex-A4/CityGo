@@ -26,7 +26,8 @@ class VisitItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(minHeight: 150),
-      height: height,
+      margin: EdgeInsets.only(bottom: 5),
+      height: height - 5,
       decoration: BoxDecoration(
         image: place.logo == null
             ? null
@@ -38,61 +39,61 @@ class VisitItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         color: Colors.black26,
-        child: Column(
+        child: Row(
           children: [
-            Row(
-              children: [
-                Expanded(child: Container()),
-                RatingButton(rating: place.rating),
-              ],
-            ),
-            Expanded(child: Container()),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        place.name.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        context.localization(WORK_TIME).toUpperCase(),
-                        style: TextStyle(color: lightGrey, fontFamily: 'Jost'),
-                      ),
-                      Text(
-                        place.workTime,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: lightGrey, fontFamily: 'Jost'),
-                      ),
-                    ],
-                  ),
-                ),
-                FlatButton(
-                  color: Colors.white38,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: Colors.white, width: 5),
-                  ),
-                  onPressed: () => Navigator.of(context)
-                      .pushNamed(VISIT_SINGLE, arguments: place),
-                  child: Text(
-                    context.localization(DETAIL_WORD).toUpperCase(),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    place.name.toUpperCase(),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 4,
                     style: TextStyle(
-                      letterSpacing: 1.2,
-                      fontSize: 14,
+                      fontSize: 16,
                       color: Colors.white,
-                      fontFamily: 'Jost',
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
-              ],
+                  Text(
+                    context.localization(WORK_TIME).toUpperCase(),
+                    style: TextStyle(color: lightGrey, fontFamily: 'Jost'),
+                  ),
+                  Text(
+                    place.workTime,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: lightGrey, fontFamily: 'Jost'),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  RatingButton(rating: place.rating),
+                  Expanded(child: Container()),
+                  FlatButton(
+                    color: Colors.white38,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(color: Colors.white, width: 5),
+                    ),
+                    onPressed: () => Navigator.of(context)
+                        .pushNamed(VISIT_SINGLE, arguments: place),
+                    child: Text(
+                      context.localization(DETAIL_WORD).toUpperCase(),
+                      style: TextStyle(
+                        letterSpacing: 1.2,
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontFamily: 'Jost',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
