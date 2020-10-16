@@ -81,7 +81,10 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
                           if (place != null)
                             Expanded(
                               child: SingleVisitContent(
-                                  place: place, bottomSize: height * 0.1),
+                                place: place,
+                                bottomSize: height * 0.1,
+                                client: widget.client,
+                              ),
                             ),
                         ],
                       ),

@@ -2,6 +2,9 @@ import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/rating_widget.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/data/core/localization_constants.dart';
+import 'package:city_go/data/core/service_locator.dart';
+import 'package:city_go/data/helpers/http_client.dart';
+import 'package:city_go/data/repositories/audio_player/audio_player.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 import 'package:city_go/localization/localization.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +14,13 @@ import 'package:flutter/material.dart';
 class SingleVisitContent extends StatelessWidget {
   final FullVisitPlace place;
   final double bottomSize;
+  final HttpClient client;
 
   SingleVisitContent({
     Key key,
     @required this.place,
     @required this.bottomSize,
+    @required this.client,
   })  : assert(place != null && bottomSize != null),
         super(key: key);
 
@@ -38,13 +43,18 @@ class SingleVisitContent extends StatelessWidget {
                   children: [
                     getIconWithSub(
                       Icons.volume_up,
-                      () => print('VOLUME'),
+                      place.audioSrc == null || place.audioSrc.isEmpty
+                          ? null
+                          : () => sl<CityAudioPlayer>()
+                              .startPlayer(client.getMediaPath(place.audioSrc)),
                       context.localization(START_SOUND),
                     ),
                     getIconWithSub(
                       Icons.add_road,
-                      () => Navigator.of(context).pushNamed(PATH_MAP_PAGE,
-                          arguments: place.latLng.toGoogle()),
+                      place.latLng == null
+                          ? null
+                          : () => Navigator.of(context).pushNamed(PATH_MAP_PAGE,
+                              arguments: place.latLng.toGoogle()),
                       context.localization(CREATE_PATH),
                     ),
                   ],

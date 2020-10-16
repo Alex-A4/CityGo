@@ -2,6 +2,9 @@ import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/rating_widget.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/data/core/localization_constants.dart';
+import 'package:city_go/data/core/service_locator.dart';
+import 'package:city_go/data/helpers/http_client.dart';
+import 'package:city_go/data/repositories/audio_player/audio_player.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
 import 'package:city_go/localization/localization.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +13,14 @@ import 'package:flutter/material.dart';
 class SingleRouteContent extends StatelessWidget {
   final r.Route route;
   final double bottomSize;
+  final HttpClient client;
 
-  SingleRouteContent({Key key, @required this.route, @required this.bottomSize})
-      : assert(route != null && bottomSize != null),
+  SingleRouteContent({
+    Key key,
+    @required this.route,
+    @required this.bottomSize,
+    @required this.client,
+  })  : assert(route != null && bottomSize != null),
         super(key: key);
 
   @override
@@ -34,13 +42,18 @@ class SingleRouteContent extends StatelessWidget {
                   children: [
                     getIconWithSub(
                       Icons.volume_up,
-                      () => print('VOLUME'),
+                      route.audio == null || route.audio.isEmpty
+                          ? null
+                          : () => sl<CityAudioPlayer>()
+                              .startPlayer(client.getMediaPath(route.audio)),
                       context.localization(START_SOUND),
                     ),
                     getIconWithSub(
                       Icons.add_road,
-                      () => Navigator.of(context)
-                          .pushNamed(ROUTE_MAP_PAGE, arguments: route),
+                      route.cords.isEmpty
+                          ? null
+                          : () => Navigator.of(context)
+                              .pushNamed(ROUTE_MAP_PAGE, arguments: route),
                       context.localization(CREATE_PATH),
                     ),
                   ],

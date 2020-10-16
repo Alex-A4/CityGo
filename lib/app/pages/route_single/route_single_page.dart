@@ -80,7 +80,10 @@ class _RouteSinglePageState extends State<RouteSinglePage> {
                           if (route != null)
                             Expanded(
                               child: SingleRouteContent(
-                                  route: route, bottomSize: height * 0.1),
+                                route: route,
+                                bottomSize: height * 0.1,
+                                client: widget.client,
+                              ),
                             ),
                         ],
                       ),
