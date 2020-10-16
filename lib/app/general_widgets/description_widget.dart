@@ -1,4 +1,6 @@
 import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/data/core/service_locator.dart';
+import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/domain/entities/visit_place/image_src.dart';
 import 'package:city_go/localization/localization.dart';
 import 'package:city_go/data/core/localization_constants.dart';
@@ -96,6 +98,7 @@ class DescriptionImages extends StatelessWidget {
                   image: images[i],
                   maxWidth: constraints.maxWidth,
                   height: constraints.maxHeight,
+                  client: sl(),
                 ),
               );
             },
@@ -108,6 +111,7 @@ class DescriptionImages extends StatelessWidget {
 
 class DescriptionImageCard extends StatelessWidget {
   final ImageSrc image;
+  final HttpClient client;
   final double height;
   final double maxWidth;
 
@@ -116,6 +120,7 @@ class DescriptionImageCard extends StatelessWidget {
     @required this.image,
     @required this.height,
     @required this.maxWidth,
+    @required this.client,
   })  : assert(image != null),
         super(key: key);
 
@@ -135,7 +140,8 @@ class DescriptionImageCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: image.path == null
               ? Container()
-              : Image.network(image?.path, fit: BoxFit.cover),
+              : Image.network(client.getMediaPath(image.path),
+                  fit: BoxFit.cover),
         ),
       ),
     );
