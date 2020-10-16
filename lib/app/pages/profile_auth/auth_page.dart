@@ -162,7 +162,9 @@ class _AuthPageState extends State<AuthPage> {
                       MaterialPageRoute(builder: (_) => VkLoginWidget()),
                     );
                     print(mapData);
-                    final user = VKUser(externalToken: mapData['access_token']);
+                    final user = mapData == null
+                        ? null
+                        : VKUser(externalToken: mapData['access_token']);
                     if (user != null) bloc.add(ProfileAuthExternalEvent(user));
                   },
                 ),
