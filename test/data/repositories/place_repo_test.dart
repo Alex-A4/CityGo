@@ -18,7 +18,7 @@ void main() {
     {
       'id': 1234,
       'name': 'Ярославский музей-заповедник',
-      'workTime': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
+      'work_time': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
       'rating': 4.7,
       'logo': '/src/image.jpg',
     },
@@ -32,7 +32,7 @@ void main() {
   final fullJson = <String, dynamic>{
     'id': 1234,
     'name': 'Ярославский музей-заповедник',
-    'workTime': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
+    'work_time': 'Пн-пт 10:00-18:00, Сб-Вс выходной',
     'rating': 4.7,
     'logo': '/src/image2.jpg',
     'images': [
@@ -109,7 +109,7 @@ void main() {
           http.get(
             PlaceRepositoryImpl.PLACE_PATH,
             queryParameters: {
-              'type': 3,
+              'type': 4,
               'sort': defaultSort.sortName,
               'offset': 0,
               'limit': PlaceRepositoryImpl.count,
@@ -153,7 +153,7 @@ void main() {
           http.get(
             PlaceRepositoryImpl.PLACE_PATH,
             queryParameters: {
-              'type': 3,
+              'type': 4,
               'sort': PlaceSortType.Distance.sortName,
               'offset': 0,
               'limit': PlaceRepositoryImpl.count,
