@@ -2,9 +2,10 @@ import 'package:city_go/data/core/localization_constants.dart';
 import 'package:dio/dio.dart';
 
 /// Конвертирует [error] в строковую константу, которая описывает произошедшее
-String handleDioError(DioError e) {
+String handleDioError(DioError e, {Map<int, String> overrideData = const {}}) {
   var code = e.response?.statusCode;
   if (code == null) throw UNEXPECTED_ERROR;
+  if (overrideData.containsKey(code)) return overrideData[code];
 
   switch (code) {
     case 400:
