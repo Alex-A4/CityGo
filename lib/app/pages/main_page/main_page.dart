@@ -1,3 +1,5 @@
+import 'package:audio_service/audio_service.dart';
+import 'package:city_go/app/general_widgets/audio_player_widget.dart';
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/navigator/router.dart';
@@ -38,42 +40,48 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
     final height = (mq.size.height - kToolbarHeight - mq.padding.top) / 3;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AudioPlayerOverlay.initPlayer(context);
+    });
 
-    return Scaffold(
-      backgroundColor: orangeColor,
-      appBar: CityAppBar(
-        title: Text(context.localization(YAROSLAVL_WORD)),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle_outlined),
-            onPressed: () => Navigator.of(context).pushNamed(PROFILE),
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: nameCodes.length + 1,
-        itemBuilder: (_, i) {
-          if (i == 0)
+    return AudioServiceWidget(
+      child: Scaffold(
+        backgroundColor: orangeColor,
+        appBar: CityAppBar(
+          title: Text(context.localization(YAROSLAVL_WORD)),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.account_circle_outlined),
+              onPressed: () => Navigator.of(context).pushNamed(PROFILE),
+            ),
+          ],
+        ),
+        body: ListView.builder(
+          itemCount: nameCodes.length + 1,
+          itemBuilder: (_, i) {
+            if (i == 0)
+              return PlaceTypeCard(
+                imagePath: 'assets/images/walks.jpg',
+                nameCode: PATHS_WORD,
+                onTap: () => Navigator.of(context).pushNamed(ROUTE_LIST),
+                height: height,
+              );
             return PlaceTypeCard(
-              imagePath: 'assets/images/walks.jpg',
-              nameCode: PATHS_WORD,
-              onTap: () => Navigator.of(context).pushNamed(ROUTE_LIST),
+              key: Key(nameCodes[i - 1]),
+              imagePath: images[i - 1],
+              nameCode: nameCodes[i - 1],
+              onTap: () =>
+                  Navigator.of(context).pushNamed(
+                    VISIT_LIST,
+                    arguments: {
+                      'title': nameCodes[i - 1],
+                      'type': PlaceType.values[i - 1],
+                    },
+                  ),
               height: height,
             );
-          return PlaceTypeCard(
-            key: Key(nameCodes[i - 1]),
-            imagePath: images[i - 1],
-            nameCode: nameCodes[i - 1],
-            onTap: () => Navigator.of(context).pushNamed(
-              VISIT_LIST,
-              arguments: {
-                'title': nameCodes[i - 1],
-                'type': PlaceType.values[i - 1],
-              },
-            ),
-            height: height,
-          );
-        },
+          },
+        ),
       ),
     );
   }
