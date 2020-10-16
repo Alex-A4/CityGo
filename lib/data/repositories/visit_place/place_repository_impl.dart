@@ -37,7 +37,7 @@ class PlaceRepositoryImpl extends PlaceRepository {
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
       final params = {
-        'type': placeType.index,
+        'type': placeType.index + 1,
         'sort': sortType.sortName,
         'limit': count,
         'offset': offset,
