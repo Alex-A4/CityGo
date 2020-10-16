@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 
 import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
@@ -8,7 +7,6 @@ import 'package:city_go/app/widgets/profile_auth/ui/login_extenral_button.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/vk_login.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
 
@@ -164,7 +162,7 @@ class _AuthPageState extends State<AuthPage> {
                       MaterialPageRoute(builder: (_) => VkLoginWidget()),
                     );
                     print(mapData);
-                    final user = await getVkUser(mapData);
+                    final user = VKUser(externalToken: mapData['access_token']);
                     if (user != null) bloc.add(ProfileAuthExternalEvent(user));
                   },
                 ),
@@ -213,24 +211,5 @@ class _AuthPageState extends State<AuthPage> {
         ),
       ),
     );
-  }
-
-  /// Получение данных о пользователе после того, как был получен токен
-  Future<User> getVkUser(Map<String, dynamic> mapData) async {
-    if (mapData != null) {
-      final token = mapData['access_token'];
-      final response = await http.get(
-          'https://api.vk.com/method/account.getProfileInfo?access_token=$token&v=5.124');
-      if (response.statusCode == 200) {
-        final j = json.decode(response.body)['response'];
-        return VKUser(
-          vkToken: token,
-          userName: '${j['first_name']} ${j['last_name']}',
-          vkId: j['id'],
-        );
-      }
-    }
-
-    return null;
   }
 }
