@@ -14,19 +14,52 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
 
   UserRemoteRepositoryImpl(this.client, this.checker);
 
+  /// Создает нового пользователя по возможности, а затем делает login
   @override
   Future<FutureResponse<User>> authNewUser(
       String userName, String password) async {
     if (!await checker.hasInternet) return FutureResponse.fail(NO_INTERNET);
 
-    return FutureResponse.fail(NO_INTERNET);
+    try {
+      await client.post(
+        '/auth/users/',
+        data: {'username': userName, 'password': password},
+      );
+
+      return await logInUser(userName, password);
+    } on DioError catch (e) {
+      return FutureResponse.fail(
+        handleDioError(e, overrideData: {400: LOGIN_ALREADY_USED}),
+      );
+    } catch (e) {
+      return FutureResponse.fail(UNEXPECTED_ERROR);
+    }
   }
 
   @override
-  Future<FutureResponse<User>> authWithExternalService(User user) async {
+  Future<FutureResponse<User>> authWithExternalService(
+      ExternalUser user) async {
     if (!await checker.hasInternet) return FutureResponse.fail(NO_INTERNET);
 
-    return FutureResponse.fail(NO_INTERNET);
+    try {
+      final response = await client.post(
+        '/auth/convert-token/',
+        data: {
+          'grant_type': 'convert_token',
+          'backend': user.type.backend,
+          'token': user.accessToken,
+          'client_id': 'RutIxLet0pl9bALbEJW78afIVg2EQldaJoahxck0',
+        },
+      );
+
+      return FutureResponse.success(
+        user.updateUserData(accessToken: response.data['auth_token']),
+      );
+    } on DioError catch (e) {
+      return FutureResponse.fail(handleDioError(e));
+    } catch (e) {
+      return FutureResponse.fail(UNEXPECTED_ERROR);
+    }
   }
 
   @override
@@ -36,7 +69,7 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
 
     try {
       final response = await client.post(
-        '/auth/token/login',
+        '/auth/token/login/',
         data: {'username': userName, 'password': password},
       );
 
@@ -48,7 +81,7 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
       );
     } on DioError catch (e) {
       return FutureResponse.fail(handleDioError(e));
-    } catch(e) {
+    } catch (e) {
       return FutureResponse.fail(UNEXPECTED_ERROR);
     }
   }

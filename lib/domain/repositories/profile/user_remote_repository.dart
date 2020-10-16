@@ -13,7 +13,7 @@ abstract class UserRemoteRepository {
   /// Авторизация через внешние источники равносильна входу через источник.
   /// На сервер должны отдаваться данные, а получаться обновленные с
   /// дополнительным токеном.
-  Future<FutureResponse<User>> authWithExternalService(User user);
+  Future<FutureResponse<User>> authWithExternalService(ExternalUser user);
 
   /// Вход существующего пользователя в аккаунт на сервере
   Future<FutureResponse<User>> logInUser(String userName, String password);

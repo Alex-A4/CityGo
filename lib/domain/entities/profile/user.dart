@@ -31,6 +31,23 @@ abstract class User extends Equatable {
 /// Тип пользователя, который определяет его реальную реализацию
 enum UserType { InApp, Google, VK, Instagram }
 
+extension UserTypeData on UserType {
+  String get backend {
+    switch (this) {
+      case UserType.InApp:
+        return null;
+      case UserType.Google:
+        return 'google';
+      case UserType.VK:
+        return 'vk-oauth2';
+      case UserType.Instagram:
+        return 'instagram';
+      default:
+        return null;
+    }
+  }
+}
+
 /// Класс пользователя, который зарегистрировался в приложении
 class InAppUser extends User {
   InAppUser({
@@ -55,40 +72,57 @@ class InAppUser extends User {
   List<Object> get props => [userName, type, accessToken];
 }
 
-class VKUser extends User {
-  /// Токен авторизации вконтакте
-  static const VK_TOKEN = 'vkToken';
-  static const VK_ID = 'vkId';
-  final String vkToken;
-  final int vkId;
+abstract class ExternalUser extends User {
+  static const EXTERNAL_TOKEN = 'externalToken';
+
+  ExternalUser updateUserData(
+      {String userName, String accessToken, String externalToken});
+
+  String get externalToken;
+
+  ExternalUser(String userName, UserType type, String accessToken)
+      : super(userName, type, accessToken);
+
+  @override
+  Map<String, dynamic> toJson() {
+    var json = super.toJson();
+    json[EXTERNAL_TOKEN] = externalToken;
+    return json;
+  }
+}
+
+class VKUser extends ExternalUser {
+  final String externalToken;
 
   /// Токен авторизации на сервере, инициализируется после отправки запроса
   VKUser({
-    @required String userName,
-    @required this.vkToken,
-    this.vkId,
+    @required this.externalToken,
+    String userName,
     String accessToken,
   }) : super(userName, UserType.VK, accessToken);
 
   factory VKUser.fromJson(Map<String, dynamic> json) {
     return VKUser(
       userName: json[User.USER_NAME],
-      vkToken: json[VK_TOKEN],
-      vkId: json[VK_ID],
+      externalToken: json[ExternalUser.EXTERNAL_TOKEN],
       accessToken: json[User.ACCESS_TOKEN],
     );
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    var json = super.toJson();
-    json[VK_TOKEN] = vkToken;
-    json[VK_ID] = vkId;
-    return json;
-  }
+  List<Object> get props => [userName, type, accessToken, externalToken];
 
   @override
-  List<Object> get props => [userName, type, accessToken, vkToken, vkId];
+  ExternalUser updateUserData({
+    String userName,
+    String accessToken,
+    String externalToken,
+  }) =>
+      VKUser(
+        externalToken: externalToken ?? this.externalToken,
+        accessToken: accessToken ?? this.accessToken,
+        userName: userName ?? this.userName,
+      );
 }
 
 /// Абстрактная фабрика по созданию пользователя из JSON формата

@@ -16,8 +16,8 @@ void main() {
   final password = 'password';
   final defaultUser = InAppUser(userName: userName, accessToken: 'token');
   final vkUserComplete =
-      VKUser(userName: 'Вася', vkToken: 'vkToken', accessToken: 'token');
-  final vkUserNotComplete = VKUser(userName: 'Вася', vkToken: 'vkToken');
+      VKUser(userName: 'Вася', externalToken: 'vkToken', accessToken: 'token');
+  final vkUserNotComplete = VKUser(userName: 'Вася', externalToken: 'vkToken');
 
   MockProfileStorage storage;
   MockRemoteRepo repository;
