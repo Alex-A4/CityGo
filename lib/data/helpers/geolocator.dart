@@ -22,13 +22,15 @@ abstract class Geolocator {
 class GeolocatorImpl extends Geolocator {
   @override
   Future<g.Position> getCurrentPosition() =>
-      g.getCurrentPosition(timeLimit: Duration(seconds: 3));
+      g.Geolocator.getCurrentPosition(timeLimit: Duration(seconds: 3));
 
   @override
-  Future<bool> isLocationServiceEnabled() => g.isLocationServiceEnabled();
+  Future<bool> isLocationServiceEnabled() =>
+      g.Geolocator.isLocationServiceEnabled();
 
   @override
-  Future<g.LocationPermission> requestPermission() => g.requestPermission();
+  Future<g.LocationPermission> requestPermission() =>
+      g.Geolocator.requestPermission();
 
   @override
   Future<LatLng> getPosition() async {
