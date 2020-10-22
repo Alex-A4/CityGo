@@ -32,7 +32,8 @@ class CityAudioPlayerImpl extends BackgroundAudioTask
   CityPlayerBackgroundTask task;
 
   final AudioPlayer player = AudioPlayer();
-  StreamSubscription playerSubscription;
+  StreamSubscription positionSubscription;
+  StreamSubscription stateSubscription;
 
   PlayerStatus _status = PlayerClosed();
   StreamController<PlayerStatus> _statusController =
@@ -44,7 +45,8 @@ class CityAudioPlayerImpl extends BackgroundAudioTask
   }
 
   /// Длительность активного аудио
-  Duration currentDuration;
+  Duration trackDuration;
+  Duration position;
 
   CityAudioPlayerImpl(this.storage) {
     task = CityPlayerBackgroundTask(this);
@@ -53,7 +55,7 @@ class CityAudioPlayerImpl extends BackgroundAudioTask
   @override
   Future<void> pausePlayer() async {
     await player.pause();
-    status = PlayerPause();
+    status = PlayerPause(trackDuration, position);
   }
 
   @override
@@ -65,20 +67,28 @@ class CityAudioPlayerImpl extends BackgroundAudioTask
   Future<void> startPlayer(String url) async {
     final user = storage.profile.user;
     if (user == null) return;
-    status = PlayerLoading();
-    currentDuration = await player.setUrl(url, headers: <String, String>{
+    status = PlayerLoading(null, null);
+    if (stateSubscription == null)
+      stateSubscription = player.processingStateStream.listen((state) {
+        if (state == ProcessingState.loading ||
+            state == ProcessingState.buffering)
+          status = PlayerLoading(position, trackDuration);
+      });
+    if (positionSubscription == null)
+      positionSubscription = player.positionStream.listen((d) {
+        status = PlayerData(trackDuration, d);
+        position = d;
+      });
+    trackDuration = await player.setUrl(url, headers: <String, String>{
       io.HttpHeaders.authorizationHeader: 'Token ${user.accessToken}',
     });
-
-    if (playerSubscription == null)
-      playerSubscription = player.positionStream
-          .listen((d) => status = PlayerData(currentDuration, d));
     await continuePlayer();
   }
 
   @override
   Future<void> dispose() async {
-    playerSubscription?.cancel();
+    positionSubscription?.cancel();
+    stateSubscription?.cancel();
     await player.dispose();
     _statusController.close();
   }
