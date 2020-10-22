@@ -14,7 +14,7 @@
         android:usesCleartextTraffic="true"
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/ic_launcher"
-        android:label="city_go">
+        android:label="CityGo">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD2k7DPFq9u8w2FcQgjtD1mzXoE9ULTEJc" />
