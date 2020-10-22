@@ -19,6 +19,8 @@ abstract class CityAudioPlayer {
 
   Future<void> closePlayer();
 
+  Future<void> seek(Duration pos);
+
   PlayerStatus get playerStatus;
 
   Stream<PlayerStatus> get playerStatusStream;
@@ -92,4 +94,9 @@ class CityAudioPlayerImpl extends BackgroundAudioTask
 
   @override
   Stream<PlayerStatus> get playerStatusStream => _statusController.stream;
+
+  @override
+  Future<void> seek(Duration pos) async {
+    await player.seek(pos);
+  }
 }
