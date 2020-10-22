@@ -129,7 +129,8 @@ class CityAudioPlayerWidget extends StatelessWidget {
     final inSeconds = duration.inSeconds;
     final minutes = inSeconds ~/ 60;
     final seconds = inSeconds % 60;
-    return '$minutes:$seconds';
+    final s = seconds < 10 ? '0$seconds' : '$seconds';
+    return '$minutes:$s';
   }
 }
 
