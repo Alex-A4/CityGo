@@ -11,10 +11,11 @@ class InfoAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.headline6;
     return Material(
       color: Colors.transparent,
       child: Padding(
-        padding: EdgeInsets.only(left: 16,right: 16, top: 40, bottom: 16),
+        padding: EdgeInsets.only(left: 16, right: 16, top: 40, bottom: 16),
         child: Row(
           children: [
             AdaptiveButton.orangeTransparent(
@@ -23,16 +24,7 @@ class InfoAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             SizedBox(width: 20),
             Expanded(
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontFamily: 'Jost',
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.end,
-              ),
+              child: Text(title, style: style, textAlign: TextAlign.end),
             ),
           ],
         ),

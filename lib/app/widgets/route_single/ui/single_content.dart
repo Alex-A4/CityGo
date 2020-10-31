@@ -25,6 +25,8 @@ class SingleRouteContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.subtitle2;
+
     return Material(
       color: Colors.transparent,
       child: Padding(
@@ -47,6 +49,7 @@ class SingleRouteContent extends StatelessWidget {
                           : () => sl<CityAudioPlayer>()
                               .startPlayer(client.getMediaPath(route.audio)),
                       context.localization(START_SOUND),
+                      style,
                     ),
                     getIconWithSub(
                       Icons.add_road,
@@ -55,6 +58,7 @@ class SingleRouteContent extends StatelessWidget {
                           : () => Navigator.of(context)
                               .pushNamed(ROUTE_MAP_PAGE, arguments: route),
                       context.localization(CREATE_PATH),
+                      style,
                     ),
                   ],
                 ),
@@ -70,10 +74,13 @@ class SingleRouteContent extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-              getInfoRow(LENGTH_WORD,
-                  '${route.length} ${context.localization(KM_WORD)}', context),
+              getInfoRow(
+                  LENGTH_WORD,
+                  '${route.length} ${context.localization(KM_WORD)}',
+                  context,
+                  style),
               SizedBox(height: 20),
-              getInfoRow(GO_TIME, '${route.goTime}', context),
+              getInfoRow(GO_TIME, '${route.goTime}', context, style),
               SizedBox(height: 50),
               RatingWidget(rating: route.rating),
               SizedBox(height: bottomSize + 40),
@@ -84,11 +91,13 @@ class SingleRouteContent extends StatelessWidget {
     );
   }
 
-  Widget getInfoRow(String titleCode, String text, BuildContext context) {
-    final f = style.copyWith(
+  Widget getInfoRow(
+      String titleCode, String text, BuildContext context, TextStyle sub2) {
+    final f = sub2.copyWith(
+      fontSize: 16,
       decoration: TextDecoration.none,
-      fontSize: 18,
       fontFamily: 'Jost',
+      fontWeight: FontWeight.w400,
     );
     return Row(
       children: [
@@ -99,22 +108,15 @@ class SingleRouteContent extends StatelessWidget {
     );
   }
 
-  Widget getIconWithSub(IconData icon, Function onTap, String subtitle) {
+  Widget getIconWithSub(
+      IconData icon, Function onTap, String subtitle, TextStyle sub2) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         AdaptiveButton.orangeTransparent(icon: icon, onTap: onTap),
         SizedBox(height: 10),
-        Text(subtitle.toUpperCase(), style: style),
+        Text(subtitle.toUpperCase(), style: sub2),
       ],
     );
   }
-
-  final style = TextStyle(
-    color: Colors.white,
-    fontSize: 14,
-    fontFamily: 'AleGrey',
-    fontWeight: FontWeight.bold,
-    decoration: TextDecoration.underline,
-  );
 }

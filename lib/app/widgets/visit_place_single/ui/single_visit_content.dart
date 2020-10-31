@@ -26,6 +26,8 @@ class SingleVisitContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.subtitle2;
+
     return Material(
       color: Colors.transparent,
       child: Padding(
@@ -41,21 +43,28 @@ class SingleVisitContent extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    getIconWithSub(
-                      Icons.volume_up,
-                      place.audioSrc == null || place.audioSrc.isEmpty
-                          ? null
-                          : () => sl<CityAudioPlayer>()
-                              .startPlayer(client.getMediaPath(place.audioSrc)),
-                      context.localization(START_SOUND),
+                    Expanded(
+                      child: getIconWithSub(
+                        Icons.volume_up,
+                        place.audioSrc == null || place.audioSrc.isEmpty
+                            ? null
+                            : () => sl<CityAudioPlayer>().startPlayer(
+                                client.getMediaPath(place.audioSrc)),
+                        context.localization(START_SOUND),
+                        style,
+                      ),
                     ),
-                    getIconWithSub(
-                      Icons.add_road,
-                      place.latLng == null
-                          ? null
-                          : () => Navigator.of(context).pushNamed(PATH_MAP_PAGE,
-                              arguments: place.latLng.toGoogle()),
-                      context.localization(CREATE_PATH),
+                    Expanded(
+                      child: getIconWithSub(
+                        Icons.add_road,
+                        place.latLng == null
+                            ? null
+                            : () => Navigator.of(context).pushNamed(
+                                PATH_MAP_PAGE,
+                                arguments: place.latLng.toGoogle()),
+                        context.localization(CREATE_PATH),
+                        style,
+                      ),
                     ),
                   ],
                 ),
@@ -65,17 +74,15 @@ class SingleVisitContent extends StatelessWidget {
                 onPressed: () {
                   print('ОБЩАЯ ИНФА');
                 },
-                child: Text(
-                  context.localization(GENERAL_INFO),
-                  style: style.copyWith(fontSize: 18),
-                ),
+                child: Text(context.localization(GENERAL_INFO), style: style),
               ),
               SizedBox(height: 30),
-              getInfoRow('assets/images/time.png', place.workTime),
+              getInfoRow('assets/images/time.png', place.workTime, style),
               SizedBox(height: 5),
-              getInfoRow('assets/images/place.png', place.objectAddress),
+              getInfoRow('assets/images/place.png', place.objectAddress, style),
               SizedBox(height: 5),
-              getInfoRow('assets/images/web-site.png', place.objectWebSite),
+              getInfoRow(
+                  'assets/images/web-site.png', place.objectWebSite, style),
               SizedBox(height: 50),
               RatingWidget(rating: place.rating),
               SizedBox(height: bottomSize + 40),
@@ -86,10 +93,10 @@ class SingleVisitContent extends StatelessWidget {
     );
   }
 
-  Widget getInfoRow(String imagePath, String text) {
-    final f = style.copyWith(
+  Widget getInfoRow(String imagePath, String text, TextStyle sub2) {
+    final f = sub2.copyWith(
       decoration: TextDecoration.none,
-      fontSize: 18,
+      fontSize: 16,
       fontFamily: 'Jost',
       fontWeight: FontWeight.w400,
     );
@@ -102,22 +109,15 @@ class SingleVisitContent extends StatelessWidget {
     );
   }
 
-  Widget getIconWithSub(IconData icon, Function onTap, String subtitle) {
+  Widget getIconWithSub(
+      IconData icon, Function onTap, String subtitle, TextStyle sub2) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         AdaptiveButton.orangeTransparent(icon: icon, onTap: onTap),
         SizedBox(height: 10),
-        Text(subtitle.toUpperCase(), style: style),
+        Text(subtitle.toUpperCase(), style: sub2),
       ],
     );
   }
-
-  final style = TextStyle(
-    color: Colors.white,
-    fontSize: 14,
-    fontFamily: 'AleGrey',
-    fontWeight: FontWeight.bold,
-    decoration: TextDecoration.underline,
-  );
 }
