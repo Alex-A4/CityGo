@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
@@ -49,7 +50,7 @@ class _RouteListPageState extends State<RouteListPage> {
 
     return Scaffold(
       backgroundColor: Colors.grey[800],
-      appBar: CityAppBar(title: Text(context.localization(PATHS_WORD))),
+      appBar: CityAppBar(title: AutoSizeText(context.localization(PATHS_WORD))),
       body: StreamBuilder<RouteListBlocState>(
         stream: widget.bloc,
         initialData: widget.bloc.state,

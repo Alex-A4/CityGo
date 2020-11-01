@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/audio_player_widget.dart';
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
@@ -48,7 +49,7 @@ class MainPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: orangeColor,
         appBar: CityAppBar(
-          title: Text(context.localization(YAROSLAVL_WORD)),
+          title: AutoSizeText(context.localization(YAROSLAVL_WORD)),
           actions: [
             IconButton(
               icon: Icon(Icons.account_circle_outlined),

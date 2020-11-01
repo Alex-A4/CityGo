@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
@@ -91,7 +92,7 @@ class _VisitListPageState extends State<VisitListPage> {
                   },
                 )
               : CityAppBar(
-                  title: Text(context.localization(widget.titleCode)),
+                  title: AutoSizeText(context.localization(widget.titleCode)),
                   actions: [
                     IconButton(
                       onPressed: () =>

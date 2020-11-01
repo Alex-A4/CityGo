@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/repositories/audio_player/audio_player.dart';
 import 'package:city_go/data/repositories/audio_player/player_data.dart';
@@ -99,7 +100,7 @@ class CityAudioPlayerWidget extends StatelessWidget {
                     ),
                   ),
                 Expanded(
-                  child: Text(
+                  child: AutoSizeText(
                     text,
                     style: TextStyle(
                       color: Colors.white,
@@ -160,10 +161,16 @@ class _AudioPlayerLineState extends State<AudioPlayerLine> {
           trackShape: CustomTrackShape(),
         ),
         child: Slider.adaptive(
-          value: (moveValue ?? widget.currentPosition.inSeconds.toDouble()) ?? 0,
+          value:
+              (moveValue ?? widget.currentPosition.inSeconds.toDouble()) ?? 0,
           min: 0,
-          max: widget.trackDuration.inSeconds.toDouble() ?? 0,
-          onChanged: (v) => setState(() => moveValue = v),
+          max: (widget.trackDuration < widget.currentPosition
+                  ? widget.currentPosition.inSeconds.toDouble()
+                  : widget.trackDuration.inSeconds.toDouble()) ??
+              0,
+          onChanged: (v) {
+            setState(() => moveValue = v);
+          },
           onChangeEnd: (v) {
             widget.player.seek(Duration(seconds: v.toInt()));
             moveValue = null;

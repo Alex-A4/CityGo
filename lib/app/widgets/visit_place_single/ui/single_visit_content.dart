@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/rating_widget.dart';
 import 'package:city_go/app/navigator/router.dart';
@@ -69,12 +70,12 @@ class SingleVisitContent extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20),
               FlatButton(
                 onPressed: () {
                   print('ОБЩАЯ ИНФА');
                 },
-                child: Text(context.localization(GENERAL_INFO), style: style),
+                child: AutoSizeText(context.localization(GENERAL_INFO),
+                    style: style),
               ),
               SizedBox(height: 30),
               getInfoRow('assets/images/time.png', place.workTime, style),
@@ -104,7 +105,7 @@ class SingleVisitContent extends StatelessWidget {
       children: [
         Image.asset(imagePath, height: 30, fit: BoxFit.contain),
         SizedBox(width: 10),
-        Expanded(child: Text(text ?? '', style: f)),
+        Expanded(child: AutoSizeText(text ?? '', style: f)),
       ],
     );
   }
@@ -116,7 +117,11 @@ class SingleVisitContent extends StatelessWidget {
       children: [
         AdaptiveButton.orangeTransparent(icon: icon, onTap: onTap),
         SizedBox(height: 10),
-        Text(subtitle.toUpperCase(), style: sub2),
+        AutoSizeText(
+          subtitle.toUpperCase(),
+          style: sub2,
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }

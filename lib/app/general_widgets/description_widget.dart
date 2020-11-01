@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
@@ -41,7 +42,7 @@ class DescriptionWidget extends StatelessWidget {
                 color: orangeColor,
               ),
             ),
-            Text(
+            AutoSizeText(
               context.localization(DESCRIPTION_WORD),
               style: TextStyle(
                 color: Colors.black,
@@ -52,7 +53,7 @@ class DescriptionWidget extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            Text(
+            AutoSizeText(
               description,
               key: Key('DescriptionBaseText'),
               style: TextStyle(

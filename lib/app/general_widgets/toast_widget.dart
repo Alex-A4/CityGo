@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
 
@@ -107,7 +108,7 @@ class _CityToastToastWidgetState extends State<_CityToastToastWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Expanded(child: Text(message)),
+              Expanded(child: AutoSizeText(message)),
             ],
           ),
         ),

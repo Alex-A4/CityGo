@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class RatingButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.star_border, color: Colors.white),
-              Text(
+              AutoSizeText(
                 rating.toStringAsFixed(1),
                 style: TextStyle(
                   color: Colors.white,

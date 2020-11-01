@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/rating_widget.dart';
 import 'package:city_go/app/navigator/router.dart';
@@ -42,33 +43,36 @@ class SingleRouteContent extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    getIconWithSub(
-                      Icons.volume_up,
-                      route.audio == null || route.audio.isEmpty
-                          ? null
-                          : () => sl<CityAudioPlayer>()
-                              .startPlayer(client.getMediaPath(route.audio)),
-                      context.localization(START_SOUND),
-                      style,
+                    Expanded(
+                      child: getIconWithSub(
+                        Icons.volume_up,
+                        route.audio == null || route.audio.isEmpty
+                            ? null
+                            : () => sl<CityAudioPlayer>()
+                                .startPlayer(client.getMediaPath(route.audio)),
+                        context.localization(START_SOUND),
+                        style,
+                      ),
                     ),
-                    getIconWithSub(
-                      Icons.add_road,
-                      route.cords.isEmpty
-                          ? null
-                          : () => Navigator.of(context)
-                              .pushNamed(ROUTE_MAP_PAGE, arguments: route),
-                      context.localization(CREATE_PATH),
-                      style,
+                    Expanded(
+                      child: getIconWithSub(
+                        Icons.add_road,
+                        route.cords.isEmpty
+                            ? null
+                            : () => Navigator.of(context)
+                                .pushNamed(ROUTE_MAP_PAGE, arguments: route),
+                        context.localization(CREATE_PATH),
+                        style,
+                      ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 20),
               FlatButton(
                 onPressed: () {
                   print('ОБЩАЯ ИНФА');
                 },
-                child: Text(
+                child: AutoSizeText(
                   context.localization(GENERAL_INFO),
                   style: style.copyWith(fontSize: 18),
                 ),
@@ -101,9 +105,9 @@ class SingleRouteContent extends StatelessWidget {
     );
     return Row(
       children: [
-        Text('${context.localization(titleCode)}:', style: f),
+        AutoSizeText('${context.localization(titleCode)}:', style: f),
         SizedBox(width: 10),
-        Text(text, style: f),
+        AutoSizeText(text, style: f),
       ],
     );
   }
@@ -115,7 +119,11 @@ class SingleRouteContent extends StatelessWidget {
       children: [
         AdaptiveButton.orangeTransparent(icon: icon, onTap: onTap),
         SizedBox(height: 10),
-        Text(subtitle.toUpperCase(), style: sub2),
+        AutoSizeText(
+          subtitle.toUpperCase(),
+          style: sub2,
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }

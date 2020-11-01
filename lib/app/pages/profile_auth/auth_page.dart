@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/auth_input.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/auth_login_button.dart';
@@ -85,7 +86,7 @@ class _AuthPageState extends State<AuthPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            AutoSizeText(
               context.localization(WELCOME_WORD),
               style: TextStyle(
                 color: Colors.white,
@@ -120,7 +121,7 @@ class _AuthPageState extends State<AuthPage> {
                   bloc.add(ProfileGoToAuthEvent());
                 }
               },
-              child: Text(
+              child: AutoSizeText(
                 context.localization(isAuth ? HAVE_ACCOUNT : CREATE_ACCOUNT),
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
@@ -141,7 +142,7 @@ class _AuthPageState extends State<AuthPage> {
               },
             ),
             SizedBox(height: 20),
-            Text(
+            AutoSizeText(
               context.localization(OR_WORD),
               style: TextStyle(
                 color: Colors.white,

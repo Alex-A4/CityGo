@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +13,7 @@ class InfoAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme.headline6;
+
     return Material(
       color: Colors.transparent,
       child: Padding(
@@ -24,7 +26,8 @@ class InfoAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             SizedBox(width: 20),
             Expanded(
-              child: Text(title, style: style, textAlign: TextAlign.end),
+              child:
+                  AutoSizeText(title, style: style, textAlign: TextAlign.end),
             ),
           ],
         ),

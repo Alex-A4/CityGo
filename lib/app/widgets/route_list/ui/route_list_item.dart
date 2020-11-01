@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/data/core/localization_constants.dart';
@@ -39,7 +40,7 @@ class RouteItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(child: Container(), flex: 2),
-              Text(
+              AutoSizeText(
                 context.localization(ROUTE_WORD),
                 style: TextStyle(
                   color: Colors.white,
@@ -47,7 +48,7 @@ class RouteItem extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              Text(
+              AutoSizeText(
                 route.title,
                 style: TextStyle(
                   color: Colors.white,
@@ -61,7 +62,7 @@ class RouteItem extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
+                    AutoSizeText(
                       '${route.length.toString().replaceAll('.', ',')} ${context.localization(KILOMETERS_WORD)}',
                       style: TextStyle(
                         color: orangeColor,

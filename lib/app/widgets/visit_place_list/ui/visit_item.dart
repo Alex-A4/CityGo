@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/rating_button.dart';
@@ -46,7 +47,7 @@ class VisitItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
+                  AutoSizeText(
                     place.name.toUpperCase(),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 4,
@@ -56,11 +57,11 @@ class VisitItem extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(
+                  AutoSizeText(
                     context.localization(WORK_TIME).toUpperCase(),
                     style: TextStyle(color: lightGrey, fontFamily: 'Jost'),
                   ),
-                  Text(
+                  AutoSizeText(
                     place.workTime,
                     textAlign: TextAlign.center,
                     style: TextStyle(color: lightGrey, fontFamily: 'Jost'),
@@ -82,7 +83,7 @@ class VisitItem extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.of(context)
                         .pushNamed(VISIT_SINGLE, arguments: place),
-                    child: Text(
+                    child: AutoSizeText(
                       context.localization(DETAIL_WORD).toUpperCase(),
                       style: TextStyle(
                         letterSpacing: 1.2,

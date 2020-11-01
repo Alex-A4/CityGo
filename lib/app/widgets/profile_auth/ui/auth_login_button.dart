@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
@@ -26,7 +27,7 @@ class AuthLoginButton extends StatelessWidget {
         height: 53,
         width: 248,
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             isAuthState
                 ? context.localization(AUTH_WORD)
                 : context.localization(LOGIN_WORD),

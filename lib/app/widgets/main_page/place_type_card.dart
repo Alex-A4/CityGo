@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
 
@@ -31,7 +32,11 @@ class PlaceTypeCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Center(
-          child: Text(context.localization(nameCode), style: style),
+          child: AutoSizeText(
+            context.localization(nameCode),
+            style: style,
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

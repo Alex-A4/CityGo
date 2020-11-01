@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
@@ -29,7 +30,7 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 5),
-                child: Text(
+                child: AutoSizeText(
                   context.localization(SORT_BY_WORD),
                   style: TextStyle(
                     color: Colors.grey[100],
@@ -56,7 +57,7 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       onPressed: () => onTap(type),
       color: type == activeType ? Colors.grey[500] : Colors.grey[100],
-      child: Text(
+      child: AutoSizeText(
         context.localization(type.sortName),
         style: type == activeType ? selectedTextStyle : defaultTextStyle,
       ),
