@@ -43,6 +43,7 @@ class SingleVisitContent extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: getIconWithSub(
@@ -114,12 +115,13 @@ class SingleVisitContent extends StatelessWidget {
       IconData icon, Function onTap, String subtitle, TextStyle sub2) {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         AdaptiveButton.orangeTransparent(icon: icon, onTap: onTap),
         SizedBox(height: 10),
         AutoSizeText(
           subtitle.toUpperCase(),
-          style: sub2,
+          style: sub2.copyWith(fontSize: 16),
           textAlign: TextAlign.center,
         ),
       ],

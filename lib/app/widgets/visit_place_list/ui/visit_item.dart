@@ -52,19 +52,27 @@ class VisitItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 4,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 13,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   AutoSizeText(
                     context.localization(WORK_TIME).toUpperCase(),
-                    style: TextStyle(color: lightGrey, fontFamily: 'Jost'),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: lightGrey,
+                      fontFamily: 'Jost',
+                    ),
                   ),
                   AutoSizeText(
                     place.workTime,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: lightGrey, fontFamily: 'Jost'),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: lightGrey,
+                      fontFamily: 'Jost',
+                    ),
                   ),
                 ],
               ),
