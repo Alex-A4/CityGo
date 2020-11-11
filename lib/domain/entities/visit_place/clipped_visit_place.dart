@@ -10,6 +10,8 @@ class ClippedVisitPlace extends Equatable {
   /// Заголовок, который описывает карточку
   final String name;
 
+  final PlaceType type;
+
   /// Время работы объекта, может не содержать информации, например, для парков.
   /// Если время не указано, то это пустая строка
   final String workTime;
@@ -19,12 +21,14 @@ class ClippedVisitPlace extends Equatable {
 
   final String logo;
 
-  ClippedVisitPlace(this.id, this.name, this.workTime, this.rating, this.logo);
+  ClippedVisitPlace(
+      this.id, this.type, this.name, this.workTime, this.rating, this.logo);
 
   /// Фабрика для извлечения данных из JSON
   factory ClippedVisitPlace.fromJson(Map<String, dynamic> json) {
     return ClippedVisitPlace(
       json['id'],
+      PlaceType.values[json['type'] ?? 3],
       json['name'] ?? '',
       json['work_time'] ?? '',
       json['rating'] ?? 0.0,
@@ -33,5 +37,44 @@ class ClippedVisitPlace extends Equatable {
   }
 
   @override
-  List<Object> get props => [id, name, workTime, rating, logo];
+  List<Object> get props => [id, name, workTime, rating, logo, type];
+}
+
+/// Тип объекта, который
+enum PlaceType {
+  Museums,
+  Restaurants,
+  Cathedrals,
+  ActiveRecreation,
+  Parks,
+  Pubs,
+  Theatres,
+  Malls,
+}
+
+/// Расширение для получения названия места по его типу.
+/// Используется в репозитории, чтобы упростить формирование данных
+extension PlaceTypeString on PlaceType {
+  String get placeName {
+    switch (this) {
+      case PlaceType.Museums:
+        return 'museums';
+      case PlaceType.Restaurants:
+        return 'restaurants';
+      case PlaceType.Cathedrals:
+        return 'cathedrals';
+      case PlaceType.ActiveRecreation:
+        return 'activeRecreation';
+      case PlaceType.Parks:
+        return 'parks';
+      case PlaceType.Pubs:
+        return 'pubs';
+      case PlaceType.Theatres:
+        return 'theatres';
+      case PlaceType.Malls:
+        return 'malls';
+      default:
+        return null;
+    }
+  }
 }

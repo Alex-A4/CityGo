@@ -20,8 +20,10 @@ void main() {
   final type = PlaceType.Museums;
   final logo = ImageSrc('/src/logo.jpg', 'description', 'title');
   final user = InAppUser(userName: 'name', accessToken: 'token');
-  final place1 = ClippedVisitPlace(10, 'name1', '10:00-18:00', 3.3, logo.path);
-  final place2 = ClippedVisitPlace(12, 'name2', '09:00-18:00', 4.2, logo.path);
+  final place1 = ClippedVisitPlace(
+      10, PlaceType.Museums, 'name1', '10:00-18:00', 3.3, logo.path);
+  final place2 = ClippedVisitPlace(
+      12, PlaceType.Museums, 'name2', '09:00-18:00', 4.2, logo.path);
 
   final defaultSort = PlaceSortType.Rating;
   final changedSort = PlaceSortType.Distance;

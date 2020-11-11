@@ -22,6 +22,7 @@ void main() {
   });
   final place = FullVisitPlace(
     id: 1234,
+    type: PlaceType.Museums,
     title: 'Ярославский музей-заповедник',
     description: 'description very big',
     generalInfo: 'Some general info',

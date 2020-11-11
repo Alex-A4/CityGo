@@ -7,47 +7,10 @@ import 'package:meta/meta.dart';
 export 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 export 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 
-/// Тип объекта, который
-enum PlaceType {
-  Museums,
-  Restaurants,
-  Cathedrals,
-  ActiveRecreation,
-  Parks,
-  Pubs,
-  Theatres,
-  Malls,
-}
 
 /// Способ сортировки мест
 enum PlaceSortType { Distance, Rating, Random }
 
-/// Расширение для получения названия места по его типу.
-/// Используется в репозитории, чтобы упростить формирование данных
-extension PlaceTypeString on PlaceType {
-  String get placeName {
-    switch (this) {
-      case PlaceType.Museums:
-        return 'museums';
-      case PlaceType.Restaurants:
-        return 'restaurants';
-      case PlaceType.Cathedrals:
-        return 'cathedrals';
-      case PlaceType.ActiveRecreation:
-        return 'activeRecreation';
-      case PlaceType.Parks:
-        return 'parks';
-      case PlaceType.Pubs:
-        return 'pubs';
-      case PlaceType.Theatres:
-        return 'theatres';
-      case PlaceType.Malls:
-        return 'malls';
-      default:
-        return null;
-    }
-  }
-}
 
 /// Получение строкового названия типа сортировки
 extension PlaceSortString on PlaceSortType {
