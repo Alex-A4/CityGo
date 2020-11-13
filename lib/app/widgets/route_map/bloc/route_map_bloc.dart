@@ -5,6 +5,7 @@ import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:city_go/domain/repositories/map/map_repository.dart';
+import 'package:flutter/widgets.dart' as w;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /// Блока построения пути на карте, позволяет строить маршрут для пути, который
@@ -24,10 +25,18 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
   bool isLocationSearching = false;
   bool showError = false;
 
+  BitmapDescriptor pointIcon;
+
   @override
   Stream<RouteMapBlocState> mapEventToState(RouteMapBlocEvent event) async* {
     if (event is RouteMapBlocInitEvent) {
       controller = event.controller;
+
+      pointIcon = await BitmapDescriptor.fromAssetImage(
+        w.ImageConfiguration.empty,
+        'assets/images/point.bmp',
+        mipmaps: false,
+      );
 
       yield turnOnFinding;
       await findUserLocation();

@@ -6,6 +6,7 @@ import 'package:city_go/constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
+import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -40,7 +41,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
 
   bool isRoutePathShowed = false;
 
-  Set<Marker> markers;
+  Set<Marker> markers = {};
 
   Map<PolylineId, Polyline> polylines;
 
@@ -75,6 +76,11 @@ class _RouteMapPageState extends State<RouteMapPage> {
         stream: bloc,
         builder: (_, snap) {
           var state = snap.data as RouteMapBlocMapState;
+
+          if (markers.isEmpty &&
+              widget.route.routePlaces.isNotEmpty &&
+              bloc.pointIcon != null)
+            initPlaceMarkers(widget.route.routePlaces);
 
           if (state.route?.hasData == true) initPolylines(state.route.data);
 
@@ -257,8 +263,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
             data.coordinates.last.latitude,
             data.coordinates.last.longitude,
           ),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+          icon: null,
         )
       ]);
       polylines = {
@@ -269,6 +274,19 @@ class _RouteMapPageState extends State<RouteMapPage> {
           color: Colors.blue,
         ),
       };
+    }
+  }
+
+  void initPlaceMarkers(List<FullVisitPlace> routePlaces) {
+    for (var place in routePlaces) {
+      if (place.latLng == null) continue;
+      markers.add(Marker(
+        markerId: MarkerId('Place: ${place.id}'),
+        infoWindow: InfoWindow(title: place.name),
+        onTap: () => print('TapPoint'),
+        position: place.latLng.toGoogle(),
+        icon: bloc.pointIcon,
+      ));
     }
   }
 }
