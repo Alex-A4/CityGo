@@ -9,6 +9,7 @@ import 'package:city_go/data/repositories/audio_player/audio_player.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 import 'package:city_go/localization/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Виджет контента для экрана, отображающего место или заведение, куда можно
 /// сходить
@@ -28,6 +29,12 @@ class SingleVisitContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme.subtitle2;
+    final infoStyle = style.copyWith(
+      decoration: TextDecoration.none,
+      fontSize: 16,
+      fontFamily: 'Jost',
+      fontWeight: FontWeight.w400,
+    );
 
     return Material(
       color: Colors.transparent,
@@ -79,12 +86,16 @@ class SingleVisitContent extends StatelessWidget {
                     style: style),
               ),
               SizedBox(height: 30),
-              getInfoRow('assets/images/time.png', place.workTime, style),
+              getInfoRow('assets/images/time.png', place.workTime, infoStyle),
               SizedBox(height: 5),
-              getInfoRow('assets/images/place.png', place.objectAddress, style),
+              getInfoRow('assets/images/place.png', place.objectAddress, infoStyle),
               SizedBox(height: 5),
               getInfoRow(
-                  'assets/images/web-site.png', place.objectWebSite, style),
+                'assets/images/web-site.png',
+                place.objectWebSite,
+                infoStyle.copyWith(decoration: TextDecoration.underline),
+                launchWebSite,
+              ),
               SizedBox(height: 50),
               RatingWidget(rating: place.rating),
               SizedBox(height: bottomSize + 40),
@@ -95,20 +106,26 @@ class SingleVisitContent extends StatelessWidget {
     );
   }
 
-  Widget getInfoRow(String imagePath, String text, TextStyle sub2) {
-    final f = sub2.copyWith(
-      decoration: TextDecoration.none,
-      fontSize: 16,
-      fontFamily: 'Jost',
-      fontWeight: FontWeight.w400,
-    );
-    return Row(
+  Future<void> launchWebSite() async {
+    if (place.objectWebSite.isNotEmpty &&
+        await canLaunch(place.objectWebSite)) {
+      try {
+        await launch(place.objectWebSite);
+      } catch (_) {}
+    }
+  }
+
+  Widget getInfoRow(String imagePath, String text, TextStyle sub2,
+      [Function onTap]) {
+    final child = Row(
       children: [
         Image.asset(imagePath, height: 30, fit: BoxFit.contain),
         SizedBox(width: 10),
-        Expanded(child: AutoSizeText(text ?? '', style: f)),
+        Expanded(child: AutoSizeText(text ?? '', style: sub2)),
       ],
     );
+    if (onTap == null) return child;
+    return FlatButton(child: child, onPressed: onTap, padding: EdgeInsets.zero);
   }
 
   Widget getIconWithSub(
