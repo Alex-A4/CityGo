@@ -8,6 +8,8 @@ class AdaptiveButton extends StatelessWidget {
   final Function onTap;
   final Color iconBorderColor;
   final Color backgroundColor;
+  final double padding;
+  static const iconSize = 30.0;
 
   AdaptiveButton({
     Key key,
@@ -15,6 +17,7 @@ class AdaptiveButton extends StatelessWidget {
     @required this.onTap,
     this.iconBorderColor = orangeColor,
     this.backgroundColor = Colors.white,
+    this.padding = 5.0,
   })  : assert(child != null),
         super(key: key);
 
@@ -59,6 +62,9 @@ class AdaptiveButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    Color currentColor = onTap == null ? theme.disabledColor : iconBorderColor;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(90),
@@ -67,11 +73,18 @@ class AdaptiveButton extends StatelessWidget {
           BorderSide(color: iconBorderColor, width: 2),
         ),
       ),
-      child: IconButton(
-        iconSize: 30,
-        color: iconBorderColor,
-        icon: child,
-        onPressed: onTap,
+      child: InkResponse(
+        onTap: onTap,
+        child: Padding(
+          padding: EdgeInsets.all(padding),
+          child: IconTheme.merge(
+            data: IconThemeData(size: iconSize, color: currentColor),
+            child: child,
+          ),
+        ),
+        focusColor: theme.focusColor,
+        hoverColor: theme.hoverColor,
+        highlightColor: theme.highlightColor,
       ),
     );
   }
