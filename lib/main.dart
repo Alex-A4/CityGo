@@ -71,7 +71,7 @@ class CityGoApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: ROOT,
+      initialRoute: INTRO_ANIMATION,
       routes: routes,
       onGenerateRoute: generateRoute,
     );

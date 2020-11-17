@@ -1,3 +1,4 @@
+import 'package:city_go/app/pages/intro_page/intro_page.dart';
 import 'package:city_go/app/pages/main_page/main_page.dart';
 import 'package:city_go/app/pages/path_map/path_map_page.dart';
 import 'package:city_go/app/pages/profile_auth/profile_auth_page.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 
 /// Константы для страниц, здесь должны быть перечислены все страницы без исключений
 const ROOT = '/';
+const INTRO_ANIMATION = '/intro';
 const PATH_MAP_PAGE = '/path_map';
 const ROUTE_MAP_PAGE = '/route_map';
 const PROFILE = '/profile';
@@ -23,6 +25,7 @@ const VISIT_SINGLE = '/visit_single';
 
 /// Роуты, в которые не нужно передавать данные, они основаны на DI
 final routes = <String, WidgetBuilder>{
+  INTRO_ANIMATION: (_) => IntroPage(),
   ROOT: (_) => MainPage(),
   PROFILE: (_) => ProfileAuthPage(bloc: sl()),
   ROUTE_LIST: (_) => RouteListPage(bloc: sl()),
