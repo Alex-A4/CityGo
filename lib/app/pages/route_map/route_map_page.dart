@@ -1,4 +1,5 @@
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
+import 'package:city_go/app/general_widgets/place_dialog.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
@@ -80,7 +81,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
           if (markers.isEmpty &&
               widget.route.routePlaces.isNotEmpty &&
               bloc.pointIcons != null)
-            initPlaceMarkers(widget.route.routePlaces);
+            initPlaceMarkers(widget.route.routePlaces, context);
 
           if (state.route?.hasData == true) initPolylines(state.route.data);
 
@@ -248,7 +249,6 @@ class _RouteMapPageState extends State<RouteMapPage> {
       markers.addAll([
         Marker(
           markerId: MarkerId('start_point'),
-          infoWindow: InfoWindow(title: 'Start'),
           position: LatLng(
             data.coordinates.first.latitude,
             data.coordinates.first.longitude,
@@ -277,16 +277,20 @@ class _RouteMapPageState extends State<RouteMapPage> {
     }
   }
 
-  void initPlaceMarkers(List<FullVisitPlace> routePlaces) {
+  void initPlaceMarkers(List<FullVisitPlace> routePlaces, BuildContext c) {
     for (var place in routePlaces) {
       if (place.latLng == null) continue;
       markers.add(Marker(
         markerId: MarkerId('Place: ${place.id}'),
-        infoWindow: InfoWindow(title: place.name),
-        onTap: () => print('TapPoint'),
+        onTap: () => showPlaceDialog(place, c),
         position: place.latLng.toGoogle(),
+        flat: true,
         icon: bloc.pointIcons[place.type.index],
       ));
     }
+  }
+
+  void showPlaceDialog(FullVisitPlace place, BuildContext context) {
+    showDialog(context: context, builder: (c) => PlaceDialog(place: place));
   }
 }
