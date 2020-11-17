@@ -37,6 +37,7 @@ class CityGoApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       theme: ThemeData(
+        splashColor: Colors.black26,
         primaryColor: Colors.grey[800],
         accentColor: Colors.grey[800],
         textTheme: TextTheme(
@@ -69,6 +70,11 @@ class CityGoApp extends StatelessWidget {
             fontFamily: 'Jost',
             fontWeight: FontWeight.w500,
           ),
+          bodyText1: TextStyle(
+              fontSize: 16,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontFamily: 'AleGrey'),
         ),
       ),
       initialRoute: INTRO_ANIMATION,
