@@ -79,7 +79,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
 
           if (markers.isEmpty &&
               widget.route.routePlaces.isNotEmpty &&
-              bloc.pointIcon != null)
+              bloc.pointIcons != null)
             initPlaceMarkers(widget.route.routePlaces);
 
           if (state.route?.hasData == true) initPolylines(state.route.data);
@@ -285,7 +285,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
         infoWindow: InfoWindow(title: place.name),
         onTap: () => print('TapPoint'),
         position: place.latLng.toGoogle(),
-        icon: bloc.pointIcon,
+        icon: bloc.pointIcons[place.type.index],
       ));
     }
   }
