@@ -15,6 +15,7 @@ import 'package:city_go/data/repositories/profile/profile_repository_impl.dart';
 import 'package:city_go/data/repositories/profile/user_remote_repo_impl.dart';
 import 'package:city_go/data/repositories/routes/route_repository_impl.dart';
 import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart';
+import 'package:city_go/data/storages/map_icons_storage.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:connectivity/connectivity.dart';
@@ -48,6 +49,7 @@ Future<void> initServiceLocator() async {
   sl.registerSingleton<NetworkChecker>(NetworkCheckerImpl(sl()));
   sl.registerSingleton<DistanceCalculator>(DistanceCalculatorImpl());
   sl.registerFactory<HttpClient>(() => HttpClientImpl(sl()));
+  sl.registerSingleton<MapIconsStorage>(MapIconsStorageImpl()..startLoading());
 
   /// Repositories
   sl.registerFactory<UserRemoteRepository>(
