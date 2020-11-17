@@ -91,4 +91,5 @@ flutter:
   assets:
     - assets/localization/
     - assets/images/
+    - assets/images/points/
     - assets/flare/
