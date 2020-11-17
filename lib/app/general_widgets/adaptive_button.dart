@@ -25,11 +25,13 @@ class AdaptiveButton extends StatelessWidget {
     Key key,
     @required IconData icon,
     @required Function onTap,
+    padding: 5.0,
   }) =>
       AdaptiveButton(
         key: key,
         child: Icon(icon),
         onTap: onTap,
+        padding: padding,
         iconBorderColor: orangeColor,
         backgroundColor: Colors.white,
       );
@@ -38,11 +40,13 @@ class AdaptiveButton extends StatelessWidget {
     Key key,
     @required IconData icon,
     @required Function onTap,
+    double padding = 5.0,
   }) =>
       AdaptiveButton(
         key: key,
         child: Icon(icon),
         onTap: onTap,
+        padding: padding,
         iconBorderColor: orangeColor,
         backgroundColor: Colors.transparent,
       );
@@ -52,9 +56,11 @@ class AdaptiveButton extends StatelessWidget {
     @required Widget widget,
     @required Function onTap,
     Color backgroundColor,
+    padding: 5.0,
   }) =>
       AdaptiveButton(
         key: key,
+        padding: padding,
         child: widget,
         onTap: onTap,
         backgroundColor: backgroundColor,
