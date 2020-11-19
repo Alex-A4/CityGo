@@ -20,7 +20,7 @@ dependencies:
   flutter_polyline_points: ^0.2.4
   flutter_webview_plugin: ^0.3.11
   auto_size_text: ^2.1.0
-  lottie: ^0.7.0+1
+  flare_flutter: ^2.0.6
 
   # Logic section
   bloc: ^6.0.3
@@ -92,4 +92,4 @@ flutter:
     - assets/localization/
     - assets/images/
     - assets/images/points/
-    - assets/lottie/
+    - assets/flare/
