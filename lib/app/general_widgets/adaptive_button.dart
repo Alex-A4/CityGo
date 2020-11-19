@@ -48,7 +48,7 @@ class AdaptiveButton extends StatelessWidget {
         onTap: onTap,
         padding: padding,
         iconBorderColor: orangeColor,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white24,
       );
 
   factory AdaptiveButton.widget({
