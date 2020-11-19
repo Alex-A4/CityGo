@@ -89,28 +89,11 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
                         ],
                       ),
                       if (place != null)
-                        Positioned(
-                          left: 0,
-                          bottom: 0,
-                          child: Container(
-                            height: constraints.maxHeight,
-                            width: constraints.maxWidth,
-                            child: DraggableScrollableSheet(
-                              minChildSize: 0.1,
-                              maxChildSize: heightPercent,
-                              initialChildSize: 0.1,
-                              builder: (_, c) {
-                                return SingleChildScrollView(
-                                  child: DescriptionWidget(
-                                    description: place.description,
-                                    minHeight: height,
-                                    images: place.imageSrc,
-                                  ),
-                                  controller: c,
-                                );
-                              },
-                            ),
-                          ),
+                        DescriptionWidget(
+                          description: place.description,
+                          images: place.imageSrc,
+                          minHeight: constraints.maxHeight * 0.1,
+                          maxHeight: constraints.maxHeight * heightPercent,
                         ),
                     ],
                   ),
