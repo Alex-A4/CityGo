@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
@@ -7,68 +8,133 @@ import 'package:city_go/localization/localization.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-/// Виджет, содержащий описание к какому-то объекту, используется вместе с
-/// [DraggableScrollableSheet].
-class DescriptionWidget extends StatelessWidget {
+/// Виджет, содержащий описание к какому-то объекту.
+/// Этот виджет уже сам по себе реализует вытягивание и скролл за счет
+/// [SlidingUpPanel], поэтому ему нужно передать только максимальную и
+/// минимальную высоты.
+/// Лучше всего оборачивать [DescriptionWidget] в [Stack].
+class DescriptionWidget extends StatefulWidget {
+  final List<ImageSrc> images;
   final String description;
   final double minHeight;
-  final List<ImageSrc> images;
+  final double maxHeight;
 
   DescriptionWidget({
-    Key key,
+    Key key = const Key('DescriptionWidget'),
     @required this.description,
     @required this.minHeight,
+    @required this.maxHeight,
     this.images,
-  })  : assert(description != null && minHeight != null),
+  })  : assert(description != null && minHeight != null && maxHeight != null),
         super(key: key);
 
   @override
+  _DescriptionWidgetState createState() => _DescriptionWidgetState();
+}
+
+class _DescriptionWidgetState extends State<DescriptionWidget> {
+  PanelController _controller = PanelController();
+
+  @override
   Widget build(BuildContext context) {
-    return Material(
-      key: Key('DescriptionMaterial'),
-      child: Container(
-        key: Key('DescriptionContainerUnderMaterial'),
-        constraints: BoxConstraints(minHeight: minHeight),
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          key: Key('DescriptionColumn'),
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Icon(
-                Icons.keyboard_arrow_up_outlined,
-                size: 30,
-                color: orangeColor,
+    return SlidingUpPanel(
+      minHeight: widget.minHeight,
+      maxHeight: widget.maxHeight,
+      controller: _controller,
+      panelBuilder: (c) {
+        return Material(
+          color: Colors.transparent,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: AdaptiveButton(
+                  padding: 0,
+                  needBorder: false,
+                  backgroundColor: Colors.transparent,
+                  onTap: () {
+                    _controller.isPanelOpen
+                        ? _controller.close()
+                        : _controller.open();
+                  },
+                  child: Icon(
+                    Icons.keyboard_arrow_up_outlined,
+                    size: 30,
+                    color: orangeColor,
+                  ),
+                ),
               ),
-            ),
-            AutoSizeText(
-              context.localization(DESCRIPTION_WORD),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 22,
-                fontFamily: 'AleGrey',
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: AutoSizeText(
+                  context.localization(DESCRIPTION_WORD),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontFamily: 'AleGrey',
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            AutoSizeText(
-              description,
-              key: Key('DescriptionBaseText'),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                fontFamily: 'MontserRat',
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: c,
+                  child: DescriptionContent(
+                    description: widget.description,
+                    images: widget.images,
+                    minHeight: widget.minHeight,
+                  ),
+                ),
               ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Контент описательного виджета, который содержит текст и картинки по необходимости
+class DescriptionContent extends StatelessWidget {
+  final List<ImageSrc> images;
+  final String description;
+  final double minHeight;
+
+  DescriptionContent({
+    Key key,
+    @required this.images,
+    @required this.description,
+    @required this.minHeight,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: Key('DescriptionContainerUnderMaterial'),
+      constraints: BoxConstraints(minHeight: minHeight),
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        key: Key('DescriptionColumn'),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10),
+          AutoSizeText(
+            description,
+            key: Key('DescriptionBaseText'),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              fontFamily: 'MontserRat',
             ),
-            if (images != null)
-              DescriptionImages(key: Key('DescriptionImages'), images: images),
-          ],
-        ),
+          ),
+          if (images != null)
+            DescriptionImages(key: Key('DescriptionImages'), images: images),
+        ],
       ),
-      color: Colors.white,
     );
   }
 }
