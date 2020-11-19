@@ -9,6 +9,7 @@ class AdaptiveButton extends StatelessWidget {
   final Color iconBorderColor;
   final Color backgroundColor;
   final double padding;
+  final bool needBorder;
   static const iconSize = 30.0;
 
   AdaptiveButton({
@@ -18,6 +19,7 @@ class AdaptiveButton extends StatelessWidget {
     this.iconBorderColor = orangeColor,
     this.backgroundColor = Colors.white,
     this.padding = 5.0,
+    this.needBorder = true,
   })  : assert(child != null),
         super(key: key);
 
@@ -71,16 +73,18 @@ class AdaptiveButton extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     Color currentColor = onTap == null ? theme.disabledColor : iconBorderColor;
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(90),
-        color: backgroundColor,
-        border: Border.fromBorderSide(
-          BorderSide(color: iconBorderColor, width: 2),
+    return InkResponse(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(90),
+          color: backgroundColor,
+          border: !needBorder
+              ? null
+              : Border.fromBorderSide(
+                  BorderSide(color: iconBorderColor, width: 2),
+                ),
         ),
-      ),
-      child: InkResponse(
-        onTap: onTap,
         child: Padding(
           padding: EdgeInsets.all(padding),
           child: IconTheme.merge(
@@ -88,9 +92,6 @@ class AdaptiveButton extends StatelessWidget {
             child: child,
           ),
         ),
-        focusColor: theme.focusColor,
-        hoverColor: theme.hoverColor,
-        highlightColor: theme.highlightColor,
       ),
     );
   }
