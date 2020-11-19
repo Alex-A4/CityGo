@@ -22,15 +22,15 @@ class PlaceTypeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme.headline4;
 
-    return Container(
-      constraints: BoxConstraints(minHeight: 150),
-      margin: EdgeInsets.only(bottom: 3),
-      height: height - 3,
-      decoration: BoxDecoration(
-        image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
-      ),
-      child: GestureDetector(
-        onTap: onTap,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        constraints: BoxConstraints(minHeight: 150),
+        margin: EdgeInsets.only(bottom: 3),
+        height: height - 3,
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
+        ),
         child: Center(
           child: AutoSizeText(
             context.localization(nameCode),
