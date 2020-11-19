@@ -21,6 +21,7 @@ dependencies:
   flutter_webview_plugin: ^0.3.11
   auto_size_text: ^2.1.0
   flare_flutter: ^2.0.6
+  sliding_up_panel: ^1.0.2
 
   # Logic section
   bloc: ^6.0.3
