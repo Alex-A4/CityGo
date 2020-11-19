@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
+import 'package:city_go/app/general_widgets/custom_dialog.dart';
+import 'package:city_go/app/general_widgets/rating_dialog.dart';
 import 'package:city_go/app/general_widgets/rating_widget.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/data/core/localization_constants.dart';
@@ -87,7 +89,14 @@ class SingleRouteContent extends StatelessWidget {
               SizedBox(height: 20),
               getInfoRow(GO_TIME, '${route.goTime}', context, style),
               SizedBox(height: 50),
-              RatingWidget(rating: route.rating),
+              RatingWidget(
+                rating: route.rating,
+                onTap: (context) {
+                  Navigator.of(context).push(
+                    DialogRoute(builder: (_) => RatingDialog()),
+                  );
+                },
+              ),
               SizedBox(height: bottomSize + 40),
             ],
           ),

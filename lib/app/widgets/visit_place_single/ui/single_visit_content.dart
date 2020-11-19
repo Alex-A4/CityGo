@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
+import 'package:city_go/app/general_widgets/custom_dialog.dart';
+import 'package:city_go/app/general_widgets/rating_dialog.dart';
 import 'package:city_go/app/general_widgets/rating_widget.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/data/core/localization_constants.dart';
@@ -88,7 +90,8 @@ class SingleVisitContent extends StatelessWidget {
               SizedBox(height: 30),
               getInfoRow('assets/images/time.png', place.workTime, infoStyle),
               SizedBox(height: 5),
-              getInfoRow('assets/images/place.png', place.objectAddress, infoStyle),
+              getInfoRow(
+                  'assets/images/place.png', place.objectAddress, infoStyle),
               SizedBox(height: 5),
               getInfoRow(
                 'assets/images/web-site.png',
@@ -97,7 +100,14 @@ class SingleVisitContent extends StatelessWidget {
                 launchWebSite,
               ),
               SizedBox(height: 50),
-              RatingWidget(rating: place.rating),
+              RatingWidget(
+                rating: place.rating,
+                onTap: (context) {
+                  Navigator.of(context).push(
+                    DialogRoute(builder: (_) => RatingDialog()),
+                  );
+                },
+              ),
               SizedBox(height: bottomSize + 40),
             ],
           ),
@@ -125,7 +135,11 @@ class SingleVisitContent extends StatelessWidget {
       ],
     );
     if (onTap == null) return child;
-    return FlatButton(child: child, onPressed: onTap, padding: EdgeInsets.zero);
+    return InkWell(
+      child: child,
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
+    );
   }
 
   Widget getIconWithSub(
