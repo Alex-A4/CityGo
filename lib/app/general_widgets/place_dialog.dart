@@ -45,7 +45,7 @@ class PlaceDialog extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,7 +62,7 @@ class PlaceDialog extends StatelessWidget {
                     Expanded(
                       child: AutoSizeText(
                         place.name.toUpperCase(),
-                        style: theme.headline4,
+                        style: theme.headline4.copyWith(fontSize: 16),
                         textAlign: TextAlign.right,
                       ),
                     ),
@@ -72,14 +72,15 @@ class PlaceDialog extends StatelessWidget {
               Divider(color: orangeColor, height: 1, thickness: 1),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(bottom: 15),
+                        padding: EdgeInsets.only(bottom: 8),
                         child: AutoSizeText(
                           context.localization('general_info'),
                           style: theme.subtitle2.copyWith(
+                              fontSize: 16,
                               fontFamily: 'MontserRat',
                               fontWeight: FontWeight.w500,
                               decoration: TextDecoration.none),
@@ -89,7 +90,9 @@ class PlaceDialog extends StatelessWidget {
                       Expanded(
                         child: AutoSizeText(
                           place.generalInfo,
-                          style: theme.bodyText1.copyWith(fontFamily: 'Jost'),
+                          style: theme.bodyText1
+                              .copyWith(fontFamily: 'Jost', fontSize: 16),
+                          overflow: TextOverflow.fade,
                         ),
                       ),
                       Row(
