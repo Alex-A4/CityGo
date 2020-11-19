@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
+import 'package:city_go/app/general_widgets/custom_dialog.dart';
+import 'package:city_go/app/general_widgets/rating_dialog.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/rating_button.dart';
@@ -56,7 +58,14 @@ class PlaceDialog extends StatelessWidget {
                           onTap: () => Navigator.of(context).pop(),
                         ),
                         SizedBox(height: 5),
-                        RatingButton(rating: place.rating),
+                        RatingButton(
+                          rating: place.rating,
+                          onTap: (context) {
+                            Navigator.of(context).push(
+                              DialogRoute(builder: (_) => RatingDialog()),
+                            );
+                          },
+                        ),
                       ],
                     ),
                     Expanded(
