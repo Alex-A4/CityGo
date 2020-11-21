@@ -28,14 +28,13 @@ class MapIconsStorageImpl extends MapIconsStorage {
   }
 
   /// Чтение картинок асинхронно.
-  /// TODO: заменить 0 в названии на i после добавления всех картинок
   Future<List<BitmapDescriptor>> _readBitmaps() async {
     final points = <BitmapDescriptor>[];
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i <= 2; i++) {
       var point = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration.empty,
-        'assets/images/points/point0.bmp',
+        'assets/images/points/point$i.bmp',
       );
       points.add(point);
     }
