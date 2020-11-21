@@ -45,32 +45,23 @@ class PlaceDialog extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AdaptiveButton.orangeTransparent(
-                          icon: Icons.close,
-                          padding: 1,
-                          onTap: () => Navigator.of(context).pop(),
-                        ),
-                        SizedBox(height: 5),
-                        RatingButton(
-                          rating: place.rating,
-                          onTap: (context) {
-                            Navigator.of(context).push(
-                              DialogRoute(builder: (_) => RatingDialog()),
-                            );
-                          },
-                        ),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.only(left: 5, top: 5, bottom: 5),
+                      child: AdaptiveButton.orangeTransparent(
+                        icon: Icons.close,
+                        padding: 1,
+                        onTap: () => Navigator.of(context).pop(),
+                      ),
                     ),
                     Expanded(
                       child: AutoSizeText(
                         place.name.toUpperCase(),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         style: theme.headline4.copyWith(fontSize: 16),
                         textAlign: TextAlign.right,
                       ),
@@ -105,39 +96,51 @@ class PlaceDialog extends StatelessWidget {
                         ),
                       ),
                       Row(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Image.asset('assets/images/time.png',
-                              height: 30, fit: BoxFit.contain),
-                          SizedBox(width: 10),
                           Expanded(
-                              child: AutoSizeText(
-                            place.workTime,
-                            style: theme.bodyText1.copyWith(fontFamily: 'Jost'),
-                          )),
+                            flex: 5,
+                            child: getInfoRow(
+                              'assets/images/time.png',
+                              place.workTime,
+                              theme.bodyText1.copyWith(fontFamily: 'Jost'),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 3,
+                            child: getInfoRow(
+                              'assets/images/star.png',
+                              '${place.rating}',
+                              theme.bodyText1.copyWith(fontFamily: 'Jost'),
+                            ),
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
               ),
-              FlatButton(
-                color: Colors.white38,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(color: Colors.white, width: 5),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context)
-                      .pushNamed(VISIT_SINGLE, arguments: place);
-                },
-                child: AutoSizeText(
-                  context.localization(DETAIL_WORD).toUpperCase(),
-                  style: TextStyle(
-                    letterSpacing: 1.2,
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontFamily: 'Jost',
+              Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: FlatButton(
+                  color: Colors.white38,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(color: Colors.white, width: 5),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .pushNamed(VISIT_SINGLE, arguments: place);
+                  },
+                  child: AutoSizeText(
+                    context.localization(DETAIL_WORD).toUpperCase(),
+                    style: TextStyle(
+                      letterSpacing: 1.2,
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontFamily: 'Jost',
+                    ),
                   ),
                 ),
               ),
@@ -145,6 +148,16 @@ class PlaceDialog extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget getInfoRow(String image, String title, TextStyle style) {
+    return Row(
+      children: [
+        Image.asset(image, height: 30, fit: BoxFit.contain),
+        SizedBox(width: 10),
+        Expanded(child: AutoSizeText(title, style: style)),
+      ],
     );
   }
 }
