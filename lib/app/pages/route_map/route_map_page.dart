@@ -7,6 +7,7 @@ import 'package:city_go/constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
+import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -285,7 +286,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
         onTap: () => showPlaceDialog(place, c),
         position: place.latLng.toGoogle(),
         flat: true,
-        icon: bloc.pointIcons[place.type.index],
+        icon: bloc.pointIcons[place.type.iconIndex],
       ));
     }
   }

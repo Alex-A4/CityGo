@@ -52,9 +52,11 @@ enum PlaceType {
   Malls,
 }
 
-/// Расширение для получения названия места по его типу.
+/// Расширение для получения названия места по его типу, а также индесков
+/// иконок в [MapIconsStorage].
 /// Используется в репозитории, чтобы упростить формирование данных
-extension PlaceTypeString on PlaceType {
+extension PlaceTypeSupport on PlaceType {
+  /// Получение названия типа, используется в локализации.
   String get placeName {
     switch (this) {
       case PlaceType.Museums:
@@ -75,6 +77,26 @@ extension PlaceTypeString on PlaceType {
         return 'malls';
       default:
         return null;
+    }
+  }
+
+  /// Получение индекса в репозитории иконок для карты.
+  /// Иконки распределились по группировкам.
+  int get iconIndex {
+    switch (this) {
+      case PlaceType.Restaurants:
+      case PlaceType.Pubs:
+        return 0;
+      case PlaceType.Cathedrals:
+      case PlaceType.Museums:
+      case PlaceType.Theatres:
+        return 1;
+      case PlaceType.ActiveRecreation:
+      case PlaceType.Parks:
+      case PlaceType.Malls:
+        return 2;
+      default:
+        return 0;
     }
   }
 }
