@@ -64,6 +64,24 @@ class FullVisitPlace extends ClippedVisitPlace {
     );
   }
 
+  factory FullVisitPlace.fromClipped(ClippedVisitPlace clipped) {
+    return FullVisitPlace(
+      id: clipped.id,
+      title: clipped.name,
+      type: clipped.type,
+      logo: clipped.logo,
+      rating: clipped.rating,
+      workTime: clipped.workTime,
+      latLng: clipped.latLng,
+      imageSrc: [],
+      description: '',
+      generalInfo: '',
+      objectAddress: '',
+      audioSrc: '',
+      objectWebSite: '',
+    );
+  }
+
   @override
   List<Object> get props => [...super.props, objectAddress, latLng];
 }
