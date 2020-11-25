@@ -32,7 +32,7 @@ class ClippedVisitPlace extends Equatable {
   factory ClippedVisitPlace.fromJson(Map<String, dynamic> json) {
     return ClippedVisitPlace(
       json['id'],
-      PlaceType.values[json['type'] ?? 3],
+      PlaceType.values[(json['type'] ?? 3) - 1],
       json['name'] ?? '',
       json['work_time'] ?? '',
       json['rating'] ?? 0.0,
