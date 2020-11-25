@@ -29,8 +29,6 @@ class RouteMapPage extends StatefulWidget {
 }
 
 class _RouteMapPageState extends State<RouteMapPage> {
-  static const minZoom = 12.0;
-
   // ignore: close_sinks
   RouteMapBloc bloc;
   LatLng userPosition;
