@@ -27,11 +27,9 @@ class FullVisitPlace extends ClippedVisitPlace {
   /// Общая информация об объекте
   final String generalInfo;
 
-  /// Координаты расположения объекта
-  final LatLng latLng;
-
   FullVisitPlace({
     @required int id,
+    LatLng latLng,
     @required String title,
     @required String workTime,
     @required double rating,
@@ -41,10 +39,9 @@ class FullVisitPlace extends ClippedVisitPlace {
     @required this.imageSrc,
     @required this.objectAddress,
     @required this.generalInfo,
-    @required this.latLng,
     this.objectWebSite,
     this.audioSrc,
-  }) : super(id, type, title, workTime, rating, logo);
+  }) : super(id, type, title, workTime, rating, logo, latLng);
 
   factory FullVisitPlace.fromJson(Map<String, dynamic> json) {
     return FullVisitPlace(

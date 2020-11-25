@@ -3,11 +3,12 @@ import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/entities/future_response.dart';
+import 'package:city_go/domain/entities/lat_lng.dart';
 import 'package:city_go/domain/entities/profile/profile.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as g;
 import 'package:mockito/mockito.dart';
 
 class MockPlaceRepository extends Mock implements PlaceRepository {}
@@ -20,10 +21,10 @@ void main() {
   final type = PlaceType.Museums;
   final logo = ImageSrc('/src/logo.jpg', 'description', 'title');
   final user = InAppUser(userName: 'name', accessToken: 'token');
-  final place1 = ClippedVisitPlace(
-      10, PlaceType.Museums, 'name1', '10:00-18:00', 3.3, logo.path);
-  final place2 = ClippedVisitPlace(
-      12, PlaceType.Museums, 'name2', '09:00-18:00', 4.2, logo.path);
+  final place1 = ClippedVisitPlace(10, PlaceType.Museums, 'name1',
+      '10:00-18:00', 3.3, logo.path, LatLng(52.0, 38.0));
+  final place2 = ClippedVisitPlace(12, PlaceType.Museums, 'name2',
+      '09:00-18:00', 4.2, logo.path, LatLng(51.5, 37.23));
 
   final defaultSort = PlaceSortType.Rating;
   final changedSort = PlaceSortType.Distance;
@@ -244,7 +245,7 @@ void main() {
       'должен поменять локальную переменную и сделать запрос на сервер',
       () async {
         // arrange
-        final latLng = LatLng(57.0, 38.0);
+        final latLng = g.LatLng(57.0, 38.0);
         when(geolocator.getPosition()).thenAnswer((_) => Future.value(latLng));
         when(storage.profile).thenReturn(Profile(user: user));
         when(

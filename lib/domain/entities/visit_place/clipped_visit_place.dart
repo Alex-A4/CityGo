@@ -1,3 +1,4 @@
+import 'package:city_go/domain/entities/lat_lng.dart';
 import 'package:equatable/equatable.dart';
 
 /// Обрезанная модель объектов для посещения.
@@ -21,8 +22,11 @@ class ClippedVisitPlace extends Equatable {
 
   final String logo;
 
-  ClippedVisitPlace(
-      this.id, this.type, this.name, this.workTime, this.rating, this.logo);
+  /// Координаты расположения объекта
+  final LatLng latLng;
+
+  ClippedVisitPlace(this.id, this.type, this.name, this.workTime, this.rating,
+      this.logo, this.latLng);
 
   /// Фабрика для извлечения данных из JSON
   factory ClippedVisitPlace.fromJson(Map<String, dynamic> json) {
@@ -33,6 +37,7 @@ class ClippedVisitPlace extends Equatable {
       json['work_time'] ?? '',
       json['rating'] ?? 0.0,
       json['logo'],
+      LatLng.fromJson(json['coords']),
     );
   }
 
