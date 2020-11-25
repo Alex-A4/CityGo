@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:city_go/app/widgets/simple_map/bloc/bloc.dart';
+import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/data/storages/map_icons_storage.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
@@ -52,11 +53,16 @@ class SimpleMapBloc extends Bloc<SimpleMapBlocEvent, SimpleMapBlocState> {
       yield turnOnFinding;
       await findUserLocation();
       yield turnOffFinding;
-      subscription = placeRepository
-          .getAllPlacesStream(token: profileStorage?.profile?.user?.accessToken)
-          .listen((p) => this.add(SimpleMapBlocAddPlaces(p)));
 
-      yield dataState();
+      final user = profileStorage.profile.user;
+      if (user == null)
+        yield dataState(errorCode: USER_NOT_AUTH);
+      else {
+        subscription = placeRepository
+            .getAllPlacesStream(token: user.accessToken)
+            .listen((p) => this.add(SimpleMapBlocAddPlaces(p)));
+        yield dataState();
+      }
     }
 
     if (event is SimpleMapBlocFindLocation) {
