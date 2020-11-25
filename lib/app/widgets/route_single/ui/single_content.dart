@@ -59,7 +59,7 @@ class SingleRouteContent extends StatelessWidget {
                     ),
                     Expanded(
                       child: getIconWithSub(
-                        Icons.add_road,
+                        Icons.map_rounded,
                         route.cords.isEmpty
                             ? null
                             : () => Navigator.of(context)

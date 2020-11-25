@@ -67,7 +67,7 @@ class SingleVisitContent extends StatelessWidget {
                     ),
                     Expanded(
                       child: getIconWithSub(
-                        Icons.add_road,
+                        Icons.map_rounded,
                         place.latLng == null
                             ? null
                             : () => Navigator.of(context).pushNamed(
