@@ -7,10 +7,8 @@ import 'package:meta/meta.dart';
 export 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 export 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 
-
 /// Способ сортировки мест
 enum PlaceSortType { Distance, Rating, Random }
-
 
 /// Получение строкового названия типа сортировки
 extension PlaceSortString on PlaceSortType {
@@ -52,5 +50,15 @@ abstract class PlaceRepository {
   Future<FutureResponse<FullVisitPlace>> getConcretePlace({
     @required int id,
     @required String token,
+  });
+
+  /// Получение всех объектов всех типов по порядку.
+  /// Все объекты будут передоваться в порядке загрузки и пагинации.
+  /// В случае возникновения ошибки, она будет передана, а стрим закончит загрузку.
+  /// [token] - токен авторизации пользователя на нашем сервере.
+  /// [sort] - тип сортировки, является опциональным.
+  Stream<FutureResponse<List<ClippedVisitPlace>>> getAllPlacesStream({
+    @required String token,
+    PlaceSortType sort = PlaceSortType.Rating,
   });
 }

@@ -94,4 +94,30 @@ class PlaceRepositoryImpl extends PlaceRepository {
       return FutureResponse.fail(e.toString());
     }
   }
+
+  @override
+  Stream<FutureResponse<List<ClippedVisitPlace>>> getAllPlacesStream({
+    @required String token,
+    PlaceSortType sort = PlaceSortType.Rating,
+  }) async* {
+    assert(sort != null);
+    for (final type in PlaceType.values) {
+      int typeResults = 0;
+      while (true) {
+        final res = await getPlaces(
+          placeType: type,
+          token: token,
+          offset: typeResults,
+          sortType: sort,
+        );
+
+        /// Если нет данных для этого типа (все уже загрузили).
+        if (res.hasData && res.data.isEmpty) break;
+        if (res.hasData) typeResults += res.data.length;
+
+        yield res;
+        if (res.hasError) return;
+      }
+    }
+  }
 }
