@@ -84,5 +84,5 @@ Future<void> initServiceLocator() async {
   sl.registerFactoryParam<PathMapBloc, LatLng, void>(
       (p1, _) => PathMapBloc(sl(), p1, sl()));
   sl.registerFactoryParam<RouteMapBloc, Route, void>(
-      (p1, _) => RouteMapBloc(p1, sl(), sl()));
+      (p1, _) => RouteMapBloc(p1, sl(), sl(), sl()));
 }

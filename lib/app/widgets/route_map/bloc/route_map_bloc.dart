@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
-import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/helpers/geolocator.dart';
 import 'package:city_go/data/storages/map_icons_storage.dart';
 import 'package:city_go/domain/entities/future_response.dart';
@@ -15,8 +14,9 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
   final Route route;
   final MapRepository mapRepository;
   final Geolocator geolocator;
+  final MapIconsStorage iconsStorage;
 
-  RouteMapBloc(this.route, this.mapRepository, this.geolocator)
+  RouteMapBloc(this.route, this.mapRepository, this.geolocator, this.iconsStorage)
       : super(RouteMapBlocMapState());
 
   GoogleMapController controller;
@@ -33,7 +33,7 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
     if (event is RouteMapBlocInitEvent) {
       controller = event.controller;
 
-      pointIcons = await sl<MapIconsStorage>().future;
+      pointIcons = await iconsStorage.future;
 
       yield turnOnFinding;
       await findUserLocation();

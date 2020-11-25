@@ -1,6 +1,7 @@
 import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/data/helpers/geolocator.dart';
+import 'package:city_go/data/storages/map_icons_storage.dart';
 import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
@@ -14,6 +15,8 @@ class MockMapRepo extends Mock implements MapRepository {}
 class MockMapController extends Mock implements GoogleMapController {}
 
 class MockGeolocator extends Mock implements Geolocator {}
+
+class MockIconsStorage extends Mock implements MapIconsStorage {}
 
 void main() {
   final userPosition = LatLng(31.0, 12.0);
@@ -50,12 +53,14 @@ void main() {
   MockMapRepo repo;
   MockMapController controller;
   MockGeolocator geolocator;
+  MockIconsStorage iconsStorage;
 
   setUp(() {
     geolocator = MockGeolocator();
     repo = MockMapRepo();
+    iconsStorage = MockIconsStorage();
     controller = MockMapController();
-    bloc = RouteMapBloc(route, repo, geolocator);
+    bloc = RouteMapBloc(route, repo, geolocator, iconsStorage);
   });
 
   test(
