@@ -117,6 +117,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
           }
 
           return Stack(
+            key: Key('RouteMapStackKey'),
             children: [
               GoogleMap(
                 key: Key('RoutePageGoogleMap'),
