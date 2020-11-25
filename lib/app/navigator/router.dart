@@ -5,6 +5,7 @@ import 'package:city_go/app/pages/profile_auth/profile_auth_page.dart';
 import 'package:city_go/app/pages/route_list/route_list_page.dart';
 import 'package:city_go/app/pages/route_map/route_map_page.dart';
 import 'package:city_go/app/pages/route_single/route_single_page.dart';
+import 'package:city_go/app/pages/simple_map/simple_map_page.dart';
 import 'package:city_go/app/pages/visit_place_list/visit_list_page.dart';
 import 'package:city_go/app/pages/visit_place_single/visit_single_page.dart';
 import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
@@ -22,6 +23,7 @@ const VISIT_LIST = '/visit_list';
 const ROUTE_LIST = '/route_list';
 const ROUTE_SINGLE = '/route_single';
 const VISIT_SINGLE = '/visit_single';
+const SIMPLE_MAP = '/map';
 
 /// Роуты, в которые не нужно передавать данные, они основаны на DI
 final routes = <String, WidgetBuilder>{
@@ -29,6 +31,7 @@ final routes = <String, WidgetBuilder>{
   ROOT: (_) => MainPage(),
   PROFILE: (_) => ProfileAuthPage(bloc: sl()),
   ROUTE_LIST: (_) => RouteListPage(bloc: sl()),
+  SIMPLE_MAP: (_) => SimpleMapPage(bloc: sl()),
 };
 
 /// Роуты, в которые необходимо передавать данные.

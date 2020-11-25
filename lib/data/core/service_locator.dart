@@ -3,6 +3,7 @@ import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
 import 'package:city_go/app/widgets/route_list/bloc/bloc.dart';
 import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
 import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
+import 'package:city_go/app/widgets/simple_map/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_list/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/data/helpers/geolocator.dart';
@@ -85,4 +86,5 @@ Future<void> initServiceLocator() async {
       (p1, _) => PathMapBloc(sl(), p1, sl()));
   sl.registerFactoryParam<RouteMapBloc, Route, void>(
       (p1, _) => RouteMapBloc(p1, sl(), sl(), sl()));
+  sl.registerFactory(() => SimpleMapBloc(sl(), sl(), sl(), sl()));
 }
