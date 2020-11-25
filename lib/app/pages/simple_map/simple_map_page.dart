@@ -147,13 +147,15 @@ class _SimpleMapPageState extends State<SimpleMapPage> {
 
   void addPlacesToMarkers(List<ClippedVisitPlace> places, BuildContext c) {
     for (final place in places) {
-      markers.add(Marker(
-        markerId: MarkerId('SimpleMarker-${place.id}'),
-        onTap: () => showPlaceDialog(FullVisitPlace.fromClipped(place), c),
-        position: place.latLng.toGoogle(),
-        flat: true,
-        icon: bloc.pointIcons[place.type.iconIndex],
-      ));
+      if (place.latLng != null) {
+        markers.add(Marker(
+          markerId: MarkerId('SimpleMarker-${place.id}'),
+          onTap: () => showPlaceDialog(FullVisitPlace.fromClipped(place), c),
+          position: place.latLng.toGoogle(),
+          flat: true,
+          icon: bloc.pointIcons[place.type.iconIndex],
+        ));
+      }
     }
   }
 
