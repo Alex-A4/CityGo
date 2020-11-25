@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/audio_player_widget.dart';
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
 import 'package:city_go/app/general_widgets/ui_constants.dart';
@@ -71,17 +72,26 @@ class MainPage extends StatelessWidget {
               key: Key(nameCodes[i - 1]),
               imagePath: images[i - 1],
               nameCode: nameCodes[i - 1],
-              onTap: () =>
-                  Navigator.of(context).pushNamed(
-                    VISIT_LIST,
-                    arguments: {
-                      'title': nameCodes[i - 1],
-                      'type': PlaceType.values[i - 1],
-                    },
-                  ),
+              onTap: () => Navigator.of(context).pushNamed(
+                VISIT_LIST,
+                arguments: {
+                  'title': nameCodes[i - 1],
+                  'type': PlaceType.values[i - 1],
+                },
+              ),
               height: height,
             );
           },
+        ),
+        floatingActionButton: Material(
+          color: Colors.transparent,
+          child: AdaptiveButton(
+            onTap: () => Navigator.of(context).pushNamed(SIMPLE_MAP),
+            backgroundColor: Colors.transparent,
+            padding: 8,
+            iconBorderColor: Colors.white,
+            child: Icon(Icons.map_rounded),
+          ),
         ),
       ),
     );
