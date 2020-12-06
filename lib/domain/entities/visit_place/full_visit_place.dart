@@ -24,9 +24,6 @@ class FullVisitPlace extends ClippedVisitPlace {
   /// Эндпоинт аудио файла, может отсутствовать (null)
   final String audioSrc;
 
-  /// Общая информация об объекте
-  final String generalInfo;
-
   FullVisitPlace({
     @required int id,
     LatLng latLng,
@@ -38,10 +35,10 @@ class FullVisitPlace extends ClippedVisitPlace {
     @required this.description,
     @required this.imageSrc,
     @required this.objectAddress,
-    @required this.generalInfo,
+    @required String generalInfo,
     this.objectWebSite,
     this.audioSrc,
-  }) : super(id, type, title, workTime, rating, logo, latLng);
+  }) : super(id, type, title, workTime, rating, logo, latLng, generalInfo);
 
   factory FullVisitPlace.fromJson(Map<String, dynamic> json) {
     return FullVisitPlace(
@@ -75,7 +72,7 @@ class FullVisitPlace extends ClippedVisitPlace {
       latLng: clipped.latLng,
       imageSrc: [],
       description: '',
-      generalInfo: '',
+      generalInfo: clipped.generalInfo,
       objectAddress: '',
       audioSrc: '',
       objectWebSite: '',
@@ -83,5 +80,5 @@ class FullVisitPlace extends ClippedVisitPlace {
   }
 
   @override
-  List<Object> get props => [...super.props, objectAddress, latLng];
+  List<Object> get props => [...super.props, objectAddress];
 }

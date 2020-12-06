@@ -25,8 +25,10 @@ class ClippedVisitPlace extends Equatable {
   /// Координаты расположения объекта
   final LatLng latLng;
 
+  final String generalInfo;
+
   ClippedVisitPlace(this.id, this.type, this.name, this.workTime, this.rating,
-      this.logo, this.latLng);
+      this.logo, this.latLng, this.generalInfo);
 
   /// Фабрика для извлечения данных из JSON
   factory ClippedVisitPlace.fromJson(Map<String, dynamic> json) {
@@ -38,11 +40,13 @@ class ClippedVisitPlace extends Equatable {
       json['rating'] ?? 0.0,
       json['logo'],
       LatLng.fromJson(json['coords']),
+      json['general'] ?? '',
     );
   }
 
   @override
-  List<Object> get props => [id, name, workTime, rating, logo, type];
+  List<Object> get props =>
+      [id, name, workTime, rating, logo, type, latLng, generalInfo];
 }
 
 /// Тип объекта, который
