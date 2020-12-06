@@ -39,6 +39,7 @@ class SimpleMapBloc extends Bloc<SimpleMapBlocEvent, SimpleMapBlocState> {
       userPosition: userPosition,
       isLocationSearching: isLocationSearching,
       controller: controller,
+      places: places,
       errorCode: errorCode,
     );
   }
