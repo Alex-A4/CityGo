@@ -52,6 +52,18 @@ abstract class PlaceRepository {
     @required String token,
   });
 
+  /// Метод для выставления оценки месту
+  /// [placeId] - идентификатор места, который можно получить из [ClippedVisitPlace.id]
+  /// [token] - токен авторизации пользователем на нашем сервере.
+  /// [userId] - идентификатор пользователя на нашем сервере.
+  /// [value] - оценка месту, которую поставил пользователь
+  Future<FutureResponse<bool>> ratePlace({
+    @required int value,
+    @required int placeId,
+    @required String token,
+    @required String userId,
+  });
+
   /// Получение всех объектов всех типов по порядку.
   /// Все объекты будут передоваться в порядке загрузки и пагинации.
   /// В случае возникновения ошибки, она будет передана, а стрим закончит загрузку.

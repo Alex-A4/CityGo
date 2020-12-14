@@ -17,4 +17,16 @@ abstract class RouteRepository {
   /// [token] - токен авторизации пользователя.
   Future<FutureResponse<Route>> getRoute(
       {@required int id, @required String token});
+
+  /// Метод для выставления оценки месту
+  /// [routeId] - идентификатор маршрута
+  /// [value] - оценка маршруту, которую поставил пользователь
+  /// [token] - токен авторизации пользователем на нашем сервере.
+  /// [userId] - идентификатор пользователя на нашем сервере.
+  Future<FutureResponse<bool>> rateRoute({
+    @required int routeId,
+    @required int value,
+    @required String token,
+    @required String userId,
+  });
 }

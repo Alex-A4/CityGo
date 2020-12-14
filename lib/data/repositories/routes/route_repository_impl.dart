@@ -75,4 +75,40 @@ class RouteRepositoryImpl implements RouteRepository {
       return FutureResponse.fail(e.toString());
     }
   }
+
+  @override
+  Future<FutureResponse<bool>> rateRoute({
+    @required int routeId,
+    @required int value,
+    @required String token,
+    @required String userId,
+  }) async {
+    assert(value >= 1 && value <= 5);
+    assert(token != null && userId != null);
+
+    try {
+      if (!await checker.hasInternet) throw NO_INTERNET;
+
+      var response = await client.post(
+        '/api/votes/route/',
+        data: {
+          'value': value,
+          'user': userId,
+          'route': routeId,
+        },
+        options: Options(
+          responseType: ResponseType.json,
+          headers: {HttpHeaders.authorizationHeader: 'Token $token'},
+        ),
+      );
+
+      if (response.statusCode != 200) throw '';
+
+      return FutureResponse.success(true);
+    } on DioError catch (e) {
+      return FutureResponse.fail(handleDioError(e));
+    } catch (e) {
+      return FutureResponse.fail(e.toString());
+    }
+  }
 }
