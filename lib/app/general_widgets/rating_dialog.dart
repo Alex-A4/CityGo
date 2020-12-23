@@ -1,10 +1,18 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:flutter/material.dart';
+import 'package:city_go/localization/localization.dart';
 
 import 'package:vector_math/vector_math.dart' as math;
 
+/// Асинхронный колбек для проставления оценкки
+typedef RateFunction = Future<dynamic> Function(int value);
+
 class RatingDialog extends StatefulWidget {
+  final RateFunction rateFunction;
+
+  const RatingDialog({Key key, @required this.rateFunction}) : super(key: key);
+
   @override
   _RatingDialogState createState() => _RatingDialogState();
 }
@@ -65,9 +73,24 @@ class _RatingDialogState extends State<RatingDialog>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AutoSizeText('Вы здесь были?\nОцените место',
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyText2),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AutoSizeText(
+                        context.localization('rate_dialog_title'),
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyText2,
+                      ),
+                    ),
+                    AdaptiveButton(
+                      child: Icon(Icons.close, color: backColor),
+                      backgroundColor: Colors.grey,
+                      iconBorderColor: Colors.transparent,
+                      padding: 1,
+                      onTap: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -80,12 +103,11 @@ class _RatingDialogState extends State<RatingDialog>
                             Icons.star_border, index + 1 + _currentRating)),
                   ],
                 ),
-                AdaptiveButton(
-                  child: Icon(Icons.close, color: backColor),
-                  backgroundColor: Colors.grey,
-                  iconBorderColor: Colors.transparent,
-                  padding: 1,
-                  onTap: () => Navigator.of(context).pop(),
+                RaisedButton(
+                  onPressed: _currentRating == null
+                      ? null
+                      : () => widget.rateFunction(_currentRating),
+                  child: Text(context.localization('rate_word')),
                 ),
               ],
             ),

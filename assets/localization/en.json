@@ -51,5 +51,7 @@
   "repeat_auth": "Repeat auth, please",
   "incorrect_data": "Incorrect data",
   "login_already_used": "Login already used",
-  "password_is_easy": "Password much easy"
+  "password_is_easy": "Password much easy",
+  "rate_dialog_title": "You were here?\nRate it!",
+  "rate_word": "Rate"
 }

@@ -51,5 +51,7 @@
   "repeat_auth": "Повторите авторизацию",
   "incorrect_data": "Неправильные данные",
   "login_already_used": "Логин уже занят",
-  "password_is_easy": "Пароль слишком простой"
+  "password_is_easy": "Пароль слишком простой",
+  "rate_dialog_title": "Вы здесь были?\nОцените место!",
+  "rate_word": "Оценить"
 }
