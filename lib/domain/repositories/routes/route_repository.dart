@@ -27,6 +27,6 @@ abstract class RouteRepository {
     @required int routeId,
     @required int value,
     @required String token,
-    @required String userId,
+    @required int userId,
   });
 }

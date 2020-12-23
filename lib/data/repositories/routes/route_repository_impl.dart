@@ -81,7 +81,7 @@ class RouteRepositoryImpl implements RouteRepository {
     @required int routeId,
     @required int value,
     @required String token,
-    @required String userId,
+    @required int userId,
   }) async {
     assert(value >= 1 && value <= 5);
     assert(token != null && userId != null);

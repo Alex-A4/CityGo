@@ -126,7 +126,7 @@ class PlaceRepositoryImpl extends PlaceRepository {
     @required int value,
     @required int placeId,
     @required String token,
-    @required String userId,
+    @required int userId,
   }) async {
     assert(value >= 1 && value <= 5);
     assert(token != null && userId != null);

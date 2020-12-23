@@ -84,7 +84,9 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
       );
     } on DioError catch (e) {
       return FutureResponse.fail(handleDioError(e));
-    } catch (e) {
+    } catch (e, trace) {
+      print(e);
+      print(trace);
       return FutureResponse.fail(UNEXPECTED_ERROR);
     }
   }

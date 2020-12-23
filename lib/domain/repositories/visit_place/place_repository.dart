@@ -61,7 +61,7 @@ abstract class PlaceRepository {
     @required int value,
     @required int placeId,
     @required String token,
-    @required String userId,
+    @required int userId,
   });
 
   /// Получение всех объектов всех типов по порядку.
