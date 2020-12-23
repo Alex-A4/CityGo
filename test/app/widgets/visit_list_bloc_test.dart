@@ -20,7 +20,7 @@ class MockGeolocator extends Mock implements Geolocator {}
 void main() {
   final type = PlaceType.Museums;
   final logo = ImageSrc('/src/logo.jpg', 'description', 'title');
-  final user = InAppUser(userName: 'name', accessToken: 'token');
+  final user = InAppUser(userName: 'name', accessToken: 'token', userId: 1);
   final place1 = ClippedVisitPlace(10, PlaceType.Museums, 'name1',
       '10:00-18:00', 3.3, logo.path, LatLng(52.0, 38.0), 'general');
   final place2 = ClippedVisitPlace(12, PlaceType.Museums, 'name2',

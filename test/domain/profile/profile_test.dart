@@ -4,10 +4,7 @@ import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final user = InAppUser(
-    userName: 'Вася',
-    accessToken: 'token',
-  );
+  final user = InAppUser(userName: 'Вася', accessToken: 'token', userId: 1);
   final settings = Settings(displayNotification: false);
 
   group('fromJson', () {

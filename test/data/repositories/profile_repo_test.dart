@@ -13,10 +13,7 @@ class MockHive extends Mock implements HiveInterface {}
 class MockBox extends Mock implements Box {}
 
 void main() {
-  final user = InAppUser(
-    userName: 'Вася',
-    accessToken: 'token',
-  );
+  final user = InAppUser(userName: 'Вася', accessToken: 'token', userId: 1);
   final settings = Settings(displayNotification: false);
 
   MockHive hive;

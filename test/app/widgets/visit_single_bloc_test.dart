@@ -14,7 +14,7 @@ class MockPlacesRepository extends Mock implements PlaceRepository {}
 class MockProfileStorage extends Mock implements ProfileStorage {}
 
 void main() {
-  final user = InAppUser(userName: 'name', accessToken: 'token');
+  final user = InAppUser(userName: 'name', accessToken: 'token', userId: 1);
   final imageSrc = ImageSrc.fromJson({
     'title': 'some title',
     'description': 'Some description',

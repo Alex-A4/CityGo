@@ -9,14 +9,8 @@ import 'package:mockito/mockito.dart';
 class MockProfileRepo extends Mock implements ProfileRepository {}
 
 void main() {
-  final user = InAppUser(
-    userName: 'Вася',
-    accessToken: 'token',
-  );
-  final user2 = InAppUser(
-    userName: 'Петя',
-    accessToken: 'token2',
-  );
+  final user = InAppUser(userName: 'Вася', accessToken: 'token', userId: 1);
+  final user2 = InAppUser(userName: 'Петя', accessToken: 'token2', userId: 2);
   final settings = Settings(displayNotification: false);
 
   MockProfileRepo repository;

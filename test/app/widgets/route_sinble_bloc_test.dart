@@ -15,7 +15,7 @@ class MockRouteRepo extends Mock implements RouteRepository {}
 class MockProfileStorage extends Mock implements ProfileStorage {}
 
 void main() {
-  final user = InAppUser(userName: 'name', accessToken: 'token');
+  final user = InAppUser(userName: 'name', accessToken: 'token', userId: 1);
   final id = 123;
   final route = Route(
     id,

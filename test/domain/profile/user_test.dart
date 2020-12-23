@@ -36,10 +36,7 @@ void main() {
     'должен конвертировать пользователя в JSON',
     () async {
       // arrange
-      var user = InAppUser(
-        userName: 'Вася',
-        accessToken: 'token',
-      );
+      var user = InAppUser(userName: 'Вася', accessToken: 'token', userId: 1);
 
       // act
       var json = user.toJson();

@@ -14,7 +14,8 @@ class MockRemoteRepo extends Mock implements UserRemoteRepository {}
 void main() {
   final userName = 'Вася';
   final password = 'password';
-  final defaultUser = InAppUser(userName: userName, accessToken: 'token');
+  final defaultUser =
+      InAppUser(userName: userName, accessToken: 'token', userId: 1);
   final vkUserComplete =
       VKUser(userName: 'Вася', externalToken: 'vkToken', accessToken: 'token');
   final vkUserNotComplete = VKUser(userName: 'Вася', externalToken: 'vkToken');
