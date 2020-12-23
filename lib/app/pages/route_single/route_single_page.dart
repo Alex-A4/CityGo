@@ -83,6 +83,7 @@ class _RouteSinglePageState extends State<RouteSinglePage> {
                                 route: route,
                                 bottomSize: height * 0.1,
                                 client: widget.client,
+                                routeRepo: bloc.repository,
                               ),
                             ),
                         ],
