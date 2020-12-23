@@ -8,7 +8,9 @@ import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/data/repositories/audio_player/audio_player.dart';
+import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
+import 'package:city_go/domain/repositories/routes/route_repository.dart';
 import 'package:city_go/localization/localization.dart';
 import 'package:flutter/material.dart';
 
@@ -17,12 +19,14 @@ class SingleRouteContent extends StatelessWidget {
   final r.Route route;
   final double bottomSize;
   final HttpClient client;
+  final RouteRepository routeRepo;
 
   SingleRouteContent({
     Key key,
     @required this.route,
     @required this.bottomSize,
     @required this.client,
+    @required this.routeRepo,
   })  : assert(route != null && bottomSize != null),
         super(key: key);
 
@@ -93,7 +97,11 @@ class SingleRouteContent extends StatelessWidget {
                 rating: route.rating,
                 onTap: (context) {
                   Navigator.of(context).push(
-                    DialogRoute(builder: (_) => RatingDialog()),
+                    DialogRoute(
+                      builder: (_) => RatingDialog(
+                        rateFunction: (int value) => rateFunction(value),
+                      ),
+                    ),
                   );
                 },
               ),
@@ -102,6 +110,18 @@ class SingleRouteContent extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> rateFunction(int value) {
+    final user = sl<ProfileStorage>().profile?.user;
+    if (user == null) return null;
+
+    return routeRepo.rateRoute(
+      value: value,
+      routeId: route.id,
+      token: user.accessToken,
+      userId: user.userId,
     );
   }
 
