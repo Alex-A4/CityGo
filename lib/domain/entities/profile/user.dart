@@ -5,6 +5,9 @@ import 'package:meta/meta.dart';
 /// Сам пользователь является абстрактным, поскольку могут быть разные его
 /// реализации (ВК, Гугл, кастомный, итд)
 abstract class User extends Equatable {
+  static const USER_ID = 'userId';
+  final int userId;
+
   static const USER_TYPE = 'userType';
   final UserType type;
 
@@ -17,7 +20,7 @@ abstract class User extends Equatable {
   static const ACCESS_TOKEN = 'accessToken';
   final String accessToken;
 
-  User(this.userName, this.type, this.accessToken);
+  User(this.userName, this.type, this.accessToken, this.userId);
 
   /// Метод для конвертации пользователя в JSON формат.
   /// Классы-наследники должны переопределить этот метод и дополнить его реализацию.
@@ -25,6 +28,7 @@ abstract class User extends Equatable {
         USER_NAME: userName,
         USER_TYPE: type.index,
         ACCESS_TOKEN: accessToken,
+        USER_ID: userId,
       };
 }
 
@@ -53,12 +57,14 @@ class InAppUser extends User {
   InAppUser({
     @required String userName,
     @required String accessToken,
-  }) : super(userName, UserType.InApp, accessToken);
+    @required int userId,
+  }) : super(userName, UserType.InApp, accessToken, userId);
 
   factory InAppUser.fromJson(Map<String, dynamic> json) {
     return InAppUser(
       userName: json[User.USER_NAME],
       accessToken: json[User.ACCESS_TOKEN],
+      userId: json[User.USER_ID],
     );
   }
 
@@ -75,13 +81,17 @@ class InAppUser extends User {
 abstract class ExternalUser extends User {
   static const EXTERNAL_TOKEN = 'externalToken';
 
-  ExternalUser updateUserData(
-      {String userName, String accessToken, String externalToken});
+  ExternalUser updateUserData({
+    String userName,
+    String accessToken,
+    String externalToken,
+    int userId,
+  });
 
   String get externalToken;
 
-  ExternalUser(String userName, UserType type, String accessToken)
-      : super(userName, type, accessToken);
+  ExternalUser(String userName, UserType type, String accessToken, int userId)
+      : super(userName, type, accessToken, userId);
 
   @override
   Map<String, dynamic> toJson() {
@@ -99,13 +109,15 @@ class VKUser extends ExternalUser {
     @required this.externalToken,
     String userName,
     String accessToken,
-  }) : super(userName, UserType.VK, accessToken);
+    int userId,
+  }) : super(userName, UserType.VK, accessToken, userId);
 
   factory VKUser.fromJson(Map<String, dynamic> json) {
     return VKUser(
       userName: json[User.USER_NAME],
       externalToken: json[ExternalUser.EXTERNAL_TOKEN],
       accessToken: json[User.ACCESS_TOKEN],
+      userId: json[User.USER_ID],
     );
   }
 
@@ -117,11 +129,13 @@ class VKUser extends ExternalUser {
     String userName,
     String accessToken,
     String externalToken,
+    int userId,
   }) =>
       VKUser(
         externalToken: externalToken ?? this.externalToken,
         accessToken: accessToken ?? this.accessToken,
         userName: userName ?? this.userName,
+        userId: userId ?? this.userId,
       );
 }
 
