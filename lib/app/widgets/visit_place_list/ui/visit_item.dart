@@ -92,11 +92,14 @@ class VisitItem extends StatelessWidget {
                     },
                   ),
                   Expanded(child: Container()),
-                  FlatButton(
-                    color: Colors.white38,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(color: Colors.white, width: 5),
+                  TextButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.white38),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(color: Colors.white, width: 5),
+                      )),
                     ),
                     onPressed: () => Navigator.of(context)
                         .pushNamed(VISIT_SINGLE, arguments: place),

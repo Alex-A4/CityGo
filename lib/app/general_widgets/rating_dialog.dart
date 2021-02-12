@@ -103,11 +103,20 @@ class _RatingDialogState extends State<RatingDialog>
                             Icons.star_border, index + 1 + _currentRating)),
                   ],
                 ),
-                RaisedButton(
+                TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    )),
+                  ),
                   onPressed: _currentRating == null
                       ? null
                       : () => widget.rateFunction(_currentRating),
-                  child: Text(context.localization('rate_word')),
+                  child: Text(
+                    context.localization('rate_word'),
+                    style: theme.textTheme.bodyText2,
+                  ),
                 ),
               ],
             ),

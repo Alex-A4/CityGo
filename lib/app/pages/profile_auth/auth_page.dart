@@ -113,7 +113,7 @@ class _AuthPageState extends State<AuthPage> {
                 ],
               ),
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 if (isAuth) {
                   bloc.add(ProfileGoToLoginEvent());

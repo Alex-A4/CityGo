@@ -80,7 +80,7 @@ class SingleVisitContent extends StatelessWidget {
                   ],
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   print('ОБЩАЯ ИНФА');
                 },

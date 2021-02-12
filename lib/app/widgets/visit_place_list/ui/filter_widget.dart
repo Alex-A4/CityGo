@@ -53,10 +53,16 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget sortButton(PlaceSortType type, BuildContext context) {
-    return FlatButton(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    return TextButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(
+          type == activeType ? Colors.grey[500] : Colors.grey[100],
+        ),
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        )),
+      ),
       onPressed: () => onTap(type),
-      color: type == activeType ? Colors.grey[500] : Colors.grey[100],
       child: AutoSizeText(
         context.localization(type.sortName),
         style: type == activeType ? selectedTextStyle : defaultTextStyle,

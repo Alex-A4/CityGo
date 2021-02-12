@@ -75,7 +75,7 @@ class SingleRouteContent extends StatelessWidget {
                   ],
                 ),
               ),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   print('ОБЩАЯ ИНФА');
                 },

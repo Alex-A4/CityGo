@@ -119,11 +119,13 @@ class PlaceDialog extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: FlatButton(
-                  color: Colors.white38,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: Colors.white, width: 5),
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white38),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(color: Colors.white, width: 5),
+                    )),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
