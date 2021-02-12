@@ -31,6 +31,7 @@ class CityAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       bottom: bottom,
       elevation: 10,
+      brightness: Brightness.dark,
       centerTitle: true,
     );
   }
