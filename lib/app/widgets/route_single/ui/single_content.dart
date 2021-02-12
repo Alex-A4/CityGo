@@ -9,6 +9,7 @@ import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/data/repositories/audio_player/audio_player.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
+import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
 import 'package:city_go/domain/repositories/routes/route_repository.dart';
 import 'package:city_go/localization/localization.dart';
@@ -98,9 +99,7 @@ class SingleRouteContent extends StatelessWidget {
                 onTap: (context) {
                   Navigator.of(context).push(
                     DialogRoute(
-                      builder: (_) => RatingDialog(
-                        rateFunction: (int value) => rateFunction(value),
-                      ),
+                      builder: (_) => RatingDialog(rateFunction: rateFunction),
                     ),
                   );
                 },
@@ -113,7 +112,7 @@ class SingleRouteContent extends StatelessWidget {
     );
   }
 
-  Future<dynamic> rateFunction(int value) {
+  Future<FutureResponse<dynamic>> rateFunction(int value) {
     final user = sl<ProfileStorage>().profile?.user;
     if (user == null) return null;
 

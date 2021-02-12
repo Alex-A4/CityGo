@@ -1,12 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
+import 'package:city_go/app/general_widgets/toast_widget.dart';
+import 'package:city_go/domain/entities/future_response.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
 
 import 'package:vector_math/vector_math.dart' as math;
 
 /// Асинхронный колбек для проставления оценкки
-typedef RateFunction = Future<dynamic> Function(int value);
+typedef RateFunction = Future<FutureResponse<dynamic>> Function(int value);
 
 class RatingDialog extends StatefulWidget {
   final RateFunction rateFunction;
@@ -112,7 +114,14 @@ class _RatingDialogState extends State<RatingDialog>
                   ),
                   onPressed: _currentRating == null
                       ? null
-                      : () => widget.rateFunction(_currentRating),
+                      : () async {
+                          final response =
+                              await widget.rateFunction(_currentRating);
+                          if (response?.hasError ?? false) {
+                            CityToast.showToast(context, response.errorCode);
+                          }
+                          Navigator.of(context).pop();
+                        },
                   child: Text(
                     context.localization('rate_word'),
                     style: theme.textTheme.bodyText2,

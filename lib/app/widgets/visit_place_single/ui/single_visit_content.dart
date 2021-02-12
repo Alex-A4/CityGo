@@ -8,7 +8,10 @@ import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/data/repositories/audio_player/audio_player.dart';
+import 'package:city_go/data/storages/profile_storage.dart';
+import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
+import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:city_go/localization/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -17,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 /// сходить
 class SingleVisitContent extends StatelessWidget {
   final FullVisitPlace place;
+  final PlaceRepository placeRepository;
   final double bottomSize;
   final HttpClient client;
 
@@ -25,6 +29,7 @@ class SingleVisitContent extends StatelessWidget {
     @required this.place,
     @required this.bottomSize,
     @required this.client,
+    @required this.placeRepository,
   })  : assert(place != null && bottomSize != null),
         super(key: key);
 
@@ -103,9 +108,9 @@ class SingleVisitContent extends StatelessWidget {
               RatingWidget(
                 rating: place.rating,
                 onTap: (context) {
-                  Navigator.of(context).push(
-                    DialogRoute(builder: (_) => RatingDialog()),
-                  );
+                  Navigator.of(context).push(DialogRoute(
+                    builder: (_) => RatingDialog(rateFunction: rateFunction),
+                  ));
                 },
               ),
               SizedBox(height: bottomSize + 40),
@@ -113,6 +118,18 @@ class SingleVisitContent extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<FutureResponse<dynamic>> rateFunction(int value) {
+    final user = sl<ProfileStorage>().profile?.user;
+    if (user == null) return null;
+
+    return placeRepository.ratePlace(
+      value: value,
+      placeId: place.id,
+      token: user.accessToken,
+      userId: user.userId,
     );
   }
 

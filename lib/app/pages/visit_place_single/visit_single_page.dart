@@ -84,6 +84,7 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
                                 place: place,
                                 bottomSize: height * 0.1,
                                 client: widget.client,
+                                placeRepository: widget.bloc.repository,
                               ),
                             ),
                         ],

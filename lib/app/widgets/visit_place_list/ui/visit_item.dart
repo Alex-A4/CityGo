@@ -5,8 +5,12 @@ import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/rating_button.dart';
 import 'package:city_go/data/core/localization_constants.dart';
+import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
+import 'package:city_go/data/storages/profile_storage.dart';
+import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
+import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:city_go/localization/localization.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +19,7 @@ import 'package:flutter/material.dart';
 class VisitItem extends StatelessWidget {
   final ClippedVisitPlace place;
   final HttpClient client;
+  final PlaceRepository placeRepository;
   final double height;
 
   VisitItem({
@@ -22,6 +27,7 @@ class VisitItem extends StatelessWidget {
     @required this.place,
     @required this.height,
     @required this.client,
+    @required this.placeRepository,
   })  : assert(place != null && height != null),
         super(key: key);
 
@@ -86,9 +92,10 @@ class VisitItem extends StatelessWidget {
                   RatingButton(
                     rating: place.rating,
                     onTap: (context) {
-                      Navigator.of(context).push(
-                        DialogRoute(builder: (_) => RatingDialog()),
-                      );
+                      Navigator.of(context).push(DialogRoute(
+                        builder: (_) =>
+                            RatingDialog(rateFunction: rateFunction),
+                      ));
                     },
                   ),
                   Expanded(child: Container()),
@@ -119,6 +126,18 @@ class VisitItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<FutureResponse<dynamic>> rateFunction(int value) {
+    final user = sl<ProfileStorage>().profile?.user;
+    if (user == null) return null;
+
+    return placeRepository.ratePlace(
+      value: value,
+      placeId: place.id,
+      token: user.accessToken,
+      userId: user.userId,
     );
   }
 }

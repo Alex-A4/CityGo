@@ -118,6 +118,7 @@ class _VisitListPageState extends State<VisitListPage> {
                 place: places[index],
                 height: height,
                 client: sl(),
+                placeRepository: widget.bloc.repository,
               );
             },
           ),
