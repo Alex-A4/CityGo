@@ -54,9 +54,19 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
           'client_id': 'PvyAa9F2GHJVCCzsF4IMpn0qdMtkKClCLCdQ1WwE',
         },
       );
+      final idResponse = await client.get(
+        '/auth/users/me/',
+        options: Options(
+          headers: {'Authorization': 'Token ${response.data['auth_token']}'},
+          responseType: ResponseType.json,
+        ),
+      );
 
       return FutureResponse.success(
-        user.updateUserData(accessToken: response.data['auth_token']),
+        user.updateUserData(
+          accessToken: response.data['auth_token'],
+          userId: idResponse.data['id'],
+        ),
       );
     } on DioError catch (e) {
       return FutureResponse.fail(handleDioError(e));
@@ -74,12 +84,21 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
       final response = await client.post(
         '/auth/token/login/',
         data: {'username': userName, 'password': password},
+        options: Options(responseType: ResponseType.json),
+      );
+      final idResponse = await client.get(
+        '/auth/users/me/',
+        options: Options(
+          headers: {'Authorization': 'Token ${response.data['auth_token']}'},
+          responseType: ResponseType.json,
+        ),
       );
 
       return FutureResponse.success(
         InAppUser(
           userName: userName,
           accessToken: response.data['auth_token'],
+          userId: idResponse.data['id'],
         ),
       );
     } on DioError catch (e) {
