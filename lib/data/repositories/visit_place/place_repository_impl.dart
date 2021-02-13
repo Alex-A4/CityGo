@@ -134,24 +134,20 @@ class PlaceRepositoryImpl extends PlaceRepository {
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
 
-      var response = await client.post(
+      await client.post(
         '/api/votes/place/',
-        data: {
-          'value': value,
-          'user': userId,
-          'place': placeId,
-        },
+        data: {'value': value, 'user': userId, 'place': placeId},
         options: Options(
-          responseType: ResponseType.json,
           headers: {HttpHeaders.authorizationHeader: 'Token $token'},
         ),
       );
 
-      if (response.statusCode != 200) throw '';
-
       return FutureResponse.success(true);
     } on DioError catch (e) {
-      return FutureResponse.fail(handleDioError(e));
+      final overrideMap = <int, String>{};
+      if (e.response.data['non_field_errors'] != null)
+        overrideMap[400] = 'rate_already_complete';
+      return FutureResponse.fail(handleDioError(e, overrideData: overrideMap));
     } catch (e) {
       return FutureResponse.fail(e.toString());
     }
