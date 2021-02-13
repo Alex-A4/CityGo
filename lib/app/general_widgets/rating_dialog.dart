@@ -32,6 +32,9 @@ class _RatingDialogState extends State<RatingDialog>
     _controller.forward();
   }
 
+  bool successVote = false;
+  Future successFuture;
+
   AnimationController _controller;
 
   @override
@@ -57,6 +60,46 @@ class _RatingDialogState extends State<RatingDialog>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    if (successVote) {
+      successFuture ??= Future.delayed(Duration(seconds: 2), () {
+        Navigator.of(context).pop();
+      });
+
+      return Material(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        color: backColor,
+        child: Container(
+          margin: EdgeInsets.all(15),
+          constraints: BoxConstraints(maxWidth: 250),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: AutoSizeText(
+                      context.localization('rate_success'),
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyText2.copyWith(fontSize: 20),
+                    ),
+                  ),
+                  AdaptiveButton(
+                    child: Icon(Icons.close, color: backColor),
+                    backgroundColor: Colors.grey,
+                    iconBorderColor: Colors.transparent,
+                    padding: 1,
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+              Icon(Icons.check_box_outlined, size: 50, color: Colors.white),
+            ],
+          ),
+        ),
+      );
+    }
 
     return AnimatedBuilder(
       animation: _controller.view,
@@ -119,8 +162,10 @@ class _RatingDialogState extends State<RatingDialog>
                               await widget.rateFunction(_currentRating);
                           if (response?.hasError ?? false) {
                             CityToast.showToast(context, response.errorCode);
+                            Navigator.of(context).pop();
+                          } else {
+                            setState(() => successVote = true);
                           }
-                          Navigator.of(context).pop();
                         },
                   child: Text(
                     context.localization('rate_word'),
