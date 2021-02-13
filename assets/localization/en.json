@@ -53,5 +53,7 @@
   "login_already_used": "Login already used",
   "password_is_easy": "Password much easy",
   "rate_dialog_title": "You were here?\nRate it!",
-  "rate_word": "Rate"
+  "rate_word": "Rate",
+  "rate_already_complete": "You already vote!",
+  "rate_success": "Your vote is counted!"
 }

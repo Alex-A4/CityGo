@@ -53,5 +53,7 @@
   "login_already_used": "Логин уже занят",
   "password_is_easy": "Пароль слишком простой",
   "rate_dialog_title": "Вы здесь были?\nОцените место!",
-  "rate_word": "Оценить"
+  "rate_word": "Оценить",
+  "rate_already_complete": "Вы уже голосовали!",
+  "rate_success": "Ваш голос учтён!"
 }
