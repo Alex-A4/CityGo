@@ -46,7 +46,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: Key('AuthPageScaffold'),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.black,
       body: SafeArea(
         key: Key('AuthPageSafeArea'),
