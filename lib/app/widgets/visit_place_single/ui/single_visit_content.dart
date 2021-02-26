@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
-import 'package:city_go/app/general_widgets/custom_dialog.dart';
+import 'package:city_go/app/general_widgets/custom_dialog.dart' as d;
 import 'package:city_go/app/general_widgets/rating_dialog.dart';
 import 'package:city_go/app/general_widgets/rating_widget.dart';
 import 'package:city_go/app/navigator/router.dart';
@@ -108,7 +108,7 @@ class SingleVisitContent extends StatelessWidget {
               RatingWidget(
                 rating: place.rating,
                 onTap: (context) {
-                  Navigator.of(context).push(DialogRoute(
+                  Navigator.of(context).push(d.DialogRoute(
                     builder: (_) => RatingDialog(rateFunction: rateFunction),
                   ));
                 },
