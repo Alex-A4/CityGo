@@ -25,7 +25,7 @@ class DialogRoute<T> extends PopupRoute<T> {
       child: SizeTransition(
         sizeFactor: animation.drive(Tween(begin: 0.0, end: 1.0)),
         child: Center(
-          child: Material(child: builder(context), color: Colors.transparent,),
+          child: Material(child: builder(context), color: Colors.transparent),
         ),
       ),
     );
