@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
+import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:city_go/domain/entities/future_response.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
@@ -24,11 +25,11 @@ class _RatingDialogState extends State<RatingDialog>
   static const top = 5;
   static const backColor = Color(0xFFD0D0D0);
   int _currentRating = 0;
-  int _needToSet = 0;
+  int _displayRating = 0;
   final angle = 60.0;
 
   set currentRating(int value) {
-    _needToSet = value;
+    _currentRating = value;
     _controller.forward();
   }
 
@@ -45,7 +46,7 @@ class _RatingDialogState extends State<RatingDialog>
     )..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
           _controller.reverse();
-          _currentRating = _needToSet;
+          _displayRating = _currentRating;
         }
       });
     super.initState();
@@ -85,13 +86,6 @@ class _RatingDialogState extends State<RatingDialog>
                       style: theme.textTheme.bodyText2.copyWith(fontSize: 20),
                     ),
                   ),
-                  AdaptiveButton(
-                    child: Icon(Icons.close, color: backColor),
-                    backgroundColor: Colors.grey,
-                    iconBorderColor: Colors.transparent,
-                    padding: 1,
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
                 ],
               ),
               Icon(Icons.check_box_outlined, size: 50, color: Colors.white),
@@ -105,7 +99,7 @@ class _RatingDialogState extends State<RatingDialog>
       animation: _controller.view,
       builder: (_, __) {
         // Количество пустых звезд
-        final empty = top - _currentRating;
+        final empty = top - _displayRating;
 
         return Material(
           shape:
@@ -140,22 +134,25 @@ class _RatingDialogState extends State<RatingDialog>
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ...List.generate(_currentRating,
+                    ...List.generate(_displayRating,
                         (index) => getIcon(Icons.star, index + 1)),
                     ...List.generate(
                         empty,
                         (index) => getIcon(
-                            Icons.star_border, index + 1 + _currentRating)),
+                            Icons.star_border, index + 1 + _displayRating)),
                   ],
                 ),
                 TextButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    overlayColor:
+                        MaterialStateProperty.all(orangeColor.withOpacity(0.6)),
+                    backgroundColor: MaterialStateProperty.all(
+                        isDisabled ? Colors.grey : Colors.white),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     )),
                   ),
-                  onPressed: _currentRating == null
+                  onPressed: isDisabled
                       ? null
                       : () async {
                           final response =
@@ -179,6 +176,8 @@ class _RatingDialogState extends State<RatingDialog>
       },
     );
   }
+
+  bool get isDisabled => _currentRating == 0;
 
   Widget getIcon(IconData icon, int rating) {
     return GestureDetector(
