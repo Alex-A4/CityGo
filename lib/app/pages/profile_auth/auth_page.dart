@@ -17,10 +17,9 @@ class AuthPage extends StatefulWidget {
 
   AuthPage({
     Key key = const Key('AuthPage'),
-    @required this.bloc,
-    @required this.isAuth,
-  })  : assert(bloc != null && isAuth != null),
-        super(key: key);
+    required this.bloc,
+    required this.isAuth,
+  }) : super(key: key);
 
   @override
   _AuthPageState createState() => _AuthPageState();
@@ -130,7 +129,7 @@ class _AuthPageState extends State<AuthPage> {
             AuthLoginButton(
               isAuthState: isAuth,
               onTap: () {
-                if (!formKey.currentState.validate()) return;
+                if (!formKey.currentState!.validate()) return;
 
                 if (isAuth) {
                   bloc.add(ProfileAuthInternalEvent(

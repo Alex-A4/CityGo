@@ -12,6 +12,8 @@ import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:city_go/domain/entities/routes/route.dart' as r;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /// Константы для страниц, здесь должны быть перечислены все страницы без исключений
 const ROOT = '/';
@@ -42,13 +44,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case PATH_MAP_PAGE:
       final dest = settings.arguments;
       return MaterialPageRoute(
-        builder: (_) => PathMapPage(dest: dest),
+        builder: (_) => PathMapPage(dest: dest as LatLng),
         settings: settings,
       );
     case ROUTE_MAP_PAGE:
       final route = settings.arguments;
       return MaterialPageRoute(
-        builder: (_) => RouteMapPage(route: route),
+        builder: (_) => RouteMapPage(route: route as r.Route),
         settings: settings,
       );
     case VISIT_LIST:

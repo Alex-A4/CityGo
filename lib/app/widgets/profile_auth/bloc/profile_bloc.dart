@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
 import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/repositories/profile/user_remote_repository.dart';
-import 'package:meta/meta.dart';
 
 /// Блок профиля, который также отвечает за авторизацию.
 /// Если пользователь авторизован, то состояние должно содержать профиль, инчае
@@ -11,7 +10,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileStorage storage;
   final UserRemoteRepository repository;
 
-  ProfileBloc({@required this.storage, @required this.repository})
+  ProfileBloc({required this.storage, required this.repository})
       : super(
           storage.profile.user != null
               ? ProfileAuthenticatedState(storage.profile)
@@ -24,7 +23,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is ProfileAuthExternalEvent) {
       var response = await repository.authWithExternalService(event.user);
       if (response.hasData) {
-        var profile = await storage.updateProfile(user: response.data);
+        var profile = await storage.updateProfile(user: response.data!);
         yield ProfileAuthenticatedState(profile);
       } else {
         yield ProfileNeedAuthState(errorCode: response.errorCode);
@@ -36,7 +35,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       var response =
           await repository.authNewUser(event.userName, event.password);
       if (response.hasData) {
-        var profile = await storage.updateProfile(user: response.data);
+        var profile = await storage.updateProfile(user: response.data!);
         yield ProfileAuthenticatedState(profile);
       } else {
         yield ProfileNeedAuthState(errorCode: response.errorCode);
@@ -46,7 +45,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is ProfileLogInEvent) {
       var response = await repository.logInUser(event.userName, event.password);
       if (response.hasData) {
-        var profile = await storage.updateProfile(user: response.data);
+        var profile = await storage.updateProfile(user: response.data!);
         yield ProfileAuthenticatedState(profile);
       } else {
         yield ProfileNeedLoginState(errorCode: response.errorCode);

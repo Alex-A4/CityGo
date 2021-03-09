@@ -5,8 +5,6 @@ import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:city_go/domain/repositories/routes/route_repository.dart';
 
-import 'package:meta/meta.dart';
-
 /// Блок списка маршрутов, который загружает и хранит их
 class RouteListBloc extends Bloc<RouteListBlocEvent, RouteListBlocState> {
   /// Позволяет загружать маршруты
@@ -14,13 +12,13 @@ class RouteListBloc extends Bloc<RouteListBlocEvent, RouteListBlocState> {
   final ProfileStorage storage;
 
   RouteListBloc({
-    @required this.repository,
-    @required this.storage,
+    required this.repository,
+    required this.storage,
   }) : super(RouteListBlocDisplayState([], false));
 
   List<RouteClipped> routes = [];
 
-  RouteListBlocDisplayState getDataState(bool isEnd, [String error]) {
+  RouteListBlocDisplayState getDataState(bool isEnd, [String? error]) {
     return RouteListBlocDisplayState(List.from(routes), isEnd, error);
   }
 
@@ -34,13 +32,13 @@ class RouteListBloc extends Bloc<RouteListBlocEvent, RouteListBlocState> {
         yield getDataState(true, USER_NOT_AUTH);
       else {
         final response = await repository.getRoutes(
-            token: user.accessToken, offset: routes.length);
+            token: user.accessToken!, offset: routes.length);
 
         if (response.hasError)
           yield getDataState(true, NO_INTERNET);
         else {
-          if (response.data.isNotEmpty) {
-            routes.addAll(response.data);
+          if (response.data!.isNotEmpty) {
+            routes.addAll(response.data!);
             yield getDataState(false);
           } else {
             yield getDataState(true);

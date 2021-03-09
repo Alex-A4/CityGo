@@ -8,7 +8,6 @@ import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:city_go/domain/repositories/routes/route_repository.dart';
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 
 export 'package:city_go/domain/repositories/routes/route_repository.dart';
 
@@ -23,8 +22,8 @@ class RouteRepositoryImpl implements RouteRepository {
 
   @override
   Future<FutureResponse<List<RouteClipped>>> getRoutes({
-    @required String token,
-    @required int offset,
+    required String token,
+    required int offset,
   }) async {
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
@@ -53,8 +52,8 @@ class RouteRepositoryImpl implements RouteRepository {
 
   @override
   Future<FutureResponse<Route>> getRoute({
-    @required int id,
-    @required String token,
+    required int id,
+    required String token,
   }) async {
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
@@ -78,13 +77,12 @@ class RouteRepositoryImpl implements RouteRepository {
 
   @override
   Future<FutureResponse<bool>> rateRoute({
-    @required int routeId,
-    @required int value,
-    @required String token,
-    @required int userId,
+    required int routeId,
+    required int value,
+    required String token,
+    required int userId,
   }) async {
     assert(value >= 1 && value <= 5);
-    assert(token != null && userId != null);
 
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
@@ -100,7 +98,7 @@ class RouteRepositoryImpl implements RouteRepository {
       return FutureResponse.success(true);
     } on DioError catch (e) {
       final overrideMap = <int, String>{};
-      if (e.response.data['non_field_errors'] != null)
+      if (e.response?.data['non_field_errors'] != null)
         overrideMap[400] = 'rate_already_complete';
       return FutureResponse.fail(handleDioError(e, overrideData: overrideMap));
     } catch (e) {

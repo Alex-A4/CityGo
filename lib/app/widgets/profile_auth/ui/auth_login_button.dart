@@ -8,14 +8,13 @@ class AuthLoginButton extends StatelessWidget {
   /// Флаг, обозначающий, какой текст нужно отобразить: регистрацию или вход.
   /// true - Зарегистрироваться, false - Войти
   final bool isAuthState;
-  final Function onTap;
+  final GestureTapCallback onTap;
 
   AuthLoginButton({
-    Key key,
-    @required this.isAuthState,
-    @required this.onTap,
-  })  : assert(onTap != null && isAuthState != null),
-        super(key: key);
+    Key? key,
+    required this.isAuthState,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

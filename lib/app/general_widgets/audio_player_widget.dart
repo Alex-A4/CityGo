@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class AudioPlayerOverlay {
-  static OverlayState overlayState;
-  static OverlayEntry _overlayEntry;
+  static OverlayState? overlayState;
+  static OverlayEntry? _overlayEntry;
   static bool _isVisible = false;
 
   static void initPlayer(BuildContext context) {
@@ -23,7 +23,7 @@ class AudioPlayerOverlay {
       },
     );
 
-    overlayState.insert(_overlayEntry);
+    if (_overlayEntry != null) overlayState?.insert(_overlayEntry!);
     _isVisible = true;
   }
 
@@ -39,9 +39,7 @@ class AudioPlayerOverlay {
 class CityAudioPlayerWidget extends StatelessWidget {
   final CityAudioPlayer player;
 
-  CityAudioPlayerWidget({Key key, @required this.player})
-      : assert(player != null),
-        super(key: key);
+  CityAudioPlayerWidget({Key? key, required this.player}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +49,13 @@ class CityAudioPlayerWidget extends StatelessWidget {
         stream: player.playerStatusStream,
         initialData: player.playerStatus,
         builder: (_, snap) {
-          final status = snap.data;
+          final status = snap.data!;
           if (status is PlayerClosed) return Container(height: 0, width: 0);
-          Widget leadingButton;
+          Widget? leadingButton;
           String text =
               '${getTextDuration(status.currentPosition)}/${getTextDuration(status.trackDuration)}';
-          Duration current = status.currentPosition;
-          Duration track = status.trackDuration;
+          Duration? current = status.currentPosition;
+          Duration? track = status.trackDuration;
 
           if (status is PlayerLoading) {
             leadingButton = CircularProgressIndicator();
@@ -88,7 +86,7 @@ class CityAudioPlayerWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: Row(
               children: [
-                leadingButton,
+                leadingButton!,
                 if (track != null && current != null)
                   Expanded(
                     flex: 2,
@@ -122,7 +120,7 @@ class CityAudioPlayerWidget extends StatelessWidget {
     );
   }
 
-  String getTextDuration(Duration duration) {
+  String getTextDuration(Duration? duration) {
     if (duration == null) return '';
     final inSeconds = duration.inSeconds;
     final minutes = inSeconds ~/ 60;
@@ -138,10 +136,10 @@ class AudioPlayerLine extends StatefulWidget {
   final Duration trackDuration;
 
   const AudioPlayerLine({
-    Key key,
-    @required this.currentPosition,
-    @required this.trackDuration,
-    @required this.player,
+    Key? key,
+    required this.currentPosition,
+    required this.trackDuration,
+    required this.player,
   }) : super(key: key);
 
   @override
@@ -149,7 +147,7 @@ class AudioPlayerLine extends StatefulWidget {
 }
 
 class _AudioPlayerLineState extends State<AudioPlayerLine> {
-  double moveValue;
+  double? moveValue;
   bool isMoving = false;
 
   @override
@@ -161,13 +159,11 @@ class _AudioPlayerLineState extends State<AudioPlayerLine> {
           trackShape: CustomTrackShape(),
         ),
         child: Slider.adaptive(
-          value:
-              (moveValue ?? widget.currentPosition.inSeconds.toDouble()) ?? 0,
+          value: (moveValue ?? widget.currentPosition.inSeconds.toDouble()),
           min: 0,
           max: (widget.trackDuration < widget.currentPosition
-                  ? widget.currentPosition.inSeconds.toDouble()
-                  : widget.trackDuration.inSeconds.toDouble()) ??
-              0,
+              ? widget.currentPosition.inSeconds.toDouble()
+              : widget.trackDuration.inSeconds.toDouble()),
           onChanged: (v) {
             setState(() => moveValue = v);
           },
@@ -185,13 +181,13 @@ class _AudioPlayerLineState extends State<AudioPlayerLine> {
 
 class CustomTrackShape extends RoundedRectSliderTrackShape {
   Rect getPreferredRect({
-    @required RenderBox parentBox,
+    required RenderBox parentBox,
     Offset offset = Offset.zero,
-    @required SliderThemeData sliderTheme,
+    required SliderThemeData sliderTheme,
     bool isEnabled = false,
     bool isDiscrete = false,
   }) {
-    final double trackHeight = sliderTheme.trackHeight;
+    final double trackHeight = sliderTheme.trackHeight ?? 5.0;
     final double trackLeft = offset.dx;
     final double trackTop =
         offset.dy + (parentBox.size.height - trackHeight) / 2;

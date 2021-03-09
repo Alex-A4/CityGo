@@ -11,9 +11,8 @@ class RatingWidget extends StatelessWidget {
   final Function(BuildContext) onTap;
   static const top = 5;
 
-  RatingWidget({Key key, @required this.rating, @required this.onTap})
-      : assert(rating != null),
-        super(key: key);
+  RatingWidget({Key? key, required this.rating, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

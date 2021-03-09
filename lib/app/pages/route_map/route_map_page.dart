@@ -19,10 +19,9 @@ class RouteMapPage extends StatefulWidget {
   final r.Route route;
 
   RouteMapPage({
-    Key key,
-    @required this.route,
-  })  : assert(route != null),
-        super(key: key);
+    Key? key,
+    required this.route,
+  }) : super(key: key);
 
   @override
   _RouteMapPageState createState() => _RouteMapPageState();
@@ -30,8 +29,8 @@ class RouteMapPage extends StatefulWidget {
 
 class _RouteMapPageState extends State<RouteMapPage> {
   // ignore: close_sinks
-  RouteMapBloc bloc;
-  LatLng userPosition;
+  late RouteMapBloc bloc;
+  LatLng? userPosition;
 
   /// Флаг, обозначающий, что нужно переключиться на позицию пользователя.
   /// Активируется, когда пользователь нажимает специальную кнопку
@@ -43,7 +42,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
 
   Set<Marker> markers = {};
 
-  Map<PolylineId, Polyline> polylines;
+  Map<PolylineId, Polyline>? polylines;
 
   @override
   void initState() {
@@ -82,36 +81,36 @@ class _RouteMapPageState extends State<RouteMapPage> {
               bloc.pointIcons != null)
             initPlaceMarkers(widget.route.routePlaces, context);
 
-          if (state.route?.hasData == true) initPolylines(state.route.data);
+          if (state.route?.hasData == true) initPolylines(state.route!.data!);
 
           if (state.route?.hasData == true &&
               state.controller != null &&
               needShowRoute) {
             needShowRoute = false;
-            var data = state.route.data;
-            changeCameraPositionAfterWayFound(state.controller,
+            var data = state.route!.data!;
+            changeCameraPositionAfterWayFound(state.controller!,
                 data.coordinates.first, data.coordinates.last);
           }
 
           if (state.userPosition?.hasData == true && needShowPosition) {
             needShowPosition = false;
-            WidgetsBinding.instance.addPostFrameCallback(
+            WidgetsBinding.instance!.addPostFrameCallback(
               (_) => state.controller
                   ?.animateCamera(CameraUpdate.newCameraPosition(
-                CameraPosition(target: state.userPosition.data, zoom: 15),
+                CameraPosition(target: state.userPosition!.data!, zoom: 15),
               )),
             );
           }
 
           if (state.userPosition?.hasError == true && bloc.showError) {
             bloc.showError = false;
-            WidgetsBinding.instance.addPostFrameCallback((_) =>
-                CityToast.showToast(context, state.userPosition.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                CityToast.showToast(context, state.userPosition!.errorCode!));
           }
           if (state.route?.hasError == true && bloc.showError) {
             bloc.showError = false;
-            WidgetsBinding.instance.addPostFrameCallback(
-                (_) => CityToast.showToast(context, state.route.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback(
+                (_) => CityToast.showToast(context, state.route!.errorCode!));
           }
 
           return Stack(
@@ -120,10 +119,10 @@ class _RouteMapPageState extends State<RouteMapPage> {
               GoogleMap(
                 key: Key('RoutePageGoogleMap'),
                 onMapCreated: (c) => bloc.add(RouteMapBlocInitEvent(c)),
-                markers: markers != null ? Set<Marker>.from(markers) : null,
+                markers: Set<Marker>.from(markers),
                 polylines: polylines != null
-                    ? Set<Polyline>.from(polylines.values)
-                    : null,
+                    ? Set<Polyline>.from(polylines!.values)
+                    : Set(),
                 mapType: MapType.normal,
                 myLocationEnabled: true,
                 myLocationButtonEnabled: false,
@@ -263,7 +262,8 @@ class _RouteMapPageState extends State<RouteMapPage> {
             data.coordinates.last.latitude,
             data.coordinates.last.longitude,
           ),
-          icon: null,
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
         )
       ]);
       polylines = {
@@ -283,9 +283,9 @@ class _RouteMapPageState extends State<RouteMapPage> {
       markers.add(Marker(
         markerId: MarkerId('Place: ${place.id}'),
         onTap: () => showPlaceDialog(place, c),
-        position: place.latLng.toGoogle(),
+        position: place.latLng!.toGoogle(),
         flat: true,
-        icon: bloc.pointIcons[place.type.iconIndex],
+        icon: bloc.pointIcons![place.type.iconIndex],
       ));
     }
   }

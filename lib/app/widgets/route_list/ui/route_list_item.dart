@@ -14,10 +14,9 @@ class RouteItem extends StatelessWidget {
   final HttpClient client = sl();
 
   RouteItem({
-    Key key,
-    @required this.route,
-  })  : assert(route != null),
-        super(key: key);
+    Key? key,
+    required this.route,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class RouteItem extends StatelessWidget {
           image: route.logo == null
               ? null
               : DecorationImage(
-                  image: NetworkImage(client.getMediaPath(route.logo)),
+                  image: NetworkImage(client.getMediaPath(route.logo!)),
                   fit: BoxFit.cover,
                 ),
         ),

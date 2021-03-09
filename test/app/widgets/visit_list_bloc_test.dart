@@ -9,14 +9,15 @@ import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as g;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
-class MockPlaceRepository extends Mock implements PlaceRepository {}
+import 'visit_list_bloc_test.mocks.dart';
 
 class MockProfileStorage extends Mock implements ProfileStorage {}
 
 class MockGeolocator extends Mock implements Geolocator {}
 
+@GenerateMocks([PlaceRepository])
 void main() {
   final type = PlaceType.Museums;
   final logo = ImageSrc('/src/logo.jpg', 'description', 'title');
@@ -29,11 +30,11 @@ void main() {
   final defaultSort = PlaceSortType.Rating;
   final changedSort = PlaceSortType.Distance;
 
-  MockPlaceRepository repository;
-  MockProfileStorage storage;
-  MockGeolocator geolocator;
+  late MockPlaceRepository repository;
+  late MockProfileStorage storage;
+  late MockGeolocator geolocator;
   // ignore: close_sinks
-  VisitListBloc bloc;
+  late VisitListBloc bloc;
 
   setUp(() {
     repository = MockPlaceRepository();

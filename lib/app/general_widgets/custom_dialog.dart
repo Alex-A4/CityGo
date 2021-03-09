@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class DialogRoute<T> extends PopupRoute<T> {
   final WidgetBuilder builder;
 
-  DialogRoute({@required this.builder}) : assert(builder != null);
+  DialogRoute({required this.builder});
 
   @override
   Color get barrierColor => Colors.white24;

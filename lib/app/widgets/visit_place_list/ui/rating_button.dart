@@ -7,9 +7,8 @@ class RatingButton extends StatelessWidget {
   final double rating;
   final Function(BuildContext) onTap;
 
-  RatingButton({Key key, @required this.rating, @required this.onTap})
-      : assert(rating != null),
-        super(key: key);
+  RatingButton({Key? key, required this.rating, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

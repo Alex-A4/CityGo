@@ -13,12 +13,11 @@ class AuthInput extends StatefulWidget {
   final String hintCode;
 
   AuthInput({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
     this.isPassword = false,
-    @required this.hintCode,
-  })  : assert(controller != null && hintCode != null),
-        super(key: key);
+    required this.hintCode,
+  }) : super(key: key);
 
   @override
   _AuthInputState createState() => _AuthInputState();
@@ -36,7 +35,7 @@ class _AuthInputState extends State<AuthInput> {
         child: Center(
           child: TextFormField(
             validator: (v) {
-              if (v.isEmpty)
+              if (v?.isEmpty == true)
                 return context.localization(
                   widget.isPassword ? PASSWORD_NOT_EMPTY : LOGIN_NOT_EMPTY,
                 );

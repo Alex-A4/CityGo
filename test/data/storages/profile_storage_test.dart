@@ -4,20 +4,21 @@ import 'package:city_go/domain/entities/profile/settings.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/repositories/profile/profile_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'profile_storage_test.mocks.dart';
 
-class MockProfileRepo extends Mock implements ProfileRepository {}
-
+@GenerateMocks([ProfileRepository])
 void main() {
   final user = InAppUser(userName: 'Вася', accessToken: 'token', userId: 1);
   final user2 = InAppUser(userName: 'Петя', accessToken: 'token2', userId: 2);
   final settings = Settings(displayNotification: false);
 
-  MockProfileRepo repository;
-  ProfileStorage storage;
+  late MockProfileRepository repository;
+  late ProfileStorage storage;
 
   setUp(() {
-    repository = MockProfileRepo();
+    repository = MockProfileRepository();
     storage = ProfileStorageImpl(repository: repository);
   });
 

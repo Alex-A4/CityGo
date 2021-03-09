@@ -42,7 +42,7 @@ class MapRepositoryImpl extends MapRepository {
         MapRoute(calculatePathLength(pathPoints), pathPoints),
       );
     } catch (e) {
-      return FutureResponse.fail(e);
+      return FutureResponse.fail(e.toString());
     }
   }
 
@@ -71,7 +71,7 @@ class MapRepositoryImpl extends MapRepository {
       /// TODO: проверить, в тех ли единицах длина маршрута
       return FutureResponse.success(MapRoute(route.length, pathPoints));
     } catch (e) {
-      return FutureResponse.fail(e);
+      return FutureResponse.fail(e.toString());
     }
   }
 
@@ -98,6 +98,5 @@ class MapRepositoryImpl extends MapRepository {
       case PathType.Car:
         return TravelMode.driving;
     }
-    return null;
   }
 }

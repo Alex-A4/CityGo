@@ -20,10 +20,10 @@ class ClippedVisitPlace extends Equatable {
   /// Рейтинг объекта
   final double rating;
 
-  final String logo;
+  final String? logo;
 
   /// Координаты расположения объекта
-  final LatLng latLng;
+  final LatLng? latLng;
 
   final String generalInfo;
 
@@ -45,7 +45,7 @@ class ClippedVisitPlace extends Equatable {
   }
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [id, name, workTime, rating, logo, type, latLng, generalInfo];
 }
 
@@ -84,8 +84,6 @@ extension PlaceTypeSupport on PlaceType {
         return 'theatres';
       case PlaceType.Malls:
         return 'malls';
-      default:
-        return null;
     }
   }
 

@@ -4,12 +4,13 @@ import 'package:city_go/data/helpers/network_checker.dart';
 import 'package:city_go/data/repositories/routes/route_repository_impl.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'route_repo_test.mocks.dart';
 
 class MockNetworkChecker extends Mock implements NetworkChecker {}
 
-class MockClient extends Mock implements HttpClient {}
-
+@GenerateMocks([HttpClient])
 void main() {
   final clippedRoute = <String, dynamic>{
     'id': 123,
@@ -57,13 +58,13 @@ void main() {
   final token = 'token';
   final offset = 0;
 
-  MockNetworkChecker checker;
-  MockClient http;
-  RouteRepository repository;
+  late MockNetworkChecker checker;
+  late MockHttpClient http;
+  late RouteRepository repository;
 
   setUp(() {
     checker = MockNetworkChecker();
-    http = MockClient();
+    http = MockHttpClient();
 
     repository = RouteRepositoryImpl(http, checker);
   });
@@ -96,9 +97,12 @@ void main() {
               options: anyNamed('options')),
         ).thenAnswer(
           (_) => Future.value(
-            Response(data: {
-              'results': [clippedRoute]
-            }, statusCode: 200),
+            Response(
+                request: RequestOptions(path: ''),
+                data: {
+                  'results': [clippedRoute]
+                },
+                statusCode: 200),
           ),
         );
 
@@ -117,7 +121,7 @@ void main() {
           options: anyNamed('options'),
         ));
 
-        expect(response.data.length, 1);
+        expect(response.data!.length, 1);
       },
     );
   });
@@ -148,7 +152,8 @@ void main() {
               options: anyNamed('options'),
               queryParameters: anyNamed('queryParameters')),
         ).thenAnswer(
-          (_) => Future.value(Response(data: route, statusCode: 200)),
+          (_) => Future.value(Response(
+              request: RequestOptions(path: ''), data: route, statusCode: 200)),
         );
 
         // act
@@ -160,7 +165,7 @@ void main() {
           RouteRepositoryImpl.ROUTE_PATH + '$id',
           options: anyNamed('options'),
         ));
-        expect(response.data.id, id);
+        expect(response.data!.id, id);
       },
     );
   });

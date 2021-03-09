@@ -15,9 +15,9 @@ void main() async {
 }
 
 class CityGoApp extends StatelessWidget {
-  final Locale locale;
+  final Locale? locale;
 
-  const CityGoApp({Key key, @required this.locale}) : super(key: key);
+  const CityGoApp({Key? key, required this.locale}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

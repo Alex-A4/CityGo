@@ -6,17 +6,16 @@ import 'package:city_go/localization/localization.dart';
 class PlaceTypeCard extends StatelessWidget {
   final String imagePath;
   final String nameCode;
-  final Function onTap;
+  final GestureTapCallback? onTap;
   final double height;
 
   PlaceTypeCard({
-    Key key,
-    @required this.imagePath,
-    @required this.nameCode,
-    @required this.onTap,
-    @required this.height,
-  })  : assert(imagePath != null && nameCode != null && onTap != null),
-        super(key: key);
+    Key? key,
+    required this.imagePath,
+    required this.nameCode,
+    required this.onTap,
+    required this.height,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,8 @@ class PlaceTypeCard extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 3),
         height: height - 3,
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
+          image:
+              DecorationImage(image: AssetImage(imagePath), fit: BoxFit.cover),
         ),
         child: Center(
           child: AutoSizeText(

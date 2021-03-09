@@ -17,21 +17,21 @@ class ProfileAuthenticatedState extends ProfileState {
 /// Пользователь не авторизован и показывается окно авторизации.
 /// Когда пользователь пытается разлогиниться, должно появляться это же состояние.
 class ProfileNeedAuthState extends ProfileState {
-  final String errorCode;
+  final String? errorCode;
 
   ProfileNeedAuthState({this.errorCode});
 
   @override
-  List<Object> get props => [errorCode];
+  List<Object?> get props => [errorCode];
 }
 
 /// Пользователь не авторизован, но у него есть аккаунт и он хочет войти.
 /// Показывает кнопку входа вместо регистрации
 class ProfileNeedLoginState extends ProfileState {
-  final String errorCode;
+  final String? errorCode;
 
   ProfileNeedLoginState({this.errorCode});
 
   @override
-  List<Object> get props => [errorCode];
+  List<Object?> get props => [errorCode];
 }

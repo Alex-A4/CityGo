@@ -2,22 +2,22 @@ import 'package:city_go/app/general_widgets/ui_constants.dart';
 import 'package:flutter/material.dart';
 
 class CityAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final PreferredSizeWidget bottom;
-  final Widget title;
-  final List<Widget> actions;
+  final PreferredSizeWidget? bottom;
+  final Widget? title;
+  final List<Widget>? actions;
   final bool automaticallyImplyLeading;
 
   @override
   final Size preferredSize;
 
   CityAppBar({
-    Key key,
+    Key? key,
     this.bottom,
     this.title,
     this.actions,
     this.automaticallyImplyLeading = true,
   })  : preferredSize = Size.fromHeight(
-            kToolbarHeight + (bottom?.preferredSize?.height ?? 0.0)),
+            kToolbarHeight + (bottom?.preferredSize.height ?? 0.0)),
         super(key: key);
 
   @override

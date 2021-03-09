@@ -17,7 +17,7 @@ class Settings extends Equatable {
   const Settings({this.displayNotification = true});
 
   /// Фабрика по созданию настроек из JSON объекта.
-  factory Settings.fromJson(Map<String, dynamic> json) {
+  factory Settings.fromJson(Map<String, dynamic>? json) {
     if (json == null) return Settings(); // по-умолчанию
 
     return Settings(displayNotification: json[DISPLAY_NOTIFICATION]);

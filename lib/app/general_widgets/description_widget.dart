@@ -16,19 +16,18 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 /// минимальную высоты.
 /// Лучше всего оборачивать [DescriptionWidget] в [Stack].
 class DescriptionWidget extends StatefulWidget {
-  final List<ImageSrc> images;
+  final List<ImageSrc>? images;
   final String description;
   final double minHeight;
   final double maxHeight;
 
   DescriptionWidget({
     Key key = const Key('DescriptionWidget'),
-    @required this.description,
-    @required this.minHeight,
-    @required this.maxHeight,
+    required this.description,
+    required this.minHeight,
+    required this.maxHeight,
     this.images,
-  })  : assert(description != null && minHeight != null && maxHeight != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _DescriptionWidgetState createState() => _DescriptionWidgetState();
@@ -99,15 +98,15 @@ class _DescriptionWidgetState extends State<DescriptionWidget> {
 
 /// Контент описательного виджета, который содержит текст и картинки по необходимости
 class DescriptionContent extends StatelessWidget {
-  final List<ImageSrc> images;
+  final List<ImageSrc>? images;
   final String description;
   final double minHeight;
 
   DescriptionContent({
-    Key key,
-    @required this.images,
-    @required this.description,
-    @required this.minHeight,
+    Key? key,
+    required this.images,
+    required this.description,
+    required this.minHeight,
   }) : super(key: key);
 
   @override
@@ -132,7 +131,7 @@ class DescriptionContent extends StatelessWidget {
             ),
           ),
           if (images != null)
-            DescriptionImages(key: Key('DescriptionImages'), images: images),
+            DescriptionImages(key: Key('DescriptionImages'), images: images!),
         ],
       ),
     );
@@ -142,9 +141,7 @@ class DescriptionContent extends StatelessWidget {
 class DescriptionImages extends StatelessWidget {
   final List<ImageSrc> images;
 
-  DescriptionImages({Key key, @required this.images})
-      : assert(images != null),
-        super(key: key);
+  DescriptionImages({Key? key, required this.images}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -183,13 +180,12 @@ class DescriptionImageCard extends StatelessWidget {
   final double maxWidth;
 
   DescriptionImageCard({
-    Key key,
-    @required this.image,
-    @required this.height,
-    @required this.maxWidth,
-    @required this.client,
-  })  : assert(image != null),
-        super(key: key);
+    Key? key,
+    required this.image,
+    required this.height,
+    required this.maxWidth,
+    required this.client,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -207,7 +203,7 @@ class DescriptionImageCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: image.path == null
               ? Container()
-              : Image.network(client.getMediaPath(image.path),
+              : Image.network(client.getMediaPath(image.path!),
                   fit: BoxFit.cover),
         ),
       ),

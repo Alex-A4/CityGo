@@ -9,7 +9,7 @@ import 'package:meta/meta.dart';
 class Profile extends Equatable {
   /// Объект пользователя, который может быть не инициализирован
   static const USER = 'user';
-  final User user;
+  final User? user;
 
   /// Объект настроек. Если при запуске приложения, нет данных о настройках, они
   /// должны инициализироваться значениями по-умолчанию
@@ -19,7 +19,7 @@ class Profile extends Equatable {
   Profile({this.user, this.settings = const Settings()});
 
   /// Фабрика по созданию профиля из JSON объекта
-  factory Profile.fromJson(Map<String, dynamic> json) {
+  factory Profile.fromJson(Map<String, dynamic>? json) {
     if (json == null) return Profile.empty();
 
     return Profile(
@@ -33,7 +33,7 @@ class Profile extends Equatable {
   /// Метод для создания нового объекта.
   /// Если входные значения не переданы (равны null), то будет использоваться
   /// имеющееся значение.
-  Profile copyWith({User user, Settings settings}) {
+  Profile copyWith({User? user, Settings? settings}) {
     return Profile(
       user: user ?? this.user,
       settings: settings ?? this.settings,
@@ -58,5 +58,5 @@ class Profile extends Equatable {
       };
 
   @override
-  List<Object> get props => [user, settings];
+  List<Object?> get props => [user, settings];
 }

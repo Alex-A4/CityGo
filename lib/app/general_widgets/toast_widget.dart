@@ -6,19 +6,19 @@ import 'package:city_go/localization/localization.dart';
 /// использует контекст и идентификатор сообщения из локализации.
 class CityToast {
   static GlobalKey<_CityToastToastWidgetState> _key = GlobalKey();
-  static OverlayState overlayState;
-  static OverlayEntry _overlayEntry;
+  static OverlayState? overlayState;
+  static OverlayEntry? _overlayEntry;
   static bool _isVisible = false;
   static const animationDuration = 500;
 
-  static BuildContext appContext;
+  static BuildContext? appContext;
 
   /// Отображение уведомления на контексте уровня приложения.
   /// [appContext] должен быть инициализирован или обновлен каждый раз, когда
   /// обновляется App виджет. Данный метод позволяет отображать уведомление
   /// из мест программы, где недоступен контекст, например, при обновлении токена.
   static void showToastAppLevel(String messageId) {
-    if (appContext != null) showToast(appContext, messageId);
+    if (appContext != null) showToast(appContext!, messageId);
   }
 
   static void showToast(BuildContext context, String messageId) async {
@@ -44,8 +44,8 @@ class CityToast {
     _isVisible = true;
 
     /// Показываем сообщение.
-    overlayState.insert(_overlayEntry);
-    WidgetsBinding.instance
+    if (_overlayEntry != null) overlayState?.insert(_overlayEntry!);
+    WidgetsBinding.instance!
         .addPostFrameCallback((_) => _key.currentState?.show());
 
     /// Спустя 2500 милисекунд прячем сообщение и удаляем его с Overlay.
@@ -69,7 +69,7 @@ class CityToast {
 class _CityToastToastWidget extends StatefulWidget {
   final String messageId;
 
-  _CityToastToastWidget({Key key, @required this.messageId}) : super(key: key);
+  _CityToastToastWidget({Key? key, required this.messageId}) : super(key: key);
 
   @override
   _CityToastToastWidgetState createState() => _CityToastToastWidgetState();
@@ -89,7 +89,7 @@ class _CityToastToastWidgetState extends State<_CityToastToastWidget> {
 
   @override
   Widget build(BuildContext context) {
-    String message = '';
+    String? message = '';
     try {
       message = context.localization(widget.messageId);
     } catch (e) {
@@ -108,7 +108,7 @@ class _CityToastToastWidgetState extends State<_CityToastToastWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Expanded(child: AutoSizeText(message)),
+              Expanded(child: AutoSizeText(message ?? '')),
             ],
           ),
         ),

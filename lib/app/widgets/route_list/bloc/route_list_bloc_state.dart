@@ -14,13 +14,13 @@ class RouteListBlocDisplayState extends RouteListBlocState {
 
   /// Код ошибки, полученной при загрузке, опционален.
   /// Если код ошибки не null, то [isEndOfList] должен быть true
-  final String errorCode;
+  final String? errorCode;
 
   RouteListBlocDisplayState(this.routes, this.isEndOfList, [this.errorCode])
       : assert(errorCode != null && isEndOfList || errorCode == null);
 
   @override
-  List<Object> get props => [routes, isEndOfList, errorCode];
+  List<Object?> get props => [routes, isEndOfList, errorCode];
 }
 
 /// Состояние, которое отображает список маршрутов при условии, что также идёт

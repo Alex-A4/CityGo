@@ -36,13 +36,13 @@ class MainPage extends StatelessWidget {
     'assets/images/malls.jpg',
   ];
 
-  MainPage({Key key}) : super(key: key);
+  MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
     final height = (mq.size.height - kToolbarHeight - mq.padding.top) / 3;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       AudioPlayerOverlay.initPlayer(context);
     });
 

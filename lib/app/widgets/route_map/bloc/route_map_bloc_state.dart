@@ -10,17 +10,17 @@ abstract class RouteMapBlocState extends Equatable {}
 class RouteMapBlocMapState extends RouteMapBlocState {
   /// Контроллер карты, с помощью которого идёт взаимодействие с картой
   /// Может быть null.
-  final GoogleMapController controller;
+  final GoogleMapController? controller;
 
   /// Путь на карте, который отображается.
   /// Может быть null.
-  final FutureResponse<MapRoute> route;
+  final FutureResponse<MapRoute>? route;
 
   /// Позиция пользователя на карте. Может быть равна null, если отключена геопозиция
   /// Если при получении позиции возникла ошибка, то она будет отображена в
   /// качестве уведомления пользователю.
   /// Может быть null.
-  final FutureResponse<LatLng> userPosition;
+  final FutureResponse<LatLng>? userPosition;
 
   final bool isLocationSearching;
 
@@ -35,6 +35,6 @@ class RouteMapBlocMapState extends RouteMapBlocState {
   bool get stringify => true;
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [controller?.mapId, route, userPosition, isLocationSearching];
 }

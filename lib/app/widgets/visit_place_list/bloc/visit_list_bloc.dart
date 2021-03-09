@@ -5,7 +5,6 @@ import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'bloc.dart';
-import 'package:meta/meta.dart';
 
 /// Блок списка мест, которые можно посетить.
 /// Блок содержит информацию о выбранном типе мест (кафе/парки) и загружает
@@ -17,10 +16,10 @@ class VisitListBloc extends Bloc<VisitListBlocEvent, VisitListBlocState> {
   final Geolocator geolocator;
 
   VisitListBloc({
-    @required this.type,
-    @required this.repository,
-    @required this.storage,
-    @required this.geolocator,
+    required this.type,
+    required this.repository,
+    required this.storage,
+    required this.geolocator,
     this.sortType = PlaceSortType.Rating,
   }) : super(VisitListBlocPlaceState(type, [], sortType, false));
 
@@ -50,19 +49,20 @@ class VisitListBloc extends Bloc<VisitListBlocEvent, VisitListBlocState> {
       yield VisitListBlocPlaceState(
           type, places, sortType, true, USER_NOT_AUTH);
     else {
-      LatLng latLng;
+      LatLng? latLng;
       if (sortType == PlaceSortType.Distance) {
         try {
           latLng = await geolocator.getPosition();
         } catch (e) {
-          yield VisitListBlocPlaceState(type, places, sortType, true, e);
+          yield VisitListBlocPlaceState(
+              type, places, sortType, true, e.toString());
           return;
         }
       }
 
       var response = await repository.getPlaces(
         placeType: type,
-        token: user.accessToken,
+        token: user.accessToken!,
         offset: places.length,
         sortType: sortType,
         latLng: latLng,
@@ -71,10 +71,10 @@ class VisitListBloc extends Bloc<VisitListBlocEvent, VisitListBlocState> {
         yield VisitListBlocPlaceState(
             type, places, sortType, true, response.errorCode);
       else {
-        if (response.data.isEmpty)
+        if (response.data!.isEmpty)
           yield VisitListBlocPlaceState(type, places, sortType, true);
         else {
-          places.addAll(response.data);
+          places.addAll(response.data!);
           yield VisitListBlocPlaceState(type, places, sortType, false);
         }
       }

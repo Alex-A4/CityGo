@@ -13,11 +13,11 @@ class VisitSingleBlocEmptyState extends VisitSingleBlocState {
 
 /// Состояние, которое отображается после загрузки данных
 class VisitSingleBlocDataState extends VisitSingleBlocState {
-  final FullVisitPlace place;
-  final String errorCode;
+  final FullVisitPlace? place;
+  final String? errorCode;
 
   VisitSingleBlocDataState(this.place, [this.errorCode]);
 
   @override
-  List<Object> get props => [place, errorCode];
+  List<Object?> get props => [place, errorCode];
 }

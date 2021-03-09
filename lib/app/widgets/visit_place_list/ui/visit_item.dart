@@ -23,13 +23,12 @@ class VisitItem extends StatelessWidget {
   final double height;
 
   VisitItem({
-    Key key,
-    @required this.place,
-    @required this.height,
-    @required this.client,
-    @required this.placeRepository,
-  })  : assert(place != null && height != null),
-        super(key: key);
+    Key? key,
+    required this.place,
+    required this.height,
+    required this.client,
+    required this.placeRepository,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class VisitItem extends StatelessWidget {
         image: place.logo == null
             ? null
             : DecorationImage(
-                image: NetworkImage(client.getMediaPath(place.logo)),
+                image: NetworkImage(client.getMediaPath(place.logo!)),
                 fit: BoxFit.cover,
               ),
       ),
@@ -66,7 +65,7 @@ class VisitItem extends StatelessWidget {
                     ),
                   ),
                   AutoSizeText(
-                    context.localization(WORK_TIME).toUpperCase(),
+                    context.localization(WORK_TIME)?.toUpperCase() ?? '',
                     style: TextStyle(
                       fontSize: 13,
                       color: lightGrey,
@@ -111,7 +110,7 @@ class VisitItem extends StatelessWidget {
                     onPressed: () => Navigator.of(context)
                         .pushNamed(VISIT_SINGLE, arguments: place),
                     child: AutoSizeText(
-                      context.localization(DETAIL_WORD).toUpperCase(),
+                      context.localization(DETAIL_WORD)?.toUpperCase() ?? '',
                       style: TextStyle(
                         letterSpacing: 1.2,
                         fontSize: 14,
@@ -129,15 +128,15 @@ class VisitItem extends StatelessWidget {
     );
   }
 
-  Future<FutureResponse<dynamic>> rateFunction(int value) {
-    final user = sl<ProfileStorage>().profile?.user;
+  Future<FutureResponse<dynamic>>? rateFunction(int value) {
+    final user = sl<ProfileStorage>().profile.user;
     if (user == null) return null;
 
     return placeRepository.ratePlace(
       value: value,
       placeId: place.id,
-      token: user.accessToken,
-      userId: user.userId,
+      token: user.accessToken!,
+      userId: user.userId!,
     );
   }
 }

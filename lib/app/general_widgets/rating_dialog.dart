@@ -9,12 +9,12 @@ import 'package:city_go/localization/localization.dart';
 import 'package:vector_math/vector_math.dart' as math;
 
 /// Асинхронный колбек для проставления оценкки
-typedef RateFunction = Future<FutureResponse<dynamic>> Function(int value);
+typedef RateFunction = Future<FutureResponse<dynamic>>? Function(int value);
 
 class RatingDialog extends StatefulWidget {
   final RateFunction rateFunction;
 
-  const RatingDialog({Key key, @required this.rateFunction}) : super(key: key);
+  const RatingDialog({Key? key, required this.rateFunction}) : super(key: key);
 
   @override
   _RatingDialogState createState() => _RatingDialogState();
@@ -34,9 +34,9 @@ class _RatingDialogState extends State<RatingDialog>
   }
 
   bool successVote = false;
-  Future successFuture;
+  Future? successFuture;
 
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -83,7 +83,7 @@ class _RatingDialogState extends State<RatingDialog>
                     child: AutoSizeText(
                       context.localization('rate_success'),
                       textAlign: TextAlign.center,
-                      style: theme.textTheme.bodyText2.copyWith(fontSize: 20),
+                      style: theme.textTheme.bodyText2?.copyWith(fontSize: 20),
                     ),
                   ),
                 ],
@@ -156,16 +156,16 @@ class _RatingDialogState extends State<RatingDialog>
                       ? null
                       : () async {
                           final response =
-                              await widget.rateFunction(_currentRating);
+                              await widget.rateFunction.call(_currentRating);
                           if (response?.hasError ?? false) {
-                            CityToast.showToast(context, response.errorCode);
+                            CityToast.showToast(context, response!.errorCode!);
                             Navigator.of(context).pop();
                           } else {
                             setState(() => successVote = true);
                           }
                         },
                   child: Text(
-                    context.localization('rate_word'),
+                    context.localization('rate_word') ?? '',
                     style: theme.textTheme.bodyText2,
                   ),
                 ),

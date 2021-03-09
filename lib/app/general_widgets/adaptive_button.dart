@@ -5,28 +5,27 @@ import 'package:flutter/material.dart';
 /// кастомного виджета.
 class AdaptiveButton extends StatelessWidget {
   final Widget child;
-  final Function onTap;
+  final GestureTapCallback? onTap;
   final Color iconBorderColor;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final double padding;
   final bool needBorder;
   static const iconSize = 30.0;
 
   AdaptiveButton({
-    Key key,
-    @required this.child,
-    @required this.onTap,
+    Key? key,
+    required this.child,
+    required this.onTap,
     this.iconBorderColor = orangeColor,
     this.backgroundColor = Colors.white,
     this.padding = 5.0,
     this.needBorder = true,
-  })  : assert(child != null),
-        super(key: key);
+  }) : super(key: key);
 
   factory AdaptiveButton.orangeLight({
-    Key key,
-    @required IconData icon,
-    @required Function onTap,
+    Key? key,
+    required IconData icon,
+    required GestureTapCallback onTap,
     padding: 5.0,
   }) =>
       AdaptiveButton(
@@ -39,9 +38,9 @@ class AdaptiveButton extends StatelessWidget {
       );
 
   factory AdaptiveButton.orangeTransparent({
-    Key key,
-    @required IconData icon,
-    @required Function onTap,
+    Key? key,
+    required IconData icon,
+    required GestureTapCallback? onTap,
     double padding = 5.0,
   }) =>
       AdaptiveButton(
@@ -54,10 +53,10 @@ class AdaptiveButton extends StatelessWidget {
       );
 
   factory AdaptiveButton.widget({
-    Key key,
-    @required Widget widget,
-    @required Function onTap,
-    Color backgroundColor,
+    Key? key,
+    required Widget widget,
+    required GestureTapCallback? onTap,
+    Color? backgroundColor,
     padding: 5.0,
   }) =>
       AdaptiveButton(

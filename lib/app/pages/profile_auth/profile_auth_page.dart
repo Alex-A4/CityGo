@@ -11,9 +11,7 @@ import 'package:flutter/material.dart';
 class ProfileAuthPage extends StatelessWidget {
   final ProfileBloc bloc;
 
-  ProfileAuthPage({Key key, @required this.bloc})
-      : assert(bloc != null),
-        super(key: key);
+  ProfileAuthPage({Key? key, required this.bloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +25,18 @@ class ProfileAuthPage extends StatelessWidget {
         }
         if (state is ProfileNeedAuthState) {
           if (state.errorCode != null)
-            WidgetsBinding.instance.addPostFrameCallback(
-                (_) => CityToast.showToast(context, state.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback(
+                (_) => CityToast.showToast(context, state.errorCode!));
           return AuthPage(bloc: bloc, isAuth: true);
         }
         if (state is ProfileNeedLoginState) {
           if (state.errorCode != null)
-            WidgetsBinding.instance.addPostFrameCallback(
-                (_) => CityToast.showToast(context, state.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback(
+                (_) => CityToast.showToast(context, state.errorCode!));
           return AuthPage(bloc: bloc, isAuth: false);
         }
 
-        return null;
+        return Container();
       },
     );
   }

@@ -7,12 +7,13 @@ import 'package:city_go/domain/entities/profile/profile.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
-class MockPlacesRepository extends Mock implements PlaceRepository {}
+import 'visit_single_bloc_test.mocks.dart';
 
 class MockProfileStorage extends Mock implements ProfileStorage {}
 
+@GenerateMocks([PlaceRepository])
 void main() {
   final user = InAppUser(userName: 'name', accessToken: 'token', userId: 1);
   final imageSrc = ImageSrc.fromJson({
@@ -27,7 +28,7 @@ void main() {
     description: 'description very big',
     generalInfo: 'Some general info',
     rating: 4.7,
-    logo: imageSrc.path,
+    logo: imageSrc!.path,
     imageSrc: [imageSrc],
     latLng: LatLng(47.23452, 25.32612),
     objectWebSite: 'http://somesite.ru',
@@ -36,14 +37,14 @@ void main() {
     audioSrc: '/audio/1.mp3',
   );
 
-  MockProfileStorage storage;
-  MockPlacesRepository repository;
+  late MockProfileStorage storage;
+  late MockPlaceRepository repository;
   // ignore: close_sinks
-  VisitSingleBloc bloc;
+  late VisitSingleBloc bloc;
 
   setUp(() {
     storage = MockProfileStorage();
-    repository = MockPlacesRepository();
+    repository = MockPlaceRepository();
     bloc = VisitSingleBloc(
       storage: storage,
       repository: repository,

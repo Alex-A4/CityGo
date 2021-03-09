@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 
 /// Модель пользователя, описывает имя и дополнительные параметры
 /// Сам пользователь является абстрактным, поскольку могут быть разные его
 /// реализации (ВК, Гугл, кастомный, итд)
 abstract class User extends Equatable {
   static const USER_ID = 'userId';
-  final int userId;
+  final int? userId;
 
   static const USER_TYPE = 'userType';
   final UserType type;
@@ -14,11 +13,11 @@ abstract class User extends Equatable {
   /// По-умолчанию все пользователи имеют имя, все остальные параметры зависят
   /// от реализации
   static const USER_NAME = 'userName';
-  final String userName;
+  final String? userName;
 
   /// Токен доступа к серверу
   static const ACCESS_TOKEN = 'accessToken';
-  final String accessToken;
+  final String? accessToken;
 
   User(this.userName, this.type, this.accessToken, this.userId);
 
@@ -36,7 +35,7 @@ abstract class User extends Equatable {
 enum UserType { InApp, Google, VK, Instagram }
 
 extension UserTypeData on UserType {
-  String get backend {
+  String? get backend {
     switch (this) {
       case UserType.InApp:
         return null;
@@ -55,9 +54,9 @@ extension UserTypeData on UserType {
 /// Класс пользователя, который зарегистрировался в приложении
 class InAppUser extends User {
   InAppUser({
-    @required String userName,
-    @required String accessToken,
-    @required int userId,
+    required String userName,
+    required String accessToken,
+    required int userId,
   }) : super(userName, UserType.InApp, accessToken, userId);
 
   factory InAppUser.fromJson(Map<String, dynamic> json) {
@@ -75,22 +74,23 @@ class InAppUser extends User {
   }
 
   @override
-  List<Object> get props => [userName, type, accessToken];
+  List<Object?> get props => [userName, type, accessToken];
 }
 
 abstract class ExternalUser extends User {
   static const EXTERNAL_TOKEN = 'externalToken';
 
   ExternalUser updateUserData({
-    String userName,
-    String accessToken,
-    String externalToken,
-    int userId,
+    String? userName,
+    String? accessToken,
+    String? externalToken,
+    int? userId,
   });
 
   String get externalToken;
 
-  ExternalUser(String userName, UserType type, String accessToken, int userId)
+  ExternalUser(
+      String? userName, UserType type, String? accessToken, int? userId)
       : super(userName, type, accessToken, userId);
 
   @override
@@ -106,10 +106,10 @@ class VKUser extends ExternalUser {
 
   /// Токен авторизации на сервере, инициализируется после отправки запроса
   VKUser({
-    @required this.externalToken,
-    String userName,
-    String accessToken,
-    int userId,
+    required this.externalToken,
+    String? userName,
+    String? accessToken,
+    int? userId,
   }) : super(userName, UserType.VK, accessToken, userId);
 
   factory VKUser.fromJson(Map<String, dynamic> json) {
@@ -122,14 +122,14 @@ class VKUser extends ExternalUser {
   }
 
   @override
-  List<Object> get props => [userName, type, accessToken, externalToken];
+  List<Object?> get props => [userName, type, accessToken, externalToken];
 
   @override
   ExternalUser updateUserData({
-    String userName,
-    String accessToken,
-    String externalToken,
-    int userId,
+    String? userName,
+    String? accessToken,
+    String? externalToken,
+    int? userId,
   }) =>
       VKUser(
         externalToken: externalToken ?? this.externalToken,
@@ -146,13 +146,13 @@ abstract class UserFactory {
   static UserFactory instance = DefaultUserFactory();
 
   /// Создать пользователя из JSON объекта
-  User fromJson(Map<String, dynamic> json);
+  User? fromJson(Map<String, dynamic>? json);
 }
 
 /// Фабрика пользователя по-умолчанию, создаёт
 class DefaultUserFactory extends UserFactory {
   @override
-  User fromJson(Map<String, dynamic> json) {
+  User? fromJson(Map<String, dynamic>? json) {
     if (json == null) return null;
 
     var type = UserType.values[json[User.USER_TYPE]];
@@ -166,7 +166,5 @@ class DefaultUserFactory extends UserFactory {
       case UserType.Instagram:
         throw UnimplementedError();
     }
-
-    return null;
   }
 }

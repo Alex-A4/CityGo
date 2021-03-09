@@ -5,10 +5,10 @@ import 'package:equatable/equatable.dart';
 /// вместо результата.
 class FutureResponse<T> extends Equatable {
   /// Код ошибки из локализации
-  final String errorCode;
+  final String? errorCode;
 
   /// Результат, который был получен в процессе выполнения некоторого действия
-  final T data;
+  final T? data;
 
   bool get hasError => errorCode != null;
 
@@ -16,10 +16,10 @@ class FutureResponse<T> extends Equatable {
 
   FutureResponse(this.errorCode, this.data);
 
-  factory FutureResponse.success(T data) => FutureResponse(null, data);
+  factory FutureResponse.success(T? data) => FutureResponse(null, data);
 
   factory FutureResponse.fail(String code) => FutureResponse(code, null);
 
   @override
-  List<Object> get props => [errorCode, data];
+  List<Object?> get props => [errorCode, data];
 }

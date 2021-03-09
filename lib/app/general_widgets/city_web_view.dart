@@ -6,9 +6,9 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart' as wv;
 
 class CityWebviewScaffold extends StatefulWidget {
   const CityWebviewScaffold({
-    Key key,
+    Key? key,
     this.appBar,
-    @required this.url,
+    required this.url,
     this.headers,
     this.javascriptChannels,
     this.withJavascript,
@@ -41,36 +41,36 @@ class CityWebviewScaffold extends StatefulWidget {
     this.onUrlChanged,
   }) : super(key: key);
 
-  final Function(String, BuildContext) onUrlChanged;
-  final PreferredSizeWidget appBar;
+  final Function(String, BuildContext)? onUrlChanged;
+  final PreferredSizeWidget? appBar;
   final String url;
-  final Map<String, String> headers;
-  final Set<wv.JavascriptChannel> javascriptChannels;
-  final bool withJavascript;
-  final bool clearCache;
-  final bool clearCookies;
+  final Map<String, String>? headers;
+  final Set<wv.JavascriptChannel>? javascriptChannels;
+  final bool? withJavascript;
+  final bool? clearCache;
+  final bool? clearCookies;
   final bool mediaPlaybackRequiresUserGesture;
-  final bool enableAppScheme;
-  final String userAgent;
+  final bool? enableAppScheme;
+  final String? userAgent;
   final bool primary;
-  final List<Widget> persistentFooterButtons;
-  final Widget bottomNavigationBar;
-  final bool withZoom;
-  final bool displayZoomControls;
-  final bool withLocalStorage;
-  final bool withLocalUrl;
-  final String localUrlScope;
-  final bool scrollBar;
-  final bool supportMultipleWindows;
-  final bool appCacheEnabled;
+  final List<Widget>? persistentFooterButtons;
+  final Widget? bottomNavigationBar;
+  final bool? withZoom;
+  final bool? displayZoomControls;
+  final bool? withLocalStorage;
+  final bool? withLocalUrl;
+  final String? localUrlScope;
+  final bool? scrollBar;
+  final bool? supportMultipleWindows;
+  final bool? appCacheEnabled;
   final bool hidden;
-  final Widget initialChild;
-  final bool allowFileURLs;
+  final Widget? initialChild;
+  final bool? allowFileURLs;
   final bool resizeToAvoidBottomInset;
-  final String invalidUrlRegex;
-  final bool geolocationEnabled;
-  final bool withOverviewMode;
-  final bool useWideViewPort;
+  final String? invalidUrlRegex;
+  final bool? geolocationEnabled;
+  final bool? withOverviewMode;
+  final bool? useWideViewPort;
   final bool debuggingEnabled;
   final bool ignoreSSLErrors;
 
@@ -80,10 +80,10 @@ class CityWebviewScaffold extends StatefulWidget {
 
 class _WebviewScaffoldState extends State<CityWebviewScaffold> {
   final webviewReference = wv.FlutterWebviewPlugin();
-  Rect _rect;
-  Timer _resizeTimer;
-  StreamSubscription<wv.WebViewStateChanged> _onStateChanged;
-  StreamSubscription<String> _onUrlChanged;
+  Rect? _rect;
+  Timer? _resizeTimer;
+  StreamSubscription<wv.WebViewStateChanged>? _onStateChanged;
+  StreamSubscription<String>? _onUrlChanged;
 
   var _onBack;
 
@@ -120,7 +120,7 @@ class _WebviewScaffoldState extends State<CityWebviewScaffold> {
     }
 
     _onUrlChanged = webviewReference.onUrlChanged.listen((url) {
-      widget?.onUrlChanged?.call(url, context);
+      widget.onUrlChanged?.call(url, context);
     });
   }
 
@@ -142,7 +142,7 @@ class _WebviewScaffoldState extends State<CityWebviewScaffold> {
     _resizeTimer?.cancel();
     webviewReference.close();
     if (widget.hidden) {
-      _onStateChanged.cancel();
+      _onStateChanged?.cancel();
     }
     webviewReference.dispose();
   }
@@ -166,7 +166,7 @@ class _WebviewScaffoldState extends State<CityWebviewScaffold> {
               clearCache: widget.clearCache,
               clearCookies: widget.clearCookies,
               mediaPlaybackRequiresUserGesture:
-              widget.mediaPlaybackRequiresUserGesture,
+                  widget.mediaPlaybackRequiresUserGesture,
               hidden: widget.hidden,
               enableAppScheme: widget.enableAppScheme,
               userAgent: widget.userAgent,
@@ -207,9 +207,9 @@ class _WebviewScaffoldState extends State<CityWebviewScaffold> {
 
 class _WebviewPlaceholder extends SingleChildRenderObjectWidget {
   const _WebviewPlaceholder({
-    Key key,
-    @required this.onRectChanged,
-    Widget child,
+    Key? key,
+    required this.onRectChanged,
+    Widget? child,
   }) : super(key: key, child: child);
 
   final ValueChanged<Rect> onRectChanged;
@@ -230,15 +230,15 @@ class _WebviewPlaceholder extends SingleChildRenderObjectWidget {
 
 class _WebviewPlaceholderRender extends RenderProxyBox {
   _WebviewPlaceholderRender({
-    RenderBox child,
-    ValueChanged<Rect> onRectChanged,
-  })  : _callback = onRectChanged,
+    RenderBox? child,
+    ValueChanged<Rect>? onRectChanged,
+  })   : _callback = onRectChanged,
         super(child);
 
-  ValueChanged<Rect> _callback;
-  Rect _rect;
+  ValueChanged<Rect>? _callback;
+  Rect? _rect;
 
-  Rect get rect => _rect;
+  Rect? get rect => _rect;
 
   set onRectChanged(ValueChanged<Rect> callback) {
     if (callback != _callback) {
@@ -249,7 +249,7 @@ class _WebviewPlaceholderRender extends RenderProxyBox {
 
   void notifyRect() {
     if (_callback != null && _rect != null) {
-      _callback(_rect);
+      _callback!(_rect!);
     }
   }
 

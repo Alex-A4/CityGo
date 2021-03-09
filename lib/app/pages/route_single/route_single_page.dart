@@ -17,11 +17,10 @@ class RouteSinglePage extends StatefulWidget {
 
   RouteSinglePage({
     Key key = const Key('RouteSinglePage'),
-    @required this.clipped,
-    @required this.bloc,
-    @required this.client,
-  })  : assert(clipped != null && bloc != null),
-        super(key: key) {
+    required this.clipped,
+    required this.bloc,
+    required this.client,
+  }) : super(key: key) {
     bloc.add(RouteSingleBlocLoadEvent());
   }
 
@@ -40,11 +39,11 @@ class _RouteSinglePageState extends State<RouteSinglePage> {
         initialData: bloc.state,
         builder: (_, snap) {
           final state = snap.data;
-          r.Route route;
+          r.Route? route;
           if (state is RouteSingleBlocDataState) {
             if (state.errorCode != null)
-              WidgetsBinding.instance.addPostFrameCallback(
-                  (_) => CityToast.showToast(context, state.errorCode));
+              WidgetsBinding.instance!.addPostFrameCallback(
+                  (_) => CityToast.showToast(context, state.errorCode!));
             route = state.route;
           }
           return LayoutBuilder(
@@ -61,7 +60,7 @@ class _RouteSinglePageState extends State<RouteSinglePage> {
                       ? null
                       : DecorationImage(
                           image: NetworkImage(
-                            widget.client.getMediaPath(widget.clipped.logo),
+                            widget.client.getMediaPath(widget.clipped.logo!),
                           ),
                           fit: BoxFit.cover,
                         ),

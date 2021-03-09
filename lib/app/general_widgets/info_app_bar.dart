@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 class InfoAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
-  InfoAppBar({Key key, @required this.title})
-      : assert(title != null),
-        super(key: key);
+  InfoAppBar({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

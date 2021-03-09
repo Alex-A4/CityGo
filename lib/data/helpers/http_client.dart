@@ -2,10 +2,10 @@ import 'package:city_go/data/core/localization_constants.dart';
 import 'package:dio/dio.dart';
 
 /// Конвертирует [error] в строковую константу, которая описывает произошедшее
-String handleDioError(DioError e, {Map<int, String> overrideData = const {}}) {
+String handleDioError(DioError e, {Map<int, String?> overrideData = const {}}) {
   var code = e.response?.statusCode;
   if (code == null) throw UNEXPECTED_ERROR;
-  if (overrideData[code] != null) return overrideData[code];
+  if (overrideData[code] != null) return overrideData[code]!;
 
   switch (code) {
     case 400:
@@ -29,34 +29,34 @@ abstract class HttpClient {
   /// Параметр [path] должен начинаться со знака /
   Future<Response<dynamic>> get(
     String path, {
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
   });
 
   /// POST запрос.
   /// Параметр [path] должен начинаться со знака /
   Future<Response<dynamic>> post(
     String path, {
-    dynamic data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
+    dynamic? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   });
 
   /// PUT запрос.
   /// Параметр [path] должен начинаться со знака /
   Future<Response<dynamic>> put(
     String path, {
-    data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
+    dynamic? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   });
 
   /// Возвращает url ссылку для загрузки медиа файла (картинка/аудио) путём
@@ -74,10 +74,10 @@ class HttpClientImpl extends HttpClient {
   @override
   Future<Response> get(
     String path, {
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
   }) {
     return dio.get(
       kServerUrl + path,
@@ -91,12 +91,12 @@ class HttpClientImpl extends HttpClient {
   @override
   Future<Response<dynamic>> post(
     String path, {
-    data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    onSendProgress,
-    onReceiveProgress,
+    dynamic? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) {
     return dio.post(
       kServerUrl + path,
@@ -112,12 +112,12 @@ class HttpClientImpl extends HttpClient {
   @override
   Future<Response> put(
     String path, {
-    data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    onSendProgress,
-    onReceiveProgress,
+    dynamic? data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) {
     return dio.put(
       kServerUrl + path,
@@ -131,8 +131,5 @@ class HttpClientImpl extends HttpClient {
   }
 
   @override
-  String getMediaPath(String path) {
-    if (path == null) return null;
-    return '$kServerUrl/$path';
-  }
+  String getMediaPath(String path) => '$kServerUrl/$path';
 }

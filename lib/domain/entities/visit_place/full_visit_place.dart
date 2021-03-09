@@ -1,8 +1,6 @@
 import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart';
 import 'package:city_go/domain/entities/lat_lng.dart';
 
-import 'package:meta/meta.dart';
-
 import 'image_src.dart';
 export 'image_src.dart';
 
@@ -13,7 +11,7 @@ class FullVisitPlace extends ClippedVisitPlace {
   final String objectAddress;
 
   /// Веб-сайт объекта, может отсутствовать (null)
-  final String objectWebSite;
+  final String? objectWebSite;
 
   /// Описание объекта
   final String description;
@@ -22,20 +20,20 @@ class FullVisitPlace extends ClippedVisitPlace {
   final List<ImageSrc> imageSrc;
 
   /// Эндпоинт аудио файла, может отсутствовать (null)
-  final String audioSrc;
+  final String? audioSrc;
 
   FullVisitPlace({
-    @required int id,
-    LatLng latLng,
-    @required String title,
-    @required String workTime,
-    @required double rating,
-    @required String logo,
-    @required PlaceType type,
-    @required this.description,
-    @required this.imageSrc,
-    @required this.objectAddress,
-    @required String generalInfo,
+    required int id,
+    LatLng? latLng,
+    required String title,
+    required String workTime,
+    required double rating,
+    required String? logo,
+    required PlaceType type,
+    required this.description,
+    required this.imageSrc,
+    required this.objectAddress,
+    required String generalInfo,
     this.objectWebSite,
     this.audioSrc,
   }) : super(id, type, title, workTime, rating, logo, latLng, generalInfo);
@@ -80,5 +78,5 @@ class FullVisitPlace extends ClippedVisitPlace {
   }
 
   @override
-  List<Object> get props => [...super.props, objectAddress];
+  List<Object?> get props => [...super.props, objectAddress];
 }

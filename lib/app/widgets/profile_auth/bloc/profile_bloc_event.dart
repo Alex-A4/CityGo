@@ -9,7 +9,7 @@ abstract class ProfileEvent extends Equatable {}
 /// авторизации.
 /// Регистрация равносильна авторизации через внешний источник.
 class ProfileAuthExternalEvent extends ProfileEvent {
-  final User user;
+  final ExternalUser user;
 
   ProfileAuthExternalEvent(this.user);
 

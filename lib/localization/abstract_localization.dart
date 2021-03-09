@@ -21,14 +21,14 @@ abstract class CityGoLocalization {
   String get locale => _locale.languageCode;
 
   /// Список строковых констант
-  Map<String, dynamic> _sentences;
+  late Map<String, dynamic> _sentences;
 
   // Конструктор
   CityGoLocalization(this._locale);
 
   /// Статическая функция, которая позволяет получить объект этого класса через
   /// контекст приложения в любом месте
-  static CityGoLocalization of(BuildContext context) =>
+  static CityGoLocalization? of(BuildContext context) =>
       Localizations.of<CityGoLocalization>(context, CityGoLocalization);
 
   /// Функция по загрузке списка констант из json файла, который располагается
@@ -67,7 +67,7 @@ bool isReallySupport(Locale locale) {
 /// Если язык устройства поддерживается, то возвращаем его,
 /// иначе язык по умолчанию
 Locale getAppLocale(
-    Locale deviceLocale, Iterable<Locale> suppLocales, Locale readLocale) {
+    Locale? deviceLocale, Iterable<Locale> suppLocales, Locale? readLocale) {
   if (readLocale != null) return readLocale;
   if (deviceLocale != null && isReallySupport(deviceLocale))
     return deviceLocale;
@@ -79,7 +79,7 @@ Locale getAppLocale(
 class CityGoLocalizationDelegate extends LocalizationsDelegate<CityGoLocalization> {
   final LocalizationCreator creator;
 
-  CityGoLocalizationDelegate({LocalizationCreator creator})
+  CityGoLocalizationDelegate({LocalizationCreator? creator})
       : this.creator = creator ?? kDefaultCreator;
 
   /// Проверка, поддерживается ли входной язык нашим приложением.

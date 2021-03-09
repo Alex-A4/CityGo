@@ -73,18 +73,18 @@ Future<void> initServiceLocator() async {
   sl.registerFactory<RouteListBloc>(
       () => RouteListBloc(storage: sl(), repository: sl()));
   sl.registerFactoryParam<RouteSingleBloc, int, void>(
-      (p1, _) => RouteSingleBloc(id: p1, repository: sl(), storage: sl()));
+      (p1, _) => RouteSingleBloc(id: p1!, repository: sl(), storage: sl()));
 
   sl.registerFactoryParam<VisitListBloc, PlaceType, void>(
     (p1, _) => VisitListBloc(
-        type: p1, repository: sl(), storage: sl(), geolocator: sl()),
+        type: p1!, repository: sl(), storage: sl(), geolocator: sl()),
   );
   sl.registerFactoryParam<VisitSingleBloc, int, void>(
-      (p1, _) => VisitSingleBloc(id: p1, repository: sl(), storage: sl()));
+      (p1, _) => VisitSingleBloc(id: p1!, repository: sl(), storage: sl()));
 
   sl.registerFactoryParam<PathMapBloc, LatLng, void>(
-      (p1, _) => PathMapBloc(sl(), p1, sl()));
+      (p1, _) => PathMapBloc(sl(), p1!, sl()));
   sl.registerFactoryParam<RouteMapBloc, Route, void>(
-      (p1, _) => RouteMapBloc(p1, sl(), sl(), sl()));
+      (p1, _) => RouteMapBloc(p1!, sl(), sl(), sl()));
   sl.registerFactory(() => SimpleMapBloc(sl(), sl(), sl(), sl()));
 }

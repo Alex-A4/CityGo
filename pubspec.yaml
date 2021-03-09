@@ -5,7 +5,7 @@ version: 0.0.0+1
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -14,9 +14,9 @@ dependencies:
     sdk: flutter
 
   # UI section
-  cupertino_icons: ^1.0.0
-  provider: ^4.3.2+2
-  google_maps_flutter: ^1.0.6
+  cupertino_icons: ^1.0.2
+  provider: ^5.0.0
+  google_maps_flutter: ^2.0.1
   flutter_polyline_points: ^0.2.4
   flutter_webview_plugin: ^0.3.11
   auto_size_text: ^2.1.0
@@ -24,28 +24,30 @@ dependencies:
   sliding_up_panel: ^1.0.2
 
   # Logic section
-  bloc: ^6.0.3
-  hive: ^1.4.4
-  equatable: ^1.2.5
-  rxdart: ^0.24.1
-  get_it: ^5.0.1
-  mockito: ^4.1.3
-  package_info: ^0.4.3
-  device_info: ^1.0.0
-  connectivity: ^2.0.1
-  dio: ^3.0.10
-  dio_flutter_transformer: ^3.0.2
-  permission_handler: ^5.0.1+1
-  geolocator: ^6.1.6
-  path_provider: ^1.6.21
-  just_audio: ^0.5.4
-  audio_service: ^0.15.2
-  url_launcher: ^5.7.10
+  bloc: ^7.0.0-nullsafety.3
+  hive: ^2.0.0
+  equatable: ^2.0.0
+  rxdart: ^0.26.0
+  get_it: ^6.0.0
+  mockito: ^5.0.0
+  package_info: ^2.0.0
+  device_info: ^2.0.0
+  connectivity: ^3.0.2
+  dio: ^4.0.0-beta6
+  permission_handler: ^6.0.1
+  geolocator: ^7.0.1
+  path_provider: ^2.0.1
+  just_audio: ^0.7.0
+  audio_service: ^0.17.0-nullsafety.0
+  url_launcher: ^6.0.2
 
+dependency_overrides:
+  http: ^0.13.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^1.11.5
 
 flutter:
   uses-material-design: true

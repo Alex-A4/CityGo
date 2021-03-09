@@ -16,7 +16,7 @@ void main() {
       final image = ImageSrc.fromJson(json);
 
       // assert
-      expect(image.path, json['image']);
+      expect(image!.path, json['image']);
       expect(image.description, json['description']);
       expect(image.title, json['title']);
     },

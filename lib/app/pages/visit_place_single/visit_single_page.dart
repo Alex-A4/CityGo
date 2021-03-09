@@ -17,11 +17,10 @@ class VisitSinglePage extends StatefulWidget {
 
   VisitSinglePage({
     Key key = const Key('VisitSinglePage'),
-    @required this.bloc,
-    @required this.place,
-    @required this.client,
-  })  : assert(bloc != null && place != null),
-        super(key: key) {
+    required this.bloc,
+    required this.place,
+    required this.client,
+  }) : super(key: key) {
     bloc.add(VisitSingleBlocLoadEvent());
   }
 
@@ -40,12 +39,12 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
         initialData: bloc.state,
         builder: (_, snap) {
           final state = snap.data;
-          FullVisitPlace place;
+          FullVisitPlace? place;
 
           if (state is VisitSingleBlocDataState) {
             if (state.errorCode != null)
-              WidgetsBinding.instance.addPostFrameCallback(
-                  (_) => CityToast.showToast(context, state.errorCode));
+              WidgetsBinding.instance!.addPostFrameCallback(
+                  (_) => CityToast.showToast(context, state.errorCode!));
             place = state.place;
           }
           return LayoutBuilder(
@@ -62,7 +61,7 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
                       ? null
                       : DecorationImage(
                           image: NetworkImage(
-                            widget.client.getMediaPath(widget.place.logo),
+                            widget.client.getMediaPath(widget.place.logo!),
                           ),
                           fit: BoxFit.cover,
                         ),

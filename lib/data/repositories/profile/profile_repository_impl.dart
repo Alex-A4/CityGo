@@ -3,7 +3,6 @@ import 'dart:convert' show json;
 import 'package:city_go/domain/entities/profile/profile.dart';
 import 'package:city_go/domain/repositories/profile/profile_repository.dart';
 import 'package:hive/hive.dart';
-import 'package:meta/meta.dart';
 
 export 'package:city_go/domain/repositories/profile/profile_repository.dart';
 
@@ -12,7 +11,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   static const kProfile = 'profile';
   final HiveInterface hive;
 
-  ProfileRepositoryImpl({@required this.hive});
+  ProfileRepositoryImpl({required this.hive});
 
   @override
   Future<Profile> readProfile() async {

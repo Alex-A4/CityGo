@@ -23,13 +23,12 @@ class SingleRouteContent extends StatelessWidget {
   final RouteRepository routeRepo;
 
   SingleRouteContent({
-    Key key,
-    @required this.route,
-    @required this.bottomSize,
-    @required this.client,
-    @required this.routeRepo,
-  })  : assert(route != null && bottomSize != null),
-        super(key: key);
+    Key? key,
+    required this.route,
+    required this.bottomSize,
+    required this.client,
+    required this.routeRepo,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +53,11 @@ class SingleRouteContent extends StatelessWidget {
                     Expanded(
                       child: getIconWithSub(
                         Icons.volume_up,
-                        route.audio == null || route.audio.isEmpty
+                        route.audio == null || route.audio!.isEmpty
                             ? null
                             : () => sl<CityAudioPlayer>()
-                                .startPlayer(client.getMediaPath(route.audio)),
-                        context.localization(START_SOUND),
+                                .startPlayer(client.getMediaPath(route.audio!)),
+                        context.localization(START_SOUND) ?? '',
                         style,
                       ),
                     ),
@@ -69,7 +68,7 @@ class SingleRouteContent extends StatelessWidget {
                             ? null
                             : () => Navigator.of(context)
                                 .pushNamed(ROUTE_MAP_PAGE, arguments: route),
-                        context.localization(CREATE_PATH),
+                        context.localization(CREATE_PATH) ?? '',
                         style,
                       ),
                     ),
@@ -82,15 +81,16 @@ class SingleRouteContent extends StatelessWidget {
                 },
                 child: AutoSizeText(
                   context.localization(GENERAL_INFO),
-                  style: style.copyWith(fontSize: 18),
+                  style: style?.copyWith(fontSize: 18),
                 ),
               ),
               SizedBox(height: 30),
               getInfoRow(
-                  LENGTH_WORD,
-                  '${route.length} ${context.localization(KM_WORD)}',
-                  context,
-                  style),
+                LENGTH_WORD,
+                '${route.length} ${context.localization(KM_WORD)}',
+                context,
+                style,
+              ),
               SizedBox(height: 20),
               getInfoRow(GO_TIME, '${route.goTime}', context, style),
               SizedBox(height: 50),
@@ -112,21 +112,21 @@ class SingleRouteContent extends StatelessWidget {
     );
   }
 
-  Future<FutureResponse<dynamic>> rateFunction(int value) {
-    final user = sl<ProfileStorage>().profile?.user;
+  Future<FutureResponse<dynamic>>? rateFunction(int value) {
+    final user = sl<ProfileStorage>().profile.user;
     if (user == null) return null;
 
     return routeRepo.rateRoute(
       value: value,
       routeId: route.id,
-      token: user.accessToken,
-      userId: user.userId,
+      token: user.accessToken!,
+      userId: user.userId!,
     );
   }
 
   Widget getInfoRow(
-      String titleCode, String text, BuildContext context, TextStyle sub2) {
-    final f = sub2.copyWith(
+      String titleCode, String text, BuildContext context, TextStyle? sub2) {
+    final f = sub2?.copyWith(
       fontSize: 16,
       decoration: TextDecoration.none,
       fontFamily: 'Jost',
@@ -141,8 +141,8 @@ class SingleRouteContent extends StatelessWidget {
     );
   }
 
-  Widget getIconWithSub(
-      IconData icon, Function onTap, String subtitle, TextStyle sub2) {
+  Widget getIconWithSub(IconData icon, GestureTapCallback? onTap,
+      String subtitle, TextStyle? sub2) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -151,7 +151,7 @@ class SingleRouteContent extends StatelessWidget {
         SizedBox(height: 10),
         AutoSizeText(
           subtitle.toUpperCase(),
-          style: sub2.copyWith(fontSize: 20),
+          style: sub2?.copyWith(fontSize: 20),
           textAlign: TextAlign.center,
         ),
       ],

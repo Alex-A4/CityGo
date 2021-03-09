@@ -61,8 +61,8 @@ void main() {
       expect(place.generalInfo, json1['general']);
       expect(place.audioSrc, json1['audio']);
       expect(place.imageSrc.length, json1['images'].length);
-      expect(place.latLng.latitude, json1['coords']['lat']);
-      expect(place.latLng.longitude, json1['coords']['lng']);
+      expect(place.latLng!.latitude, json1['coords']['lat']);
+      expect(place.latLng!.longitude, json1['coords']['lng']);
     },
   );
 
@@ -83,8 +83,8 @@ void main() {
       expect(place.generalInfo, json2['general']);
       expect(place.audioSrc, null);
       expect(place.imageSrc.length, json2['images'].length);
-      expect(place.latLng.latitude, json2['coords']['lat']);
-      expect(place.latLng.longitude, json2['coords']['lng']);
+      expect(place.latLng!.latitude, json2['coords']['lat']);
+      expect(place.latLng!.longitude, json2['coords']['lng']);
     },
   );
 }

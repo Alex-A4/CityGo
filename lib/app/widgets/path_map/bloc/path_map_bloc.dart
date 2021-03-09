@@ -21,9 +21,9 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
   ) : super(PathMapBlocMapState(type: defaultPathType));
 
   PathType type = defaultPathType;
-  GoogleMapController controller;
-  FutureResponse<LatLng> userPosition;
-  FutureResponse<MapRoute> route;
+  GoogleMapController? controller;
+  FutureResponse<LatLng>? userPosition;
+  FutureResponse<MapRoute>? route;
 
   bool isLocationSearching = false;
 
@@ -76,9 +76,9 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
       );
 
   Future<void> calculatePath() async {
-    if (userPosition.hasData) {
+    if (userPosition?.hasData == true) {
       route = await mapRepository.calculatePathBetweenPoints(
-          userPosition.data, destPoint, type);
+          userPosition!.data!, destPoint, type);
     }
   }
 
@@ -86,7 +86,7 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
     try {
       userPosition = FutureResponse.success(await geolocator.getPosition());
     } catch (e) {
-      userPosition = FutureResponse.fail(e);
+      userPosition = FutureResponse.fail(e.toString());
     }
   }
 }

@@ -2,7 +2,6 @@ import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:meta/meta.dart';
 
 export 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 export 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
@@ -20,8 +19,6 @@ extension PlaceSortString on PlaceSortType {
         return 'rating';
       case PlaceSortType.Random:
         return 'random';
-      default:
-        return null;
     }
   }
 }
@@ -37,19 +34,19 @@ abstract class PlaceRepository {
   /// [latLng] - координаты, относительно которых нужно делать сортировку, если
   /// пользователь выбрал сортировку по близости.
   Future<FutureResponse<List<ClippedVisitPlace>>> getPlaces({
-    @required PlaceType placeType,
-    @required String token,
-    @required int offset,
-    @required PlaceSortType sortType,
-    LatLng latLng,
+    required PlaceType placeType,
+    required String token,
+    required int offset,
+    required PlaceSortType sortType,
+    LatLng? latLng,
   });
 
   /// Получение полного объекта конкретного места.
   /// [id] - идентификатор места, который можно получить из [ClippedVisitPlace.id]
   /// [token] - токен авторизации пользователем на нашем сервере.
   Future<FutureResponse<FullVisitPlace>> getConcretePlace({
-    @required int id,
-    @required String token,
+    required int id,
+    required String token,
   });
 
   /// Метод для выставления оценки месту
@@ -58,10 +55,10 @@ abstract class PlaceRepository {
   /// [userId] - идентификатор пользователя на нашем сервере.
   /// [value] - оценка месту, которую поставил пользователь
   Future<FutureResponse<bool>> ratePlace({
-    @required int value,
-    @required int placeId,
-    @required String token,
-    @required int userId,
+    required int value,
+    required int placeId,
+    required String token,
+    required int userId,
   });
 
   /// Получение всех объектов всех типов по порядку.
@@ -70,7 +67,7 @@ abstract class PlaceRepository {
   /// [token] - токен авторизации пользователя на нашем сервере.
   /// [sort] - тип сортировки, является опциональным.
   Stream<FutureResponse<List<ClippedVisitPlace>>> getAllPlacesStream({
-    @required String token,
+    required String token,
     PlaceSortType sort = PlaceSortType.Rating,
   });
 }

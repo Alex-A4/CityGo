@@ -30,10 +30,10 @@ void main() {
     ]
   });
 
-  MockCalculator calculator;
-  MapRepository mapRepository;
-  MockPolyline polyline;
-  MockNetworkChecker checker;
+  late MockCalculator calculator;
+  late MapRepository mapRepository;
+  late MockPolyline polyline;
+  late MockNetworkChecker checker;
 
   setUp(() {
     calculator = MockCalculator();

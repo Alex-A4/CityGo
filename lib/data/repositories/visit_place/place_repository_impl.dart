@@ -7,7 +7,6 @@ import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:meta/meta.dart';
 
 export 'package:city_go/domain/entities/future_response.dart';
 export 'package:city_go/domain/repositories/visit_place/place_repository.dart';
@@ -22,16 +21,12 @@ class PlaceRepositoryImpl extends PlaceRepository {
 
   @override
   Future<FutureResponse<List<ClippedVisitPlace>>> getPlaces({
-    @required PlaceType placeType,
-    @required String token,
-    @required int offset,
-    @required PlaceSortType sortType,
-    LatLng latLng,
+    required PlaceType placeType,
+    required String token,
+    required int offset,
+    required PlaceSortType sortType,
+    LatLng? latLng,
   }) async {
-    assert(placeType != null &&
-        token != null &&
-        offset != null &&
-        sortType != null);
     assert(latLng != null && sortType == PlaceSortType.Distance ||
         sortType != PlaceSortType.Distance);
     try {
@@ -71,8 +66,8 @@ class PlaceRepositoryImpl extends PlaceRepository {
 
   @override
   Future<FutureResponse<FullVisitPlace>> getConcretePlace({
-    @required int id,
-    @required String token,
+    required int id,
+    required String token,
   }) async {
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
@@ -97,10 +92,9 @@ class PlaceRepositoryImpl extends PlaceRepository {
 
   @override
   Stream<FutureResponse<List<ClippedVisitPlace>>> getAllPlacesStream({
-    @required String token,
+    required String token,
     PlaceSortType sort = PlaceSortType.Rating,
   }) async* {
-    assert(sort != null);
     for (final type in PlaceType.values) {
       int typeResults = 0;
       while (true) {
@@ -112,8 +106,8 @@ class PlaceRepositoryImpl extends PlaceRepository {
         );
 
         /// Если нет данных для этого типа (все уже загрузили).
-        if (res.hasData && res.data.isEmpty) break;
-        if (res.hasData) typeResults += res.data.length;
+        if (res.hasData && res.data!.isEmpty) break;
+        if (res.hasData) typeResults += res.data!.length;
 
         yield res;
         if (res.hasError) return;
@@ -123,13 +117,12 @@ class PlaceRepositoryImpl extends PlaceRepository {
 
   @override
   Future<FutureResponse<bool>> ratePlace({
-    @required int value,
-    @required int placeId,
-    @required String token,
-    @required int userId,
+    required int value,
+    required int placeId,
+    required String token,
+    required int userId,
   }) async {
     assert(value >= 1 && value <= 5);
-    assert(token != null && userId != null);
 
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
@@ -145,7 +138,7 @@ class PlaceRepositoryImpl extends PlaceRepository {
       return FutureResponse.success(true);
     } on DioError catch (e) {
       final overrideMap = <int, String>{};
-      if (e.response.data['non_field_errors'] != null)
+      if (e.response?.data['non_field_errors'] != null)
         overrideMap[400] = 'rate_already_complete';
       return FutureResponse.fail(handleDioError(e, overrideData: overrideMap));
     } catch (e) {

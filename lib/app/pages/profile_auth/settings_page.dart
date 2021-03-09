@@ -13,34 +13,37 @@ class SettingsPage extends StatelessWidget {
   final ProfileBloc bloc;
   final Profile profile;
 
-  SettingsPage({Key key, @required this.bloc, @required this.profile})
-      : assert(bloc != null && profile != null),
-        super(key: key);
+  SettingsPage({Key? key, required this.bloc, required this.profile})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme.subtitle1;
     return Scaffold(
-      appBar: CityAppBar(title: AutoSizeText(context.localization(PROFILE_WORD))),
+      appBar:
+          CityAppBar(title: AutoSizeText(context.localization(PROFILE_WORD))),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CityDropDown(
-            head: AutoSizeText(context.localization(NOTIFICATION_WORD), style: style),
+            head: AutoSizeText(context.localization(NOTIFICATION_WORD),
+                style: style),
             onTap: () {
               print('NOTIFICATION');
             },
           ),
           LocaleSelector(),
           CityDropDown(
-            head: AutoSizeText(context.localization(TRAINING_WORD), style: style),
+            head:
+                AutoSizeText(context.localization(TRAINING_WORD), style: style),
             onTap: () {
               print('TRAINING');
             },
           ),
           Expanded(child: Container()),
           CityDropDown(
-            head: AutoSizeText(context.localization(CHANGE_PROFILE), style: style),
+            head: AutoSizeText(context.localization(CHANGE_PROFILE),
+                style: style),
             onTap: () => bloc.add(ProfileLogoutEvent()),
           ),
         ],
@@ -50,7 +53,7 @@ class SettingsPage extends StatelessWidget {
 }
 
 class LocaleSelector extends StatelessWidget {
-  LocaleSelector({Key key}) : super(key: key);
+  LocaleSelector({Key? key}) : super(key: key);
 
   final Map<String, String> localeMap = {
     supportedLocales[0]: 'Русский',
@@ -64,13 +67,14 @@ class LocaleSelector extends StatelessWidget {
       head: AutoSizeText(context.localization(LANGUAGE_WORD), style: style),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 30),
-        child: CityGroupRadioBox(
+        child: CityGroupRadioBox<String>(
           values: supportedLocales,
-          initValue: context.locale,
+          initValue: context.locale!,
           onChanged: (l) {
             LocalizationBuilder.setLocale(context, Locale(l));
           },
-          titles: supportedLocales.map((l) => AutoSizeText(localeMap[l])).toList(),
+          titles:
+              supportedLocales.map((l) => AutoSizeText(localeMap[l])).toList(),
         ),
       ),
     );

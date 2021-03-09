@@ -9,7 +9,7 @@ abstract class VisitListBlocState extends Equatable {}
 class VisitListBlocPlaceState extends VisitListBlocState {
   final PlaceType type;
   final List<ClippedVisitPlace> places;
-  final String errorCode;
+  final String? errorCode;
   final bool isEndOfList;
   final PlaceSortType sortType;
 
@@ -18,7 +18,7 @@ class VisitListBlocPlaceState extends VisitListBlocState {
       [this.errorCode]);
 
   @override
-  List<Object> get props => [type, places, errorCode, isEndOfList, sortType];
+  List<Object?> get props => [type, places, errorCode, isEndOfList, sortType];
 }
 
 /// Состояние, которое отображает, что идёт процесс загрузки данных.

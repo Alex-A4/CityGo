@@ -10,9 +10,8 @@ class FilterWidget extends StatelessWidget implements PreferredSizeWidget {
   final PlaceSortType activeType;
   final Function(PlaceSortType) onTap;
 
-  FilterWidget({Key key, @required this.activeType, @required this.onTap})
-      : assert(activeType != null && onTap != null),
-        super(key: key);
+  FilterWidget({Key? key, required this.activeType, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -5,12 +5,11 @@ import 'package:city_go/domain/entities/profile/profile.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/repositories/profile/user_remote_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'profile_bloc_test.mocks.dart';
 
-class MockProfileStorage extends Mock implements ProfileStorage {}
-
-class MockRemoteRepo extends Mock implements UserRemoteRepository {}
-
+@GenerateMocks([UserRemoteRepository, ProfileStorage])
 void main() {
   final userName = 'Вася';
   final password = 'password';
@@ -20,22 +19,22 @@ void main() {
       VKUser(userName: 'Вася', externalToken: 'vkToken', accessToken: 'token');
   final vkUserNotComplete = VKUser(userName: 'Вася', externalToken: 'vkToken');
 
-  MockProfileStorage storage;
-  MockRemoteRepo repository;
+  late MockProfileStorage storage;
+  late MockUserRemoteRepository repository;
 
   // ignore: close_sinks
-  ProfileBloc bloc;
+  late ProfileBloc bloc;
 
   void setUpAuthUser() {
     storage = MockProfileStorage();
-    repository = MockRemoteRepo();
+    repository = MockUserRemoteRepository();
     when(storage.profile).thenReturn(Profile(user: defaultUser));
     bloc = ProfileBloc(storage: storage, repository: repository);
   }
 
   void setUpNotAuthUser() {
     storage = MockProfileStorage();
-    repository = MockRemoteRepo();
+    repository = MockUserRemoteRepository();
     when(storage.profile).thenReturn(Profile());
     bloc = ProfileBloc(storage: storage, repository: repository);
   }

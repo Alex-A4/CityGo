@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// Вступительный экран, содержащий анимацию.
 /// После завершения анимации, переходит на главную страницу.
 class IntroPage extends StatelessWidget {
-  IntroPage({Key key}) : super(key: key);
+  IntroPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

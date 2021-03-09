@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 class RouteClipped extends Equatable {
   final int id;
   final String title;
-  final String logo;
+  final String? logo;
   final double rating;
 
   /// Длина маршрута в километрах
@@ -24,5 +24,5 @@ class RouteClipped extends Equatable {
   }
 
   @override
-  List<Object> get props => [id, title, length, logo, rating];
+  List<Object?> get props => [id, title, length, logo, rating];
 }

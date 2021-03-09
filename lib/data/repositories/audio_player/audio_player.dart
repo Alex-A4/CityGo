@@ -29,11 +29,11 @@ abstract class CityAudioPlayer {
 class CityAudioPlayerImpl extends BackgroundAudioTask
     implements CityAudioPlayer {
   final ProfileStorage storage;
-  CityPlayerBackgroundTask task;
+  late CityPlayerBackgroundTask task;
 
   final AudioPlayer player = AudioPlayer();
-  StreamSubscription positionSubscription;
-  StreamSubscription stateSubscription;
+  StreamSubscription? positionSubscription;
+  StreamSubscription? stateSubscription;
 
   PlayerStatus _status = PlayerClosed();
   StreamController<PlayerStatus> _statusController =
@@ -45,8 +45,8 @@ class CityAudioPlayerImpl extends BackgroundAudioTask
   }
 
   /// Длительность активного аудио
-  Duration trackDuration;
-  Duration position;
+  Duration? trackDuration;
+  Duration? position;
 
   CityAudioPlayerImpl(this.storage) {
     task = CityPlayerBackgroundTask(this);

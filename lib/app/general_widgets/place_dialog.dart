@@ -13,9 +13,8 @@ class PlaceDialog extends StatelessWidget {
   final FullVisitPlace place;
   final HttpClient client;
 
-  PlaceDialog({Key key, @required this.place})
+  PlaceDialog({Key? key, required this.place})
       : this.client = sl(),
-        assert(place != null),
         super(key: key);
 
   @override
@@ -30,7 +29,7 @@ class PlaceDialog extends StatelessWidget {
           image: place.logo == null
               ? null
               : DecorationImage(
-                  image: NetworkImage(client.getMediaPath(place.logo)),
+                  image: NetworkImage(client.getMediaPath(place.logo!)),
                   fit: BoxFit.cover,
                 ),
         ),
@@ -59,7 +58,7 @@ class PlaceDialog extends StatelessWidget {
                         place.name.toUpperCase(),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: theme.headline4.copyWith(fontSize: 16),
+                        style: theme.headline4?.copyWith(fontSize: 16),
                         textAlign: TextAlign.right,
                       ),
                     ),
@@ -76,7 +75,7 @@ class PlaceDialog extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 8),
                         child: AutoSizeText(
                           context.localization('general_info'),
-                          style: theme.subtitle2.copyWith(
+                          style: theme.subtitle2?.copyWith(
                               fontSize: 16,
                               fontFamily: 'MontserRat',
                               fontWeight: FontWeight.w500,
@@ -88,7 +87,7 @@ class PlaceDialog extends StatelessWidget {
                         child: AutoSizeText(
                           place.generalInfo,
                           style: theme.bodyText1
-                              .copyWith(fontFamily: 'Jost', fontSize: 16),
+                              ?.copyWith(fontFamily: 'Jost', fontSize: 16),
                           overflow: TextOverflow.fade,
                         ),
                       ),
@@ -100,7 +99,7 @@ class PlaceDialog extends StatelessWidget {
                             child: getInfoRow(
                               'assets/images/time.png',
                               place.workTime,
-                              theme.bodyText1.copyWith(fontFamily: 'Jost'),
+                              theme.bodyText1?.copyWith(fontFamily: 'Jost'),
                             ),
                           ),
                           Expanded(
@@ -108,7 +107,7 @@ class PlaceDialog extends StatelessWidget {
                             child: getInfoRow(
                               'assets/images/star.png',
                               '${place.rating}',
-                              theme.bodyText1.copyWith(fontFamily: 'Jost'),
+                              theme.bodyText1?.copyWith(fontFamily: 'Jost'),
                             ),
                           ),
                         ],
@@ -133,7 +132,7 @@ class PlaceDialog extends StatelessWidget {
                         .pushNamed(VISIT_SINGLE, arguments: place);
                   },
                   child: AutoSizeText(
-                    context.localization(DETAIL_WORD).toUpperCase(),
+                    context.localization(DETAIL_WORD)?.toUpperCase() ?? '',
                     style: TextStyle(
                       letterSpacing: 1.2,
                       fontSize: 14,
@@ -150,7 +149,7 @@ class PlaceDialog extends StatelessWidget {
     );
   }
 
-  Widget getInfoRow(String image, String title, TextStyle style) {
+  Widget getInfoRow(String image, String title, TextStyle? style) {
     return Row(
       children: [
         Image.asset(image, height: 30, fit: BoxFit.contain),

@@ -10,7 +10,7 @@ class Route extends RouteClipped {
   /// Время для преодоления маршрута. Используется строка на всякий случай
   final String goTime;
   final String generalInfo;
-  final String audio;
+  final String? audio;
 
   /// Список координат, через которые проходит маршрут
   final List<RouteCord> cords;
@@ -30,7 +30,7 @@ class Route extends RouteClipped {
     this.audio,
     this.routePlaces,
     this.cords,
-    String image,
+    String? image,
   ) : super(id, title, length, image, rating);
 
   factory Route.fromJson(Map<String, dynamic> json) {
@@ -60,7 +60,7 @@ class Route extends RouteClipped {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         ...super.props,
         description,
         goTime,

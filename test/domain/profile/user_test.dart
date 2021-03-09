@@ -15,7 +15,7 @@ void main() {
 
       // assert
       expect(user.runtimeType, InAppUser);
-      expect(user.userName, json[User.USER_NAME]);
+      expect(user!.userName, json[User.USER_NAME]);
       expect(user.type, UserType.InApp);
       expect((user as InAppUser).accessToken, json[User.ACCESS_TOKEN]);
     },

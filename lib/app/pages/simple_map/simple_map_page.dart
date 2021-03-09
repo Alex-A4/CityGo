@@ -14,9 +14,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class SimpleMapPage extends StatefulWidget {
   final SimpleMapBloc bloc;
 
-  SimpleMapPage({Key key, @required this.bloc})
-      : assert(bloc != null),
-        super(key: key);
+  SimpleMapPage({Key? key, required this.bloc}) : super(key: key);
 
   @override
   _SimpleMapPageState createState() => _SimpleMapPageState();
@@ -44,27 +42,27 @@ class _SimpleMapPageState extends State<SimpleMapPage> {
         builder: (_, snap) {
           var state = snap.data as SimpleMapBlocMapState;
 
-          if (state.places != null) addPlacesToMarkers(state.places, context);
+          if (state.places != null) addPlacesToMarkers(state.places!, context);
 
           if (state.userPosition?.hasData == true && needShowPosition) {
             needShowPosition = false;
-            WidgetsBinding.instance.addPostFrameCallback(
+            WidgetsBinding.instance!.addPostFrameCallback(
               (_) => state.controller
                   ?.animateCamera(CameraUpdate.newCameraPosition(
-                CameraPosition(target: state.userPosition.data, zoom: 15),
+                CameraPosition(target: state.userPosition!.data!, zoom: 15),
               )),
             );
           }
 
           if (state.userPosition?.hasError == true && bloc.showError) {
             bloc.showError = false;
-            WidgetsBinding.instance.addPostFrameCallback((_) =>
-                CityToast.showToast(context, state.userPosition.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                CityToast.showToast(context, state.userPosition!.errorCode!));
           }
           if (state.errorCode != null /*&& bloc.showError*/) {
             // bloc.showError = false;
-            WidgetsBinding.instance.addPostFrameCallback(
-                (_) => CityToast.showToast(context, state.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback(
+                (_) => CityToast.showToast(context, state.errorCode!));
           }
 
           return Stack(
@@ -73,7 +71,7 @@ class _SimpleMapPageState extends State<SimpleMapPage> {
               GoogleMap(
                 key: Key('SimpleMapGoogleMapKey'),
                 onMapCreated: (c) => bloc.add(SimpleMapBlocInitEvent(c)),
-                markers: markers != null ? Set<Marker>.from(markers) : null,
+                markers: Set<Marker>.from(markers),
                 mapType: MapType.normal,
                 myLocationEnabled: true,
                 myLocationButtonEnabled: false,
@@ -151,9 +149,9 @@ class _SimpleMapPageState extends State<SimpleMapPage> {
         markers.add(Marker(
           markerId: MarkerId('SimpleMarker-${place.id}'),
           onTap: () => showPlaceDialog(FullVisitPlace.fromClipped(place), c),
-          position: place.latLng.toGoogle(),
+          position: place.latLng!.toGoogle(),
           flat: true,
-          icon: bloc.pointIcons[place.type.iconIndex],
+          icon: bloc.pointIcons![place.type.iconIndex],
         ));
       }
     }

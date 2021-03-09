@@ -13,8 +13,8 @@ class RouteSingleBlocEmptyState extends RouteSingleBlocState {
 
 /// Состояние, которое отображается после загрузки данных
 class RouteSingleBlocDataState extends RouteSingleBlocState {
-  final Route route;
-  final String errorCode;
+  final Route? route;
+  final String? errorCode;
 
   RouteSingleBlocDataState(this.route, [this.errorCode]);
 

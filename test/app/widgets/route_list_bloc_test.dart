@@ -7,12 +7,11 @@ import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:city_go/domain/repositories/routes/route_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'route_list_bloc_test.mocks.dart';
 
-class MockRouteRepo extends Mock implements RouteRepository {}
-
-class MockProfileStorage extends Mock implements ProfileStorage {}
-
+@GenerateMocks([RouteRepository, ProfileStorage])
 void main() {
   final user = InAppUser(userName: 'name', accessToken: 'token', userId: 1);
   final route = RouteClipped(
@@ -22,13 +21,13 @@ void main() {
     '/src/image.jpg',
     3.3,
   );
-  MockRouteRepo repository;
-  MockProfileStorage storage;
+  late MockRouteRepository repository;
+  late MockProfileStorage storage;
   // ignore: close_sinks
-  RouteListBloc bloc;
+  late RouteListBloc bloc;
 
   setUp(() {
-    repository = MockRouteRepo();
+    repository = MockRouteRepository();
     storage = MockProfileStorage();
     bloc = RouteListBloc(repository: repository, storage: storage);
   });

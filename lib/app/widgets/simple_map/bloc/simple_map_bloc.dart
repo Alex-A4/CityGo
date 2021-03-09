@@ -20,20 +20,20 @@ class SimpleMapBloc extends Bloc<SimpleMapBlocEvent, SimpleMapBlocState> {
       this.profileStorage)
       : super(SimpleMapBlocMapState());
 
-  g.GoogleMapController controller;
+  g.GoogleMapController? controller;
 
-  FutureResponse<g.LatLng> userPosition;
+  FutureResponse<g.LatLng>? userPosition;
   bool isLocationSearching = false;
   bool showError = false;
 
-  List<g.BitmapDescriptor> pointIcons;
+  List<g.BitmapDescriptor>? pointIcons;
 
   /// Подписка на поток загрузки меток на карту
-  StreamSubscription subscription;
+  StreamSubscription? subscription;
 
   SimpleMapBlocMapState dataState({
-    String errorCode,
-    List<ClippedVisitPlace> places,
+    String? errorCode,
+    List<ClippedVisitPlace>? places,
   }) {
     return SimpleMapBlocMapState(
       userPosition: userPosition,
@@ -60,7 +60,7 @@ class SimpleMapBloc extends Bloc<SimpleMapBlocEvent, SimpleMapBlocState> {
         yield dataState(errorCode: USER_NOT_AUTH);
       else {
         subscription = placeRepository
-            .getAllPlacesStream(token: user.accessToken)
+            .getAllPlacesStream(token: user.accessToken!)
             .listen((p) => this.add(SimpleMapBlocAddPlaces(p)));
         yield dataState();
       }
@@ -76,7 +76,7 @@ class SimpleMapBloc extends Bloc<SimpleMapBlocEvent, SimpleMapBlocState> {
       if (event.places.hasData) {
         yield dataState(places: event.places.data);
       } else {
-        subscription.cancel();
+        subscription?.cancel();
         showError = true;
         yield dataState(errorCode: event.places.errorCode);
       }
@@ -99,13 +99,13 @@ class SimpleMapBloc extends Bloc<SimpleMapBlocEvent, SimpleMapBlocState> {
     try {
       userPosition = FutureResponse.success(await geolocator.getPosition());
     } catch (e) {
-      userPosition = FutureResponse.fail(e);
+      userPosition = FutureResponse.fail(e.toString());
       showError = true;
     }
   }
 
   @override
-  Future<Function> close() {
+  Future<void> close() {
     subscription?.cancel();
     return super.close();
   }

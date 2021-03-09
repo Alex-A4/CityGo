@@ -3,9 +3,9 @@ import 'package:hive/hive.dart';
 
 /// Виджет, который хранит локализацию приложения и позволяет обновлять её
 class LocalizationBuilder extends StatefulWidget {
-  final Function(Locale locale) buildApp;
+  final Function(Locale? locale) buildApp;
 
-  LocalizationBuilder(this.buildApp, {Key key}) : super(key: key);
+  LocalizationBuilder(this.buildApp, {Key? key}) : super(key: key);
 
   @override
   _LocalizationBuilderState createState() => _LocalizationBuilderState();
@@ -13,9 +13,9 @@ class LocalizationBuilder extends StatefulWidget {
   /// Статический метод для смены локализации приложения
   /// Находит state текущего виджета и обновляет его локализацию
   static void setLocale(BuildContext context, Locale locale) {
-    _LocalizationBuilderState state =
+    _LocalizationBuilderState? state =
         context.findAncestorStateOfType<_LocalizationBuilderState>();
-    state.saveAppLocale(locale);
+    state?.saveAppLocale(locale);
   }
 }
 
@@ -23,7 +23,7 @@ class LocalizationBuilder extends StatefulWidget {
 /// основного виджета для приложения.
 class _LocalizationBuilderState extends State<LocalizationBuilder> {
   // Язык, который активирован в приложении
-  Locale locale;
+  Locale? locale;
 
   // Флаг, означающий, что приложение запущено первый раз
   bool isLoaded = false;

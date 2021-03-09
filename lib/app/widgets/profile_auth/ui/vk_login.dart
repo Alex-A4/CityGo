@@ -11,7 +11,7 @@ class VkLoginWidget extends StatelessWidget {
   final url = 'https://oauth.vk.com/authorize?client_id=7631071&' +
       'display=page&scope=65538&response_type=token&v=5.124';
 
-  VkLoginWidget({Key key}) : super(key: key);
+  VkLoginWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

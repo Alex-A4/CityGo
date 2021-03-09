@@ -15,10 +15,9 @@ class PathMapPage extends StatefulWidget {
   final LatLng dest;
 
   PathMapPage({
-    Key key,
-    @required this.dest,
-  })  : assert(dest != null),
-        super(key: key);
+    Key? key,
+    required this.dest,
+  }) : super(key: key);
 
   @override
   _PathMapPageState createState() => _PathMapPageState();
@@ -28,16 +27,16 @@ class _PathMapPageState extends State<PathMapPage> {
   static const minZoom = 12.0;
 
   // ignore: close_sinks
-  PathMapBloc bloc;
-  LatLng userPosition;
+  late PathMapBloc bloc;
+  LatLng? userPosition;
 
   /// Флаг, обозначающий, что нужно переключиться на позицию пользователя.
   /// Активируется, когда пользователь нажимает специальную кнопку
   bool needShowPosition = false;
 
-  Set<Marker> markers;
+  Set<Marker>? markers;
 
-  Map<PolylineId, Polyline> polylines;
+  Map<PolylineId, Polyline>? polylines;
 
   @override
   void initState() {
@@ -72,27 +71,27 @@ class _PathMapPageState extends State<PathMapPage> {
           var state = snap.data as PathMapBlocMapState;
 
           if (state.controller != null)
-            initMarkers(state.userPosition?.data, state.controller);
+            initMarkers(state.userPosition?.data, state.controller!);
 
-          if (state.route?.hasData == true) initPolylines(state.route.data);
+          if (state.route?.hasData == true) initPolylines(state.route!.data!);
 
           if (state.userPosition?.hasData == true && needShowPosition) {
             needShowPosition = false;
-            WidgetsBinding.instance.addPostFrameCallback(
+            WidgetsBinding.instance!.addPostFrameCallback(
               (_) => state.controller
                   ?.animateCamera(CameraUpdate.newCameraPosition(
-                CameraPosition(target: state.userPosition.data, zoom: 15),
+                CameraPosition(target: state.userPosition!.data!, zoom: 15),
               )),
             );
           }
 
           if (state.userPosition?.hasError == true) {
-            WidgetsBinding.instance.addPostFrameCallback((_) =>
-                CityToast.showToast(context, state.userPosition.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                CityToast.showToast(context, state.userPosition!.errorCode!));
           }
           if (state.route?.hasError == true) {
-            WidgetsBinding.instance.addPostFrameCallback(
-                (_) => CityToast.showToast(context, state.route.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback(
+                (_) => CityToast.showToast(context, state.route!.errorCode!));
           }
 
           return Stack(
@@ -100,10 +99,12 @@ class _PathMapPageState extends State<PathMapPage> {
               GoogleMap(
                 key: Key('PathPageGoogleMap'),
                 onMapCreated: (c) => bloc.add(PathMapBlocInitEvent(c)),
-                markers: markers != null ? Set<Marker>.from(markers) : null,
+                markers: markers != null
+                    ? Set<Marker>.from(markers!)
+                    : Set<Marker>(),
                 polylines: polylines != null
-                    ? Set<Polyline>.from(polylines.values)
-                    : null,
+                    ? Set<Polyline>.from(polylines!.values)
+                    : Set<Polyline>(),
                 mapType: MapType.normal,
                 myLocationEnabled: true,
                 myLocationButtonEnabled: false,
@@ -176,7 +177,7 @@ class _PathMapPageState extends State<PathMapPage> {
   }
 
   /// Инициализация маркеров с точкой назначения и от позиции пользователя
-  void initMarkers(LatLng userPosition, GoogleMapController controller) {
+  void initMarkers(LatLng? userPosition, GoogleMapController controller) {
     if ((markers == null || markers?.length == 1) && userPosition != null) {
       markers = {};
 
@@ -200,8 +201,8 @@ class _PathMapPageState extends State<PathMapPage> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
       );
 
-      markers.add(startMarker);
-      markers.add(destinationMarker);
+      markers!.add(startMarker);
+      markers!.add(destinationMarker);
 
       changeCameraPositionAfterWayFound(controller, userPosition, widget.dest);
     } else if (markers == null) {
@@ -217,7 +218,7 @@ class _PathMapPageState extends State<PathMapPage> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
       );
 
-      markers.add(destinationMarker);
+      markers!.add(destinationMarker);
       changeCameraPositionToDestination(controller);
     }
   }

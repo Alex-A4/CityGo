@@ -19,11 +19,10 @@ class VisitListPage extends StatefulWidget {
   final VisitListBloc bloc;
 
   VisitListPage({
-    Key key,
-    @required this.titleCode,
-    @required this.bloc,
-  })  : assert(titleCode != null && bloc != null),
-        super(key: key) {
+    Key? key,
+    required this.titleCode,
+    required this.bloc,
+  }) : super(key: key) {
     bloc.add(VisitListBlocLoadPlacesEvent());
   }
 
@@ -61,7 +60,7 @@ class _VisitListPageState extends State<VisitListPage> {
       initialData: widget.bloc.state,
       builder: (c, snap) {
         final state = snap.data;
-        PlaceSortType sortType;
+        PlaceSortType sortType = PlaceSortType.Rating;
         List<ClippedVisitPlace> places = [];
 
         if (state is VisitListBlocPlaceLoadingState) {
@@ -74,33 +73,36 @@ class _VisitListPageState extends State<VisitListPage> {
           places = state.places;
           if (state.errorCode != null) {
             isEndOfList = true;
-            WidgetsBinding.instance.addPostFrameCallback(
-                (_) => CityToast.showToast(c, state.errorCode));
+            WidgetsBinding.instance!.addPostFrameCallback(
+                (_) => CityToast.showToast(c, state.errorCode!));
           }
           isEndOfList = state.isEndOfList;
         }
 
+        PreferredSizeWidget appBar;
+        if (displayFilter)
+          appBar = FilterWidget(
+            activeType: sortType,
+            onTap: (type) {
+              widget.bloc.add(VisitListBlocChangeSortType(type));
+              setState(() => displayFilter = !displayFilter);
+            },
+          );
+        else
+          appBar = CityAppBar(
+            title: AutoSizeText(context.localization(widget.titleCode)),
+            actions: [
+              IconButton(
+                onPressed: () => setState(() => displayFilter = !displayFilter),
+                icon: Icon(Icons.filter_list_alt),
+              ),
+            ],
+          );
+
         return Scaffold(
           key: Key('VisitListScaffold'),
           backgroundColor: Colors.grey[800],
-          appBar: displayFilter
-              ? FilterWidget(
-                  activeType: sortType,
-                  onTap: (type) {
-                    widget.bloc.add(VisitListBlocChangeSortType(type));
-                    setState(() => displayFilter = !displayFilter);
-                  },
-                )
-              : CityAppBar(
-                  title: AutoSizeText(context.localization(widget.titleCode)),
-                  actions: [
-                    IconButton(
-                      onPressed: () =>
-                          setState(() => displayFilter = !displayFilter),
-                      icon: Icon(Icons.filter_list_alt),
-                    ),
-                  ],
-                ),
+          appBar: appBar,
           body: ListView.builder(
             key: Key('VisitListListView'),
             controller: controller,

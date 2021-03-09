@@ -6,28 +6,29 @@ import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/repositories/map/map_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
-class MockMapRepo extends Mock implements MapRepository {}
+import 'path_map_bloc_test.mocks.dart';
 
 class MockGeolocator extends Mock implements Geolocator {}
 
 class MockMapController extends Mock implements GoogleMapController {}
 
+@GenerateMocks([MapRepository])
 void main() {
   final userPosition = LatLng(31.0, 12.0);
   final dest = LatLng(30.0, 12.0);
   final walk = PathType.Walk;
   final car = PathType.Car;
 
-  MockMapRepo repo;
-  MockMapController controller;
-  MockGeolocator geolocator;
+  late MockMapRepository repo;
+  late MockMapController controller;
+  late MockGeolocator geolocator;
 
-  PathMapBloc bloc;
+  late PathMapBloc bloc;
 
   setUp(() {
-    repo = MockMapRepo();
+    repo = MockMapRepository();
     geolocator = MockGeolocator();
     controller = MockMapController();
     bloc = PathMapBloc(repo, dest, geolocator);

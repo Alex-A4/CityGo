@@ -25,18 +25,17 @@ class SingleVisitContent extends StatelessWidget {
   final HttpClient client;
 
   SingleVisitContent({
-    Key key,
-    @required this.place,
-    @required this.bottomSize,
-    @required this.client,
-    @required this.placeRepository,
-  })  : assert(place != null && bottomSize != null),
-        super(key: key);
+    Key? key,
+    required this.place,
+    required this.bottomSize,
+    required this.client,
+    required this.placeRepository,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final style = Theme.of(context).textTheme.subtitle2;
-    final infoStyle = style.copyWith(
+    final infoStyle = style?.copyWith(
       decoration: TextDecoration.none,
       fontSize: 16,
       fontFamily: 'Jost',
@@ -62,10 +61,10 @@ class SingleVisitContent extends StatelessWidget {
                     Expanded(
                       child: getIconWithSub(
                         Icons.volume_up,
-                        place.audioSrc == null || place.audioSrc.isEmpty
+                        place.audioSrc == null || place.audioSrc!.isEmpty
                             ? null
                             : () => sl<CityAudioPlayer>().startPlayer(
-                                client.getMediaPath(place.audioSrc)),
+                                client.getMediaPath(place.audioSrc!)),
                         context.localization(START_SOUND),
                         style,
                       ),
@@ -77,7 +76,7 @@ class SingleVisitContent extends StatelessWidget {
                             ? null
                             : () => Navigator.of(context).pushNamed(
                                 PATH_MAP_PAGE,
-                                arguments: place.latLng.toGoogle()),
+                                arguments: place.latLng!.toGoogle()),
                         context.localization(CREATE_PATH),
                         style,
                       ),
@@ -101,7 +100,7 @@ class SingleVisitContent extends StatelessWidget {
               getInfoRow(
                 'assets/images/web-site.png',
                 place.objectWebSite,
-                infoStyle.copyWith(decoration: TextDecoration.underline),
+                infoStyle?.copyWith(decoration: TextDecoration.underline),
                 launchWebSite,
               ),
               SizedBox(height: 50),
@@ -121,29 +120,28 @@ class SingleVisitContent extends StatelessWidget {
     );
   }
 
-  Future<FutureResponse<dynamic>> rateFunction(int value) {
-    final user = sl<ProfileStorage>().profile?.user;
+  Future<FutureResponse<dynamic>>? rateFunction(int value) {
+    final user = sl<ProfileStorage>().profile.user;
     if (user == null) return null;
 
     return placeRepository.ratePlace(
       value: value,
       placeId: place.id,
-      token: user.accessToken,
-      userId: user.userId,
+      token: user.accessToken!,
+      userId: user.userId!,
     );
   }
 
   Future<void> launchWebSite() async {
-    if (place.objectWebSite.isNotEmpty &&
-        await canLaunch(place.objectWebSite)) {
+    if (place.objectWebSite != null && await canLaunch(place.objectWebSite!)) {
       try {
-        await launch(place.objectWebSite);
+        await launch(place.objectWebSite!);
       } catch (_) {}
     }
   }
 
-  Widget getInfoRow(String imagePath, String text, TextStyle sub2,
-      [Function onTap]) {
+  Widget getInfoRow(String imagePath, String? text, TextStyle? sub2,
+      [GestureTapCallback? onTap]) {
     final child = Row(
       children: [
         Image.asset(imagePath, height: 30, fit: BoxFit.contain),
@@ -159,8 +157,8 @@ class SingleVisitContent extends StatelessWidget {
     );
   }
 
-  Widget getIconWithSub(
-      IconData icon, Function onTap, String subtitle, TextStyle sub2) {
+  Widget getIconWithSub(IconData icon, GestureTapCallback? onTap,
+      String? subtitle, TextStyle? sub2) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -168,8 +166,8 @@ class SingleVisitContent extends StatelessWidget {
         AdaptiveButton.orangeTransparent(icon: icon, onTap: onTap),
         SizedBox(height: 10),
         AutoSizeText(
-          subtitle.toUpperCase(),
-          style: sub2.copyWith(fontSize: 16),
+          subtitle?.toUpperCase() ?? '',
+          style: sub2?.copyWith(fontSize: 16),
           textAlign: TextAlign.center,
         ),
       ],

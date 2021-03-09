@@ -7,7 +7,7 @@ class CityPlayerBackgroundTask extends BackgroundAudioTask {
   CityPlayerBackgroundTask(this.player);
 
   @override
-  onPlay() async {
+  Future<void> onPlay() async {
     await player.continuePlayer();
     await AudioServiceBackground.setState(
       playing: true,
@@ -17,7 +17,7 @@ class CityPlayerBackgroundTask extends BackgroundAudioTask {
   }
 
   @override
-  onPause() async {
+  Future<void> onPause() async {
     await player.pausePlayer();
     await AudioServiceBackground.setState(
       playing: false,
@@ -27,7 +27,8 @@ class CityPlayerBackgroundTask extends BackgroundAudioTask {
   }
 
   @override
-  onStart(Map<String, dynamic> params) async {
+  Future<void> onStart(Map<String, dynamic>? params) async {
+    if (params == null) return;
     await player.startPlayer(params['url']);
     await AudioServiceBackground.setState(
       playing: true,
@@ -37,7 +38,7 @@ class CityPlayerBackgroundTask extends BackgroundAudioTask {
   }
 
   @override
-  onStop() async {
+  Future<void> onStop() async {
     await player.closePlayer();
     await super.onStop();
   }

@@ -8,12 +8,13 @@ import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:city_go/domain/entities/routes/route_cord.dart';
 import 'package:city_go/domain/repositories/routes/route_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
-class MockRouteRepo extends Mock implements RouteRepository {}
+import 'route_sinble_bloc_test.mocks.dart';
 
 class MockProfileStorage extends Mock implements ProfileStorage {}
 
+@GenerateMocks([RouteRepository])
 void main() {
   final user = InAppUser(userName: 'name', accessToken: 'token', userId: 1);
   final id = 123;
@@ -52,13 +53,13 @@ void main() {
     '/src/image.jpg',
   );
 
-  MockRouteRepo repository;
-  MockProfileStorage storage;
+  late MockRouteRepository repository;
+  late MockProfileStorage storage;
   // ignore: close_sinks
-  RouteSingleBloc bloc;
+  late RouteSingleBloc bloc;
 
   setUp(() {
-    repository = MockRouteRepo();
+    repository = MockRouteRepository();
     storage = MockProfileStorage();
     bloc = RouteSingleBloc(repository: repository, storage: storage, id: id);
   });

@@ -7,16 +7,15 @@ import 'package:flutter/material.dart';
 /// либо в качестве расшияряющегося виджета, тогда нужно указать [body].
 class CityDropDown extends StatefulWidget {
   final Widget head;
-  final Widget body;
-  final Function onTap;
+  final Widget? body;
+  final GestureTapCallback? onTap;
 
   CityDropDown({
-    Key key,
-    @required this.head,
+    Key? key,
+    required this.head,
     this.body,
     this.onTap,
-  })  : assert(head != null),
-        assert(
+  })  : assert(
           (body != null && onTap == null) || (body == null && onTap != null),
           'body или onTap должны быть null, но не оба вместе',
         ),
@@ -28,8 +27,8 @@ class CityDropDown extends StatefulWidget {
 
 class _CityDropDownState extends State<CityDropDown>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -49,7 +48,7 @@ class _CityDropDownState extends State<CityDropDown>
   @override
   void dispose() {
     super.dispose();
-    _controller?.dispose();
+    _controller.dispose();
   }
 
   bool isExpanded = false;

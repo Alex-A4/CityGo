@@ -13,24 +13,24 @@ abstract class PathMapBlocState extends Equatable {}
 class PathMapBlocMapState extends PathMapBlocState {
   /// Контроллер карты, с помощью которого идёт взаимодействие с картой
   /// Может быть null.
-  final GoogleMapController controller;
+  final GoogleMapController? controller;
 
   /// Позиция пользователя на карте. Может быть равна null, если отключена геопозиция
   /// Если при получении позиции возникла ошибка, то она будет отображена в
   /// качестве уведомления пользователю.
   /// Может быть null.
-  final FutureResponse<LatLng> userPosition;
+  final FutureResponse<LatLng>? userPosition;
 
   /// Путь на карте, который отображается.
   /// Может быть null.
-  final FutureResponse<MapRoute> route;
+  final FutureResponse<MapRoute>? route;
 
   final PathType type;
 
   final bool isLocationSearching;
 
   PathMapBlocMapState({
-    @required this.type,
+    required this.type,
     this.controller,
     this.userPosition,
     this.route,
@@ -38,6 +38,6 @@ class PathMapBlocMapState extends PathMapBlocState {
   });
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [controller?.mapId, userPosition, route, type, isLocationSearching];
 }

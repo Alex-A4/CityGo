@@ -6,22 +6,22 @@ import 'package:city_go/domain/entities/profile/settings.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'profile_repo_test.mocks.dart';
 
-class MockHive extends Mock implements HiveInterface {}
 
-class MockBox extends Mock implements Box {}
-
+@GenerateMocks([Box, HiveInterface])
 void main() {
   final user = InAppUser(userName: 'Вася', accessToken: 'token', userId: 1);
   final settings = Settings(displayNotification: false);
 
-  MockHive hive;
-  MockBox box;
-  ProfileRepositoryImpl repository;
+  late MockHiveInterface hive;
+  late MockBox box;
+  late ProfileRepositoryImpl repository;
 
   setUp(() {
-    hive = MockHive();
+    hive = MockHiveInterface();
     box = MockBox();
     repository = ProfileRepositoryImpl(hive: hive);
   });

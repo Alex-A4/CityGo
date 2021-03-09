@@ -8,9 +8,9 @@ import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:city_go/domain/repositories/map/map_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-
-class MockMapRepo extends Mock implements MapRepository {}
+import 'route_map_bloc_test.mocks.dart';
 
 class MockMapController extends Mock implements GoogleMapController {}
 
@@ -18,6 +18,7 @@ class MockGeolocator extends Mock implements Geolocator {}
 
 class MockIconsStorage extends Mock implements MapIconsStorage {}
 
+@GenerateMocks([MapRepository])
 void main() {
   final userPosition = LatLng(31.0, 12.0);
   final cord1 = LatLng(41.53, 41.47);
@@ -49,15 +50,15 @@ void main() {
   final mapRoute = MapRoute(10, [cord1, cord2]);
 
   // ignore: close_sinks
-  RouteMapBloc bloc;
-  MockMapRepo repo;
-  MockMapController controller;
-  MockGeolocator geolocator;
-  MockIconsStorage iconsStorage;
+  late RouteMapBloc bloc;
+  late MockMapRepository repo;
+  late MockMapController controller;
+  late MockGeolocator geolocator;
+  late MockIconsStorage iconsStorage;
 
   setUp(() {
     geolocator = MockGeolocator();
-    repo = MockMapRepo();
+    repo = MockMapRepository();
     iconsStorage = MockIconsStorage();
     controller = MockMapController();
     bloc = RouteMapBloc(route, repo, geolocator, iconsStorage);

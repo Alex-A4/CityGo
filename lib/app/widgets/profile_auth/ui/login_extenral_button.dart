@@ -6,11 +6,10 @@ class LoginExternalButton extends StatelessWidget {
   final Function(BuildContext) onTap;
 
   LoginExternalButton({
-    Key key,
-    @required this.imagePath,
-    @required this.onTap,
-  })  : assert(onTap != null && imagePath != null),
-        super(key: key);
+    Key? key,
+    required this.imagePath,
+    required this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

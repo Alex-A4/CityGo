@@ -15,9 +15,8 @@ class RouteListPage extends StatefulWidget {
 
   RouteListPage({
     Key key = const Key('RouteListPage'),
-    @required this.bloc,
-  })  : assert(bloc != null),
-        super(key: key) {
+    required this.bloc,
+  }) : super(key: key) {
     bloc.add(RouteListDownloadEvent());
   }
 
@@ -61,8 +60,8 @@ class _RouteListPageState extends State<RouteListPage> {
             isLoading = false;
             routes = state.routes;
             if (state.errorCode != null)
-              WidgetsBinding.instance.addPostFrameCallback(
-                  (_) => CityToast.showToast(c, state.errorCode));
+              WidgetsBinding.instance!.addPostFrameCallback(
+                  (_) => CityToast.showToast(c, state.errorCode!));
             isEndOfList = state.isEndOfList;
           } else if (state is RouteListBlocLoadingState) {
             routes = state.routes;
@@ -80,7 +79,8 @@ class _RouteListPageState extends State<RouteListPage> {
             itemCount: routes.length + (isLoading ? 1 : 0),
             itemBuilder: (_, index) {
               if (index == routes.length) {
-                return Center(child: CircularProgressIndicator(
+                return Center(
+                    child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(orangeColor),
                 ));
               }
@@ -103,4 +103,3 @@ class _RouteListPageState extends State<RouteListPage> {
     }
   }
 }
-

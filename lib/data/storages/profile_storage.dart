@@ -2,7 +2,6 @@ import 'package:city_go/domain/entities/profile/profile.dart';
 import 'package:city_go/domain/entities/profile/settings.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
 import 'package:city_go/domain/repositories/profile/profile_repository.dart';
-import 'package:meta/meta.dart';
 
 /// Абстрактное хранилище профиля. Должно быть singleton и инициализироваться
 /// в самом начале запуска приложения.
@@ -31,9 +30,9 @@ abstract class ProfileStorage {
 class ProfileStorageImpl extends ProfileStorage {
   final ProfileRepository repository;
 
-  ProfileStorageImpl({@required this.repository});
+  ProfileStorageImpl({required this.repository});
 
-  Profile _profile;
+  late Profile _profile;
 
   @override
   Profile get profile => _profile;
@@ -46,7 +45,7 @@ class ProfileStorageImpl extends ProfileStorage {
   }
 
   @override
-  Future<Profile> updateProfile({User user, Settings settings}) async {
+  Future<Profile> updateProfile({User? user, Settings? settings}) async {
     _profile = _profile.copyWith(user: user, settings: settings);
     await repository.saveProfile(_profile);
     return _profile;

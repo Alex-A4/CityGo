@@ -5,8 +5,6 @@ import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:city_go/domain/repositories/routes/route_repository.dart';
 
-import 'package:meta/meta.dart';
-
 /// Блок для отображения конкретного маршрута и загрузки его данных
 class RouteSingleBloc extends Bloc<RouteSingleBlocEvent, RouteSingleBlocState> {
   final RouteRepository repository;
@@ -14,12 +12,12 @@ class RouteSingleBloc extends Bloc<RouteSingleBlocEvent, RouteSingleBlocState> {
   final int id;
 
   RouteSingleBloc({
-    @required this.id,
-    @required this.repository,
-    @required this.storage,
+    required this.id,
+    required this.repository,
+    required this.storage,
   }) : super(RouteSingleBlocEmptyState());
 
-  Route route;
+  Route? route;
 
   @override
   Stream<RouteSingleBlocState> mapEventToState(
@@ -30,7 +28,7 @@ class RouteSingleBloc extends Bloc<RouteSingleBlocEvent, RouteSingleBlocState> {
         yield RouteSingleBlocDataState(null, USER_NOT_AUTH);
       else {
         final response =
-            await repository.getRoute(id: id, token: user.accessToken);
+            await repository.getRoute(id: id, token: user.accessToken!);
 
         if (response.hasError)
           yield RouteSingleBlocDataState(null, response.errorCode);

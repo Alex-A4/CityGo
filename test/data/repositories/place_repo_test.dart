@@ -5,12 +5,13 @@ import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'place_repo_test.mocks.dart';
 
 class MockNetworkChecker extends Mock implements NetworkChecker {}
 
-class MockHttp extends Mock implements HttpClient {}
-
+@GenerateMocks([HttpClient])
 void main() {
   final token = 'someToken';
   final defaultSort = PlaceSortType.Rating;
@@ -66,12 +67,12 @@ void main() {
     }
   };
 
-  MockNetworkChecker checker;
-  MockHttp http;
-  PlaceRepository repository;
+  late MockNetworkChecker checker;
+  late MockHttpClient http;
+  late PlaceRepository repository;
 
   setUp(() {
-    http = MockHttp();
+    http = MockHttpClient();
     checker = MockNetworkChecker();
     repository = PlaceRepositoryImpl(http, checker);
   });
@@ -107,7 +108,10 @@ void main() {
               options: anyNamed('options')),
         ).thenAnswer(
           (_) => Future.value(
-            Response(data: {'results': clippedJson}, statusCode: 200),
+            Response(
+                request: RequestOptions(path: ''),
+                data: {'results': clippedJson},
+                statusCode: 200),
           ),
         );
 
@@ -131,7 +135,7 @@ void main() {
             options: anyNamed('options'),
           ),
         );
-        expect(response.data.length, 3);
+        expect(response.data!.length, 3);
       },
     );
 
@@ -148,7 +152,10 @@ void main() {
               options: anyNamed('options')),
         ).thenAnswer(
           (_) => Future.value(
-            Response(data: {'results': clippedJson}, statusCode: 200),
+            Response(
+                request: RequestOptions(path: ''),
+                data: {'results': clippedJson},
+                statusCode: 200),
           ),
         );
 
@@ -176,7 +183,7 @@ void main() {
             options: anyNamed('options'),
           ),
         );
-        expect(response.data.length, 3);
+        expect(response.data!.length, 3);
       },
     );
   });
@@ -207,7 +214,10 @@ void main() {
           any,
           options: anyNamed('options'),
         )).thenAnswer(
-          (_) => Future.value(Response(data: fullJson, statusCode: 200)),
+          (_) => Future.value(Response(
+              request: RequestOptions(path: ''),
+              data: fullJson,
+              statusCode: 200)),
         );
 
         // act
@@ -217,7 +227,7 @@ void main() {
         // assert
         verify(http.get(PlaceRepositoryImpl.PLACE_PATH + '1234',
             options: anyNamed('options')));
-        expect(response.data.id, 1234);
+        expect(response.data!.id, 1234);
       },
     );
   });
@@ -254,7 +264,10 @@ void main() {
               options: anyNamed('options')),
         ).thenAnswer(
           (_) => Future.value(
-            Response(data: {'results': []}, statusCode: 200),
+            Response(
+                request: RequestOptions(path: ''),
+                data: {'results': []},
+                statusCode: 200),
           ),
         );
         when(
@@ -268,9 +281,12 @@ void main() {
               options: anyNamed('options')),
         ).thenAnswer(
           (_) => Future.value(
-            Response(data: {
-              'results': [clippedJson[0]]
-            }, statusCode: 200),
+            Response(
+                request: RequestOptions(path: ''),
+                data: {
+                  'results': [clippedJson[0]]
+                },
+                statusCode: 200),
           ),
         );
         when(
@@ -284,9 +300,12 @@ void main() {
               options: anyNamed('options')),
         ).thenAnswer(
           (_) => Future.value(
-            Response(data: {
-              'results': [clippedJson[1]]
-            }, statusCode: 200),
+            Response(
+                request: RequestOptions(path: ''),
+                data: {
+                  'results': [clippedJson[1]]
+                },
+                statusCode: 200),
           ),
         );
 
@@ -301,9 +320,12 @@ void main() {
               options: anyNamed('options')),
         ).thenAnswer(
           (_) => Future.value(
-            Response(data: {
-              'results': [clippedJson[2]]
-            }, statusCode: 200),
+            Response(
+                request: RequestOptions(path: ''),
+                data: {
+                  'results': [clippedJson[2]]
+                },
+                statusCode: 200),
           ),
         );
         // assert

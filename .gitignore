@@ -33,6 +33,8 @@ pubspec.lock
 Podfile.lock
 .last_build_id
 
+**/*.mocks.dart
+
 # Web related
 lib/generated_plugin_registrant.dart
 

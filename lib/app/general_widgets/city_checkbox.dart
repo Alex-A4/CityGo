@@ -9,13 +9,12 @@ class CityRadioBox<T> extends StatelessWidget {
   final T groupValue;
 
   CityRadioBox({
-    Key key,
-    @required this.onChanged,
-    @required this.value,
-    @required this.title,
-    @required this.groupValue,
-  })  : assert(onChanged != null && title != null),
-        super(key: key);
+    Key? key,
+    required this.onChanged,
+    required this.value,
+    required this.title,
+    required this.groupValue,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class CityRadioBox<T> extends StatelessWidget {
               Expanded(child: title, flex: 3),
               Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[400], width: 2),
+                  border: Border.all(color: Colors.grey[400]!, width: 2),
                 ),
                 child: SizedBox(
                   child: Icon(
@@ -60,15 +59,12 @@ class CityGroupRadioBox<T> extends StatefulWidget {
   final ValueChanged<T> onChanged;
 
   CityGroupRadioBox({
-    Key key,
-    @required this.values,
-    @required this.onChanged,
-    @required this.initValue,
-    @required this.titles,
-  })  : assert(values != null &&
-            onChanged != null &&
-            initValue != null &&
-            titles != null),
+    Key? key,
+    required this.values,
+    required this.onChanged,
+    required this.initValue,
+    required this.titles,
+  })   : assert(initValue != null),
         assert(values.length == titles.length),
         super(key: key);
 
@@ -77,7 +73,7 @@ class CityGroupRadioBox<T> extends StatefulWidget {
 }
 
 class _CityGroupRadioBoxState<T> extends State<CityGroupRadioBox> {
-  T currentValue;
+  late T currentValue;
 
   @override
   void initState() {

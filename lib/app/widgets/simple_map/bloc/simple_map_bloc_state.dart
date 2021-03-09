@@ -11,17 +11,17 @@ abstract class SimpleMapBlocState extends Equatable {}
 class SimpleMapBlocMapState extends SimpleMapBlocState {
   /// Контроллер карты, с помощью которого идёт взаимодействие с картой
   /// Может быть null.
-  final GoogleMapController controller;
-  final List<ClippedVisitPlace> places;
+  final GoogleMapController? controller;
+  final List<ClippedVisitPlace>? places;
 
   /// Позиция пользователя на карте. Может быть равна null, если отключена геопозиция
   /// Если при получении позиции возникла ошибка, то она будет отображена в
   /// качестве уведомления пользователю.
   /// Может быть null.
-  final FutureResponse<LatLng> userPosition;
+  final FutureResponse<LatLng>? userPosition;
 
   final bool isLocationSearching;
-  final String errorCode;
+  final String? errorCode;
 
   SimpleMapBlocMapState({
     this.places,
@@ -35,7 +35,7 @@ class SimpleMapBlocMapState extends SimpleMapBlocState {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         controller?.mapId,
         places,
         userPosition,
