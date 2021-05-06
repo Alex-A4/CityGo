@@ -9,9 +9,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'place_repo_test.mocks.dart';
 
-class MockNetworkChecker extends Mock implements NetworkChecker {}
-
-@GenerateMocks([HttpClient])
+@GenerateMocks([HttpClient, NetworkChecker])
 void main() {
   final token = 'someToken';
   final defaultSort = PlaceSortType.Rating;
@@ -109,9 +107,10 @@ void main() {
         ).thenAnswer(
           (_) => Future.value(
             Response(
-                request: RequestOptions(path: ''),
-                data: {'results': clippedJson},
-                statusCode: 200),
+              requestOptions: RequestOptions(path: ''),
+              data: {'results': clippedJson},
+              statusCode: 200,
+            ),
           ),
         );
 
@@ -153,7 +152,7 @@ void main() {
         ).thenAnswer(
           (_) => Future.value(
             Response(
-                request: RequestOptions(path: ''),
+                requestOptions: RequestOptions(path: ''),
                 data: {'results': clippedJson},
                 statusCode: 200),
           ),
@@ -215,7 +214,7 @@ void main() {
           options: anyNamed('options'),
         )).thenAnswer(
           (_) => Future.value(Response(
-              request: RequestOptions(path: ''),
+              requestOptions: RequestOptions(path: ''),
               data: fullJson,
               statusCode: 200)),
         );
@@ -265,7 +264,7 @@ void main() {
         ).thenAnswer(
           (_) => Future.value(
             Response(
-                request: RequestOptions(path: ''),
+                requestOptions: RequestOptions(path: ''),
                 data: {'results': []},
                 statusCode: 200),
           ),
@@ -282,7 +281,7 @@ void main() {
         ).thenAnswer(
           (_) => Future.value(
             Response(
-                request: RequestOptions(path: ''),
+                requestOptions: RequestOptions(path: ''),
                 data: {
                   'results': [clippedJson[0]]
                 },
@@ -301,7 +300,7 @@ void main() {
         ).thenAnswer(
           (_) => Future.value(
             Response(
-                request: RequestOptions(path: ''),
+                requestOptions: RequestOptions(path: ''),
                 data: {
                   'results': [clippedJson[1]]
                 },
@@ -321,7 +320,7 @@ void main() {
         ).thenAnswer(
           (_) => Future.value(
             Response(
-                request: RequestOptions(path: ''),
+                requestOptions: RequestOptions(path: ''),
                 data: {
                   'results': [clippedJson[2]]
                 },

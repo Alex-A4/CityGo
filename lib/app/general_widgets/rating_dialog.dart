@@ -165,7 +165,7 @@ class _RatingDialogState extends State<RatingDialog>
                           }
                         },
                   child: Text(
-                    context.localization('rate_word') ?? '',
+                    context.localization('rate_word'),
                     style: theme.textTheme.bodyText2,
                   ),
                 ),

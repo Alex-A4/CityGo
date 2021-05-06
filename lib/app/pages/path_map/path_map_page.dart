@@ -66,7 +66,7 @@ class _PathMapPageState extends State<PathMapPage> {
       body: StreamBuilder<PathMapBlocState>(
         key: Key('PathPageStreamBuilder'),
         initialData: bloc.state,
-        stream: bloc,
+        stream: bloc.stream,
         builder: (_, snap) {
           var state = snap.data as PathMapBlocMapState;
 

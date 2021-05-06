@@ -74,7 +74,7 @@ class LocaleSelector extends StatelessWidget {
             LocalizationBuilder.setLocale(context, Locale(l));
           },
           titles:
-              supportedLocales.map((l) => AutoSizeText(localeMap[l])).toList(),
+              supportedLocales.map((l) => AutoSizeText(localeMap[l]!)).toList(),
         ),
       ),
     );

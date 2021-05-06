@@ -81,7 +81,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder(
               [ProfileAuthenticatedState(Profile(user: vkUserComplete))]),
         );
@@ -103,7 +103,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([ProfileNeedAuthState(errorCode: NO_INTERNET)]),
         );
         verify(repository.authWithExternalService(vkUserNotComplete));
@@ -127,7 +127,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([ProfileAuthenticatedState(Profile(user: defaultUser))]),
         );
         verify(repository.authNewUser(userName, password));
@@ -149,7 +149,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([ProfileNeedAuthState(errorCode: NO_INTERNET)]),
         );
         verify(repository.authNewUser(userName, password));
@@ -173,7 +173,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([ProfileNeedLoginState(errorCode: NO_INTERNET)]),
         );
         verify(repository.logInUser(userName, password));
@@ -198,7 +198,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([ProfileAuthenticatedState(Profile(user: defaultUser))]),
         );
         verify(repository.logInUser(userName, password));
@@ -215,7 +215,7 @@ void main() {
       bloc.add(ProfileGoToLoginEvent());
 
       // assert
-      await expectLater(bloc, emitsInOrder([ProfileNeedLoginState()]));
+      await expectLater(bloc.stream, emitsInOrder([ProfileNeedLoginState()]));
     },
   );
 
@@ -233,7 +233,7 @@ void main() {
 
       // assert
       await expectLater(
-        bloc,
+        bloc.stream,
         emitsInOrder([ProfileNeedAuthState()]),
       );
       verify(storage.clearField(user: true));

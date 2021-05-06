@@ -8,20 +8,18 @@ import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as g;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'map_repo_test.mocks.dart';
 
-class MockNetworkChecker extends Mock implements NetworkChecker {}
-
-class MockPolyline extends Mock implements PolylinePoints {}
-
-class MockCalculator extends Mock implements DistanceCalculator {}
-
+@GenerateMocks([PolylinePoints, DistanceCalculator, NetworkChecker])
 void main() {
   final start = g.LatLng(31.0, 12.0);
   final dest = g.LatLng(32.0, 12.0);
   final car = PathType.Car;
   final walk = PathType.Walk;
   final route = Route.fromJson({
+    'id': 0,
     'length': 20.0,
     'parts': [
       {'order': 3, 'lat': 33.0, 'lng': 0.0},
@@ -30,15 +28,15 @@ void main() {
     ]
   });
 
-  late MockCalculator calculator;
+  late MockDistanceCalculator calculator;
   late MapRepository mapRepository;
-  late MockPolyline polyline;
+  late MockPolylinePoints polyline;
   late MockNetworkChecker checker;
 
   setUp(() {
-    calculator = MockCalculator();
+    calculator = MockDistanceCalculator();
     checker = MockNetworkChecker();
-    polyline = MockPolyline();
+    polyline = MockPolylinePoints();
     mapRepository = MapRepositoryImpl(polyline, checker, calculator);
   });
 

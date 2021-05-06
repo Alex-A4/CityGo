@@ -12,9 +12,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'route_sinble_bloc_test.mocks.dart';
 
-class MockProfileStorage extends Mock implements ProfileStorage {}
-
-@GenerateMocks([RouteRepository])
+@GenerateMocks([RouteRepository, ProfileStorage])
 void main() {
   final user = InAppUser(userName: 'name', accessToken: 'token', userId: 1);
   final id = 123;
@@ -84,7 +82,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([RouteSingleBlocDataState(null, USER_NOT_AUTH)]),
         );
         verify(storage.profile);
@@ -106,7 +104,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([RouteSingleBlocDataState(null, NO_INTERNET)]),
         );
         verify(storage.profile);
@@ -129,7 +127,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([RouteSingleBlocDataState(route)]),
         );
         verify(storage.profile);

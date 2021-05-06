@@ -72,7 +72,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
       body: StreamBuilder<RouteMapBlocState>(
         key: Key('RoutePageStreamBuilder'),
         initialData: bloc.state,
-        stream: bloc,
+        stream: bloc.stream,
         builder: (_, snap) {
           var state = snap.data as RouteMapBlocMapState;
 

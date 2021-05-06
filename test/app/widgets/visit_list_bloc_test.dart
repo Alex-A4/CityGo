@@ -13,11 +13,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'visit_list_bloc_test.mocks.dart';
 
-class MockProfileStorage extends Mock implements ProfileStorage {}
-
-class MockGeolocator extends Mock implements Geolocator {}
-
-@GenerateMocks([PlaceRepository])
+@GenerateMocks([PlaceRepository, ProfileStorage, Geolocator])
 void main() {
   final type = PlaceType.Museums;
   final logo = ImageSrc('/src/logo.jpg', 'description', 'title');
@@ -69,7 +65,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [], defaultSort),
             VisitListBlocPlaceState(type, [], defaultSort, true, USER_NOT_AUTH),
@@ -106,7 +102,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [], defaultSort),
             VisitListBlocPlaceState(type, [], defaultSort, true, NO_INTERNET),
@@ -141,7 +137,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [place1, place2], defaultSort),
             VisitListBlocPlaceState(type, [place1, place2], defaultSort, false),
@@ -174,7 +170,7 @@ void main() {
         // act
         bloc.add(VisitListBlocLoadPlacesEvent());
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [place1], defaultSort),
             VisitListBlocPlaceState(type, [place1], defaultSort, false),
@@ -182,7 +178,7 @@ void main() {
         );
         bloc.add(VisitListBlocLoadPlacesEvent());
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [place1, place1], defaultSort),
             VisitListBlocPlaceState(type, [place1, place1], defaultSort, false),
@@ -224,7 +220,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [], defaultSort),
             VisitListBlocPlaceState(type, [], defaultSort, true),
@@ -266,7 +262,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [place1], changedSort),
             VisitListBlocPlaceState(type, [place1], changedSort, false),
@@ -296,7 +292,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [], changedSort),
             VisitListBlocPlaceState(
@@ -328,7 +324,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             VisitListBlocPlaceLoadingState(type, [], changedSort),
             VisitListBlocPlaceState(
@@ -358,7 +354,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([]),
         );
 

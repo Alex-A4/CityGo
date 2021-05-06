@@ -132,7 +132,7 @@ class PlaceDialog extends StatelessWidget {
                         .pushNamed(VISIT_SINGLE, arguments: place);
                   },
                   child: AutoSizeText(
-                    context.localization(DETAIL_WORD)?.toUpperCase() ?? '',
+                    context.localization(DETAIL_WORD).toUpperCase(),
                     style: TextStyle(
                       letterSpacing: 1.2,
                       fontSize: 14,

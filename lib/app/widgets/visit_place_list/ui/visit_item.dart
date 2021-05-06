@@ -65,7 +65,7 @@ class VisitItem extends StatelessWidget {
                     ),
                   ),
                   AutoSizeText(
-                    context.localization(WORK_TIME)?.toUpperCase() ?? '',
+                    context.localization(WORK_TIME).toUpperCase(),
                     style: TextStyle(
                       fontSize: 13,
                       color: lightGrey,
@@ -110,7 +110,7 @@ class VisitItem extends StatelessWidget {
                     onPressed: () => Navigator.of(context)
                         .pushNamed(VISIT_SINGLE, arguments: place),
                     child: AutoSizeText(
-                      context.localization(DETAIL_WORD)?.toUpperCase() ?? '',
+                      context.localization(DETAIL_WORD).toUpperCase(),
                       style: TextStyle(
                         letterSpacing: 1.2,
                         fontSize: 14,

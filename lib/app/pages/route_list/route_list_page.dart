@@ -51,7 +51,7 @@ class _RouteListPageState extends State<RouteListPage> {
       backgroundColor: Colors.grey[800],
       appBar: CityAppBar(title: AutoSizeText(context.localization(PATHS_WORD))),
       body: StreamBuilder<RouteListBlocState>(
-        stream: widget.bloc,
+        stream: widget.bloc.stream,
         initialData: widget.bloc.state,
         builder: (c, snap) {
           final state = snap.data;

@@ -8,9 +8,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'route_repo_test.mocks.dart';
 
-class MockNetworkChecker extends Mock implements NetworkChecker {}
-
-@GenerateMocks([HttpClient])
+@GenerateMocks([HttpClient, NetworkChecker])
 void main() {
   final clippedRoute = <String, dynamic>{
     'id': 123,
@@ -98,7 +96,7 @@ void main() {
         ).thenAnswer(
           (_) => Future.value(
             Response(
-                request: RequestOptions(path: ''),
+                requestOptions: RequestOptions(path: ''),
                 data: {
                   'results': [clippedRoute]
                 },
@@ -153,7 +151,9 @@ void main() {
               queryParameters: anyNamed('queryParameters')),
         ).thenAnswer(
           (_) => Future.value(Response(
-              request: RequestOptions(path: ''), data: route, statusCode: 200)),
+              requestOptions: RequestOptions(path: ''),
+              data: route,
+              statusCode: 200)),
         );
 
         // act

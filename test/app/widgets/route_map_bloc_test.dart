@@ -12,17 +12,17 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'route_map_bloc_test.mocks.dart';
 
-class MockMapController extends Mock implements GoogleMapController {}
-
-class MockGeolocator extends Mock implements Geolocator {}
-
-class MockIconsStorage extends Mock implements MapIconsStorage {}
-
-@GenerateMocks([MapRepository])
+@GenerateMocks([
+  MapRepository,
+  GoogleMapController,
+  Geolocator,
+  MapIconsStorage,
+])
 void main() {
   final userPosition = LatLng(31.0, 12.0);
   final cord1 = LatLng(41.53, 41.47);
   final cord2 = LatLng(41.512, 41.87);
+  final images = <BitmapDescriptor>[];
   final json = <String, dynamic>{
     'id': 123,
     'title': 'Some title',
@@ -49,18 +49,17 @@ void main() {
   final route = Route.fromJson(json);
   final mapRoute = MapRoute(10, [cord1, cord2]);
 
-  // ignore: close_sinks
   late RouteMapBloc bloc;
   late MockMapRepository repo;
-  late MockMapController controller;
+  late MockGoogleMapController controller;
   late MockGeolocator geolocator;
-  late MockIconsStorage iconsStorage;
+  late MockMapIconsStorage iconsStorage;
 
   setUp(() {
     geolocator = MockGeolocator();
     repo = MockMapRepository();
-    iconsStorage = MockIconsStorage();
-    controller = MockMapController();
+    iconsStorage = MockMapIconsStorage();
+    controller = MockGoogleMapController();
     bloc = RouteMapBloc(route, repo, geolocator, iconsStorage);
   });
 
@@ -77,14 +76,19 @@ void main() {
       'должен инициализировать гугл контроллер',
       () async {
         // arrange
+        when(controller.mapId).thenReturn(0);
+        when(iconsStorage.future).thenAnswer((_) => Future.value(images));
         when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
+        when(repo.calculatePathForRoute(any)).thenAnswer(
+          (_) => Future.value(FutureResponse.success(mapRoute)),
+        );
 
         // act
         bloc.add(RouteMapBlocInitEvent(controller));
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteMapBlocMapState(
               controller: controller,
@@ -106,6 +110,8 @@ void main() {
       'должен инициализировать точки маршрута с ошибкой',
       () async {
         // arrange
+        when(controller.mapId).thenReturn(0);
+        when(iconsStorage.future).thenAnswer((_) => Future.value(images));
         when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
         when(repo.calculatePathForRoute(any))
             .thenAnswer((_) => Future.value(FutureResponse.fail(NO_INTERNET)));
@@ -115,7 +121,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteMapBlocMapState(
               controller: controller,
@@ -142,6 +148,8 @@ void main() {
       'должен инициализировать точки маршрута успешно',
       () async {
         // arrange
+        when(iconsStorage.future).thenAnswer((_) => Future.value(images));
+        when(controller.mapId).thenReturn(0);
         when(geolocator.getPosition())
             .thenAnswer((_) => Future.value(userPosition));
         when(repo.calculatePathForRoute(any)).thenAnswer(
@@ -155,7 +163,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteMapBlocMapState(
               controller: controller,
@@ -186,6 +194,7 @@ void main() {
       () async {
         // arrange
         bloc.controller = controller;
+        when(controller.mapId).thenReturn(0);
         bloc.mapRoute = FutureResponse.success(mapRoute);
         when(geolocator.getPosition()).thenThrow(LOCATION_SERVICE_DISABLED);
 
@@ -194,7 +203,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteMapBlocMapState(
               controller: controller,
@@ -219,6 +228,7 @@ void main() {
       () async {
         // arrange
         bloc.controller = controller;
+        when(controller.mapId).thenReturn(0);
         bloc.mapRoute = FutureResponse.success(mapRoute);
         when(geolocator.getPosition()).thenThrow(LOCATION_ACCESS_DENIED);
 
@@ -227,7 +237,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteMapBlocMapState(
               controller: controller,
@@ -252,6 +262,7 @@ void main() {
       () async {
         // arrange
         bloc.controller = controller;
+        when(controller.mapId).thenReturn(0);
         bloc.mapRoute = FutureResponse.success(mapRoute);
         when(geolocator.getPosition())
             .thenAnswer((_) => Future.value(userPosition));
@@ -261,7 +272,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteMapBlocMapState(
               controller: controller,

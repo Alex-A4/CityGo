@@ -108,7 +108,7 @@ class _CityToastToastWidgetState extends State<_CityToastToastWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Expanded(child: AutoSizeText(message ?? '')),
+              Expanded(child: AutoSizeText(message)),
             ],
           ),
         ),

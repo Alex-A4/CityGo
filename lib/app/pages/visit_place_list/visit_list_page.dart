@@ -56,7 +56,7 @@ class _VisitListPageState extends State<VisitListPage> {
 
     return StreamBuilder<VisitListBlocState>(
       key: Key('VisitListStreamBuilder'),
-      stream: widget.bloc,
+      stream: widget.bloc.stream,
       initialData: widget.bloc.state,
       builder: (c, snap) {
         final state = snap.data;

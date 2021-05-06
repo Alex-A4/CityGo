@@ -11,9 +11,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'visit_single_bloc_test.mocks.dart';
 
-class MockProfileStorage extends Mock implements ProfileStorage {}
-
-@GenerateMocks([PlaceRepository])
+@GenerateMocks([PlaceRepository, ProfileStorage])
 void main() {
   final user = InAppUser(userName: 'name', accessToken: 'token', userId: 1);
   final imageSrc = ImageSrc.fromJson({
@@ -70,7 +68,7 @@ void main() {
         // act
         bloc.add(VisitSingleBlocLoadEvent());
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([VisitSingleBlocDataState(null, USER_NOT_AUTH)]),
         );
 
@@ -95,7 +93,7 @@ void main() {
         // act
         bloc.add(VisitSingleBlocLoadEvent());
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([VisitSingleBlocDataState(null, NO_INTERNET)]),
         );
 
@@ -120,7 +118,7 @@ void main() {
         // act
         bloc.add(VisitSingleBlocLoadEvent());
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([VisitSingleBlocDataState(place)]),
         );
 

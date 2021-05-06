@@ -9,6 +9,7 @@ void main() {
         User.USER_NAME: 'Васян',
         User.USER_TYPE: UserType.InApp.index,
         User.ACCESS_TOKEN: 'someAccessToken',
+        User.USER_ID: 0,
       };
       // act
       var user = UserFactory.instance.fromJson(json);

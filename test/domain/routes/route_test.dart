@@ -89,6 +89,7 @@ void main() {
     () async {
       // arrange
       final route = Route.fromJson({
+        'id': 0,
         'parts': [
           {'order': 3, 'lat': 33.0, 'lng': 0.0},
           {'order': 1, 'lat': 31.0, 'lng': 0.0},

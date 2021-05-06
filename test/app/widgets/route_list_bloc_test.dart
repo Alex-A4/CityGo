@@ -52,7 +52,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteListBlocLoadingState([]),
             RouteListBlocDisplayState([], true, USER_NOT_AUTH),
@@ -79,7 +79,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteListBlocLoadingState([]),
             RouteListBlocDisplayState([], true, NO_INTERNET),
@@ -106,7 +106,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteListBlocLoadingState([route]),
             RouteListBlocDisplayState([route], false),
@@ -133,7 +133,7 @@ void main() {
 
         // assert
         await expectLater(
-          bloc,
+          bloc.stream,
           emitsInOrder([
             RouteListBlocLoadingState([]),
             RouteListBlocDisplayState([], true),

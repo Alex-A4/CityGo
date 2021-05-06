@@ -3,7 +3,6 @@ import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:meta/meta.dart';
 
 /// Абстрактное состояние для блока построения пути на карте
 abstract class PathMapBlocState extends Equatable {}

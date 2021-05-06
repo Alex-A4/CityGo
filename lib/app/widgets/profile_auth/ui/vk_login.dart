@@ -1,5 +1,5 @@
-import 'package:city_go/app/general_widgets/city_web_view.dart';
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 /// Виджет для получения токена авторизации через VK OAuth.
 /// При получении корректного запроса авторизации, возвращает словарь
@@ -15,15 +15,17 @@ class VkLoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CityWebviewScaffold(
+    return Scaffold(
       appBar: AppBar(),
-      url: url,
-      onUrlChanged: (u, c) {
-        Uri uri = Uri.parse(u);
-        if ('${uri.host}${uri.path}' == 'oauth.vk.com/blank.html') {
-          Navigator.of(c).pop(Uri.splitQueryString(uri.fragment));
-        }
-      },
+      body: WebView(
+        initialUrl: url,
+        onPageFinished: (url) {
+          Uri uri = Uri.parse(url);
+          if ('${uri.host}${uri.path}' == 'oauth.vk.com/blank.html') {
+            Navigator.of(context).pop(Uri.splitQueryString(uri.fragment));
+          }
+        },
+      ),
     );
   }
 }

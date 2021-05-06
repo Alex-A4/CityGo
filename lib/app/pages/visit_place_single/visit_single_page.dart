@@ -35,7 +35,7 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<VisitSingleBlocState>(
-        stream: bloc,
+        stream: bloc.stream,
         initialData: bloc.state,
         builder: (_, snap) {
           final state = snap.data;

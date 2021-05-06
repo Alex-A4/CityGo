@@ -39,6 +39,11 @@ class FullVisitPlace extends ClippedVisitPlace {
   }) : super(id, type, title, workTime, rating, logo, latLng, generalInfo);
 
   factory FullVisitPlace.fromJson(Map<String, dynamic> json) {
+    final images = <ImageSrc>[];
+    json['images']?.forEach((i) {
+      final im = ImageSrc.fromJson(i);
+      if (im != null) images.add(im);
+    });
     return FullVisitPlace(
       id: json['id'],
       type: PlaceType.values[json['type'] ?? 3],
@@ -46,10 +51,7 @@ class FullVisitPlace extends ClippedVisitPlace {
       workTime: json['work_time'] ?? '',
       rating: json['rating'] ?? 0.0,
       logo: json['logo'],
-      imageSrc: json['images']
-              ?.map<ImageSrc>((i) => ImageSrc.fromJson(i))
-              ?.toList() ??
-          [],
+      imageSrc: images,
       description: json['description'] ?? '',
       objectAddress: json['address'] ?? '',
       audioSrc: json['audio'],

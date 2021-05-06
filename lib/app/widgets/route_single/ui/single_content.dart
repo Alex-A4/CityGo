@@ -57,7 +57,7 @@ class SingleRouteContent extends StatelessWidget {
                             ? null
                             : () => sl<CityAudioPlayer>()
                                 .startPlayer(client.getMediaPath(route.audio!)),
-                        context.localization(START_SOUND) ?? '',
+                        context.localization(START_SOUND),
                         style,
                       ),
                     ),
@@ -68,7 +68,7 @@ class SingleRouteContent extends StatelessWidget {
                             ? null
                             : () => Navigator.of(context)
                                 .pushNamed(ROUTE_MAP_PAGE, arguments: route),
-                        context.localization(CREATE_PATH) ?? '',
+                        context.localization(CREATE_PATH),
                         style,
                       ),
                     ),

@@ -35,7 +35,7 @@ class _RouteSinglePageState extends State<RouteSinglePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<RouteSingleBlocState>(
-        stream: bloc,
+        stream: bloc.stream,
         initialData: bloc.state,
         builder: (_, snap) {
           final state = snap.data;

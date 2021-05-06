@@ -44,9 +44,11 @@ class Route extends RouteClipped {
       json['general'] ?? '',
       json['audio'],
       json['places']
-          ?.map<FullVisitPlace>((p) => FullVisitPlace.fromJson(p))
-          ?.toList(),
-      json['parts']?.map<RouteCord>((c) => RouteCord.fromJson(c))?.toList(),
+              ?.map<FullVisitPlace>((p) => FullVisitPlace.fromJson(p))
+              ?.toList() ??
+          [],
+      json['parts']?.map<RouteCord>((c) => RouteCord.fromJson(c))?.toList() ??
+          [],
       json['logo'],
     );
   }

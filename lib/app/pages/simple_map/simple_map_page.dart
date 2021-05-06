@@ -38,7 +38,7 @@ class _SimpleMapPageState extends State<SimpleMapPage> {
       body: StreamBuilder<SimpleMapBlocState>(
         key: Key('RoutePageStreamBuilder'),
         initialData: bloc.state,
-        stream: bloc,
+        stream: bloc.stream,
         builder: (_, snap) {
           var state = snap.data as SimpleMapBlocMapState;
 

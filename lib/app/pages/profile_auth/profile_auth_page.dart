@@ -16,7 +16,7 @@ class ProfileAuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<ProfileState>(
-      stream: bloc,
+      stream: bloc.stream,
       initialData: bloc.state,
       builder: (_, snap) {
         final state = snap.data;
