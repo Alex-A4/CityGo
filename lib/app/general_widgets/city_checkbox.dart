@@ -72,7 +72,7 @@ class CityGroupRadioBox<T> extends StatefulWidget {
   _CityGroupRadioBoxState<T> createState() => _CityGroupRadioBoxState<T>();
 }
 
-class _CityGroupRadioBoxState<T> extends State<CityGroupRadioBox> {
+class _CityGroupRadioBoxState<T> extends State<CityGroupRadioBox<T>> {
   late T currentValue;
 
   @override

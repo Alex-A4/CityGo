@@ -27,8 +27,8 @@ class CityDropDown extends StatefulWidget {
 
 class _CityDropDownState extends State<CityDropDown>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  AnimationController? _controller;
+  Animation<double>? _animation;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _CityDropDownState extends State<CityDropDown>
         vsync: this,
       );
       _animation = CurvedAnimation(
-        parent: _controller,
+        parent: _controller!,
         curve: Curves.easeIn,
       );
     }
@@ -47,8 +47,8 @@ class _CityDropDownState extends State<CityDropDown>
 
   @override
   void dispose() {
+    _controller?.dispose();
     super.dispose();
-    _controller.dispose();
   }
 
   bool isExpanded = false;
@@ -63,18 +63,18 @@ class _CityDropDownState extends State<CityDropDown>
             onTap: widget.onTap ??
                 () {
                   if (isExpanded)
-                    _controller.reverse();
+                    _controller?.reverse();
                   else
-                    _controller.forward();
+                    _controller?.forward();
                   setState(() => isExpanded = !isExpanded);
                 },
             leading: icon,
             title: widget.head,
           ),
         ),
-        if (widget.body != null)
+        if (widget.body != null && _animation != null)
           SizeTransition(
-            sizeFactor: _animation,
+            sizeFactor: _animation!,
             child: widget.body,
           ),
       ],
