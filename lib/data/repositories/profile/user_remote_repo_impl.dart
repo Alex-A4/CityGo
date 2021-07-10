@@ -46,12 +46,10 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
 
     try {
       final response = await client.post(
-        '/auth/convert-token/',
+        '/auth/oauth/',
         data: {
-          'grant_type': 'convert_token',
-          'backend': user.type.backend,
-          'token': user.accessToken,
-          'client_id': 'PvyAa9F2GHJVCCzsF4IMpn0qdMtkKClCLCdQ1WwE',
+          'service': user.type.backend,
+          'code': user.accessToken,
         },
       );
       final idResponse = await client.get(

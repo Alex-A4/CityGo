@@ -42,7 +42,7 @@ extension UserTypeData on UserType {
       case UserType.Google:
         return 'google';
       case UserType.VK:
-        return 'vk-oauth2';
+        return 'vk';
       case UserType.Instagram:
         return 'instagram';
       default:

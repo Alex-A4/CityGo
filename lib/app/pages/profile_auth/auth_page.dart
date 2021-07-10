@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/widgets/profile_auth/bloc/bloc.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/auth_input.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/auth_login_button.dart';
+import 'package:city_go/app/widgets/profile_auth/ui/instagram_login.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/login_extenral_button.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/vk_login.dart';
 import 'package:city_go/data/core/localization_constants.dart';
@@ -168,16 +170,24 @@ class _AuthPageState extends State<AuthPage> {
                     if (user != null) bloc.add(ProfileAuthExternalEvent(user));
                   },
                 ),
-                LoginExternalButton(
-                  imagePath: 'assets/images/google.png',
-                  onTap: (context) {
-                    print('google');
-                  },
-                ),
+                if (Platform.isAndroid)
+                  LoginExternalButton(
+                    imagePath: 'assets/images/google.png',
+                    onTap: (context) {
+                      print('google');
+                    },
+                  ),
                 LoginExternalButton(
                   imagePath: 'assets/images/instagram.png',
-                  onTap: (context) {
-                    print('instagram');
+                  onTap: (context) async {
+                    final mapData = await Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => InstagramWidget()),
+                    );
+                    print(mapData);
+                    final user = mapData == null
+                        ? null
+                        : VKUser(externalToken: mapData['code']);
+                    if (user != null) bloc.add(ProfileAuthExternalEvent(user));
                   },
                 ),
               ],
