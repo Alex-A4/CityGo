@@ -54,9 +54,11 @@ Future<void> initServiceLocator() async {
 
   /// Repositories
   sl.registerFactory<UserRemoteRepository>(
-      () => UserRemoteRepositoryImpl(sl(), sl()));
+    () => UserRemoteRepositoryImpl(sl(), sl()),
+  );
   sl.registerFactory<ProfileRepository>(
-      () => ProfileRepositoryImpl(hive: sl()));
+    () => ProfileRepositoryImpl(hive: sl()),
+  );
   sl.registerFactory<MapRepository>(() => MapRepositoryImpl(sl(), sl(), sl()));
   sl.registerFactory<RouteRepository>(() => RouteRepositoryImpl(sl(), sl()));
   sl.registerFactory<PlaceRepository>(() => PlaceRepositoryImpl(sl(), sl()));
@@ -68,23 +70,33 @@ Future<void> initServiceLocator() async {
 
   /// Blocs
   sl.registerFactory<ProfileBloc>(
-      () => (ProfileBloc(storage: sl(), repository: sl())));
+    () => (ProfileBloc(storage: sl(), repository: sl())),
+  );
 
   sl.registerFactory<RouteListBloc>(
-      () => RouteListBloc(storage: sl(), repository: sl()));
+    () => RouteListBloc(storage: sl(), repository: sl()),
+  );
   sl.registerFactoryParam<RouteSingleBloc, int, void>(
-      (p1, _) => RouteSingleBloc(id: p1!, repository: sl(), storage: sl()));
+    (p1, _) => RouteSingleBloc(id: p1, repository: sl(), storage: sl()),
+  );
 
   sl.registerFactoryParam<VisitListBloc, PlaceType, void>(
     (p1, _) => VisitListBloc(
-        type: p1!, repository: sl(), storage: sl(), geolocator: sl()),
+      type: p1,
+      repository: sl(),
+      storage: sl(),
+      geolocator: sl(),
+    ),
   );
   sl.registerFactoryParam<VisitSingleBloc, int, void>(
-      (p1, _) => VisitSingleBloc(id: p1!, repository: sl(), storage: sl()));
+    (p1, _) => VisitSingleBloc(id: p1, repository: sl(), storage: sl()),
+  );
 
   sl.registerFactoryParam<PathMapBloc, LatLng, void>(
-      (p1, _) => PathMapBloc(sl(), p1!, sl()));
+    (p1, _) => PathMapBloc(sl(), p1, sl()),
+  );
   sl.registerFactoryParam<RouteMapBloc, Route, void>(
-      (p1, _) => RouteMapBloc(p1!, sl(), sl(), sl()));
+    (p1, _) => RouteMapBloc(p1, sl(), sl(), sl()),
+  );
   sl.registerFactory(() => SimpleMapBloc(sl(), sl(), sl(), sl()));
 }

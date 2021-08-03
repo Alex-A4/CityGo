@@ -39,7 +39,7 @@ abstract class HttpClient {
   /// Параметр [path] должен начинаться со знака /
   Future<Response<dynamic>> post(
     String path, {
-    dynamic? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
@@ -51,7 +51,7 @@ abstract class HttpClient {
   /// Параметр [path] должен начинаться со знака /
   Future<Response<dynamic>> put(
     String path, {
-    dynamic? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
@@ -91,7 +91,7 @@ class HttpClientImpl extends HttpClient {
   @override
   Future<Response<dynamic>> post(
     String path, {
-    dynamic? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
@@ -112,7 +112,7 @@ class HttpClientImpl extends HttpClient {
   @override
   Future<Response> put(
     String path, {
-    dynamic? data,
+    dynamic data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
