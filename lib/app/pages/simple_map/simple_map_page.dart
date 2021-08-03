@@ -1,7 +1,8 @@
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/place_dialog.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/data/core/service_locator.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/app/widgets/simple_map/bloc/bloc.dart';
 import 'package:city_go/constants.dart';
 import 'package:city_go/data/repositories/visit_place/place_repository_impl.dart';
@@ -12,16 +13,26 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 /// Экран с обычной картой, которую пользователь может посмотреть, чтобы найти
 /// себя и ближайшие к нему объекты.
 class SimpleMapPage extends StatefulWidget {
-  final SimpleMapBloc bloc;
-
-  SimpleMapPage({Key? key, required this.bloc}) : super(key: key);
+  SimpleMapPage({Key? key}) : super(key: key);
 
   @override
   _SimpleMapPageState createState() => _SimpleMapPageState();
 }
 
 class _SimpleMapPageState extends State<SimpleMapPage> {
-  SimpleMapBloc get bloc => widget.bloc;
+  late SimpleMapBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = sl();
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
 
   /// Флаг, обозначающий, что нужно переключиться на позицию пользователя.
   /// Активируется, когда пользователь нажимает специальную кнопку

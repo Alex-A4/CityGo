@@ -1,4 +1,4 @@
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:flutter/material.dart';
 
 /// Адаптивная кнопка, которую можно использовать как с иконкой, так и с помощью
@@ -74,6 +74,7 @@ class AdaptiveButton extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
+      splashColor: kSplashColor,
       borderRadius: BorderRadius.circular(90),
       child: Container(
         decoration: BoxDecoration(

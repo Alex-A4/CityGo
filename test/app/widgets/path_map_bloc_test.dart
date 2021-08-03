@@ -35,7 +35,7 @@ void main() {
     'должен инициализироваться с состоянием без данных',
     () async {
       // assert
-      expect(bloc.state, PathMapBlocMapState(type: walk));
+      expect(bloc.state, PathMapBlocState(type: walk));
     },
   );
 
@@ -53,12 +53,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
               type: walk,
@@ -83,12 +83,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.fail(LOCATION_SERVICE_DISABLED),
               type: walk,
@@ -114,12 +114,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
               type: walk,
@@ -148,12 +148,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               type: walk,
@@ -181,17 +181,17 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               type: walk,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               route: FutureResponse.fail(NO_INTERNET),
@@ -224,17 +224,17 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               type: walk,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               route: FutureResponse.success(MapRoute(10, [userPosition, dest])),
@@ -268,7 +268,7 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               route: FutureResponse.success(route),
@@ -297,12 +297,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.fail(LOCATION_SERVICE_DISABLED),
               type: walk,
@@ -329,12 +329,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
               type: walk,
@@ -364,12 +364,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               type: walk,
@@ -398,17 +398,17 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               type: walk,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               route: FutureResponse.fail(NO_INTERNET),
@@ -440,17 +440,17 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               type: walk,
               isLocationSearching: true,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               type: walk,
             ),
-            PathMapBlocMapState(
+            PathMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
               route: FutureResponse.success(route),

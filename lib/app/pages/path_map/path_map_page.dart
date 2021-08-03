@@ -1,12 +1,13 @@
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/app/widgets/path_map/bloc/bloc.dart';
 import 'package:city_go/constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /// Страница для построения маршрута между положением пользователя и
@@ -26,7 +27,6 @@ class PathMapPage extends StatefulWidget {
 class _PathMapPageState extends State<PathMapPage> {
   static const minZoom = 12.0;
 
-  // ignore: close_sinks
   late PathMapBloc bloc;
   LatLng? userPosition;
 
@@ -49,6 +49,7 @@ class _PathMapPageState extends State<PathMapPage> {
 
   @override
   void dispose() {
+    bloc.close();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeLeft,
@@ -63,18 +64,10 @@ class _PathMapPageState extends State<PathMapPage> {
 
     return Scaffold(
       key: Key('PathPageScaffold'),
-      body: StreamBuilder<PathMapBlocState>(
+      body: BlocConsumer<PathMapBloc, PathMapBlocState>(
         key: Key('PathPageStreamBuilder'),
-        initialData: bloc.state,
-        stream: bloc.stream,
-        builder: (_, snap) {
-          var state = snap.data as PathMapBlocMapState;
-
-          if (state.controller != null)
-            initMarkers(state.userPosition?.data, state.controller!);
-
-          if (state.route?.hasData == true) initPolylines(state.route!.data!);
-
+        bloc: bloc,
+        listener: (context, state) {
           if (state.userPosition?.hasData == true && needShowPosition) {
             needShowPosition = false;
             WidgetsBinding.instance!.addPostFrameCallback(
@@ -86,13 +79,24 @@ class _PathMapPageState extends State<PathMapPage> {
           }
 
           if (state.userPosition?.hasError == true) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) =>
-                CityToast.showToast(context, state.userPosition!.errorCode!));
+            WidgetsBinding.instance!.addPostFrameCallback(
+              (_) => CityToast.showToast(
+                context,
+                state.userPosition!.errorCode!,
+              ),
+            );
           }
           if (state.route?.hasError == true) {
             WidgetsBinding.instance!.addPostFrameCallback(
-                (_) => CityToast.showToast(context, state.route!.errorCode!));
+              (_) => CityToast.showToast(context, state.route!.errorCode!),
+            );
           }
+        },
+        builder: (_, state) {
+          if (state.controller != null)
+            initMarkers(state.userPosition?.data, state.controller!);
+
+          if (state.route?.hasData == true) initPolylines(state.route!.data!);
 
           return Stack(
             children: [

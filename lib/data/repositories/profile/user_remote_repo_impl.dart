@@ -17,7 +17,9 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
   /// Создает нового пользователя по возможности, а затем делает login
   @override
   Future<FutureResponse<User>> authNewUser(
-      String userName, String password) async {
+    String userName,
+    String password,
+  ) async {
     if (!await checker.hasInternet) return FutureResponse.fail(NO_INTERNET);
 
     try {
@@ -28,6 +30,8 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
 
       return await logInUser(userName, password);
     } on DioError catch (e) {
+      print(e);
+      print(e.response?.data);
       String? mess400;
       if (e.response?.data['username'] != null) mess400 = LOGIN_ALREADY_USED;
       if (e.response?.data['password'] != null) mess400 = PASSWORD_IS_EASY;
@@ -41,7 +45,8 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
 
   @override
   Future<FutureResponse<User>> authWithExternalService(
-      ExternalUser user) async {
+    ExternalUser user,
+  ) async {
     if (!await checker.hasInternet) return FutureResponse.fail(NO_INTERNET);
 
     try {
@@ -75,7 +80,9 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
 
   @override
   Future<FutureResponse<User>> logInUser(
-      String userName, String password) async {
+    String userName,
+    String password,
+  ) async {
     if (!await checker.hasInternet) return FutureResponse.fail(NO_INTERNET);
 
     try {
@@ -100,10 +107,10 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
         ),
       );
     } on DioError catch (e) {
-      return FutureResponse.fail(handleDioError(e));
-    } catch (e, trace) {
       print(e);
-      print(trace);
+      print(e.response?.data);
+      return FutureResponse.fail(handleDioError(e));
+    } catch (e) {
       return FutureResponse.fail(UNEXPECTED_ERROR);
     }
   }

@@ -17,15 +17,17 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
   final MapIconsStorage iconsStorage;
 
   RouteMapBloc(
-      this.route, this.mapRepository, this.geolocator, this.iconsStorage)
-      : super(RouteMapBlocMapState());
+    this.route,
+    this.mapRepository,
+    this.geolocator,
+    this.iconsStorage,
+  ) : super(RouteMapBlocState());
 
   GoogleMapController? controller;
   FutureResponse<MapRoute>? mapRoute;
 
   FutureResponse<LatLng>? userPosition;
   bool isLocationSearching = false;
-  bool showError = false;
 
   List<BitmapDescriptor>? pointIcons;
 
@@ -59,18 +61,18 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
   }
 
   /// Включаем поиск местоположения
-  RouteMapBlocMapState get turnOnFinding {
+  RouteMapBlocState get turnOnFinding {
     isLocationSearching = true;
     return routeState;
   }
 
   /// Выключаем поиск местоположения
-  RouteMapBlocMapState get turnOffFinding {
+  RouteMapBlocState get turnOffFinding {
     isLocationSearching = false;
     return routeState;
   }
 
-  RouteMapBlocMapState get routeState => RouteMapBlocMapState(
+  RouteMapBlocState get routeState => RouteMapBlocState(
         controller: controller,
         route: mapRoute,
         isLocationSearching: isLocationSearching,
@@ -79,7 +81,6 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
 
   Future<void> calculatePath() async {
     mapRoute = await mapRepository.calculatePathForRoute(route);
-    if (mapRoute?.hasError == true) showError = true;
   }
 
   Future<void> findUserLocation() async {
@@ -87,7 +88,6 @@ class RouteMapBloc extends Bloc<RouteMapBlocEvent, RouteMapBlocState> {
       userPosition = FutureResponse.success(await geolocator.getPosition());
     } catch (e) {
       userPosition = FutureResponse.fail(e.toString());
-      showError = true;
     }
   }
 }

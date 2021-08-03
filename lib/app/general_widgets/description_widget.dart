@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/domain/entities/visit_place/image_src.dart';

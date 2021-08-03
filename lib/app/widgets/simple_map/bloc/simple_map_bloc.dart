@@ -16,9 +16,12 @@ class SimpleMapBloc extends Bloc<SimpleMapBlocEvent, SimpleMapBlocState> {
   final ProfileStorage profileStorage;
   final MapIconsStorage iconsStorage;
 
-  SimpleMapBloc(this.geolocator, this.iconsStorage, this.placeRepository,
-      this.profileStorage)
-      : super(SimpleMapBlocMapState());
+  SimpleMapBloc(
+    this.geolocator,
+    this.iconsStorage,
+    this.placeRepository,
+    this.profileStorage,
+  ) : super(SimpleMapBlocMapState());
 
   g.GoogleMapController? controller;
 

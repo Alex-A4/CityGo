@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/data/core/localization_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
 
@@ -21,6 +22,7 @@ class AuthLoginButton extends StatelessWidget {
     return TextButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xFFb5b5b5)),
+        overlayColor: MaterialStateProperty.all(kSplashColor),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         )),

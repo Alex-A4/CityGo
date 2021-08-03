@@ -1,50 +1,63 @@
 import 'package:city_go/app/general_widgets/description_widget.dart';
 import 'package:city_go/app/general_widgets/info_app_bar.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/data/core/service_locator.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_single/ui/single_visit_content.dart';
 import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Экран для отображения информации о конкретном месте.
 class VisitSinglePage extends StatefulWidget {
   final ClippedVisitPlace place;
-  final VisitSingleBloc bloc;
   final HttpClient client;
 
   VisitSinglePage({
     Key key = const Key('VisitSinglePage'),
-    required this.bloc,
     required this.place,
     required this.client,
-  }) : super(key: key) {
-    bloc.add(VisitSingleBlocLoadEvent());
-  }
+  }) : super(key: key);
 
   @override
   _VisitSinglePageState createState() => _VisitSinglePageState();
 }
 
 class _VisitSinglePageState extends State<VisitSinglePage> {
-  VisitSingleBloc get bloc => widget.bloc;
+  late VisitSingleBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = sl.call<VisitSingleBloc>(param1: widget.place.id);
+    bloc.add(VisitSingleBlocLoadEvent());
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<VisitSingleBlocState>(
-        stream: bloc.stream,
-        initialData: bloc.state,
-        builder: (_, snap) {
-          final state = snap.data;
+      body: BlocConsumer<VisitSingleBloc, VisitSingleBlocState>(
+        bloc: bloc,
+        listener: (context, state) {
+          if (state is VisitSingleBlocDataState && state.errorCode != null) {
+            WidgetsBinding.instance!.addPostFrameCallback(
+              (_) => CityToast.showToast(context, state.errorCode!),
+            );
+          }
+        },
+        builder: (_, state) {
           FullVisitPlace? place;
 
           if (state is VisitSingleBlocDataState) {
-            if (state.errorCode != null)
-              WidgetsBinding.instance!.addPostFrameCallback(
-                  (_) => CityToast.showToast(context, state.errorCode!));
             place = state.place;
           }
           return LayoutBuilder(
@@ -83,7 +96,7 @@ class _VisitSinglePageState extends State<VisitSinglePage> {
                                 place: place,
                                 bottomSize: height * 0.1,
                                 client: widget.client,
-                                placeRepository: widget.bloc.repository,
+                                placeRepository: bloc.repository,
                               ),
                             ),
                         ],

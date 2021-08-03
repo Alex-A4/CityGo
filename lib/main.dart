@@ -1,4 +1,4 @@
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

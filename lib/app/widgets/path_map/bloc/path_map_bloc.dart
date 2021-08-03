@@ -18,7 +18,7 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
     this.mapRepository,
     this.destPoint,
     this.geolocator,
-  ) : super(PathMapBlocMapState(type: defaultPathType));
+  ) : super(PathMapBlocState(type: defaultPathType));
 
   PathType type = defaultPathType;
   GoogleMapController? controller;
@@ -48,7 +48,7 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
 
   /// Стандартный алгоритм, который включает в себя поиск позиции пользователя,
   /// а затем построение маршрута.
-  Stream<PathMapBlocMapState> get defaultAlg async* {
+  Stream<PathMapBlocState> get defaultAlg async* {
     yield turnOnFinding;
     await findUserLocation();
     yield turnOffFinding;
@@ -57,17 +57,17 @@ class PathMapBloc extends Bloc<PathMapBlocEvent, PathMapBlocState> {
     yield pathState;
   }
 
-  PathMapBlocMapState get turnOnFinding {
+  PathMapBlocState get turnOnFinding {
     isLocationSearching = true;
     return pathState;
   }
 
-  PathMapBlocMapState get turnOffFinding {
+  PathMapBlocState get turnOffFinding {
     isLocationSearching = false;
     return pathState;
   }
 
-  PathMapBlocMapState get pathState => PathMapBlocMapState(
+  PathMapBlocState get pathState => PathMapBlocState(
         controller: controller,
         userPosition: userPosition,
         route: route,

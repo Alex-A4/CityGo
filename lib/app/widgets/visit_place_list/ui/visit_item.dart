@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/custom_dialog.dart' as d;
 import 'package:city_go/app/general_widgets/rating_dialog.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/rating_button.dart';
 import 'package:city_go/data/core/localization_constants.dart';

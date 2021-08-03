@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';

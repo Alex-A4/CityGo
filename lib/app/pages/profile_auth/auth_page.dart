@@ -10,6 +10,7 @@ import 'package:city_go/app/widgets/profile_auth/ui/login_extenral_button.dart';
 import 'package:city_go/app/widgets/profile_auth/ui/vk_login.dart';
 import 'package:city_go/data/core/localization_constants.dart';
 import 'package:city_go/domain/entities/profile/user.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
 
@@ -28,9 +29,9 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  final TextEditingController loginController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> formKey = GlobalKey();
+  final loginController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   ProfileBloc get bloc => widget.bloc;
 
@@ -126,6 +127,9 @@ class _AuthPageState extends State<AuthPage> {
                 context.localization(isAuth ? HAVE_ACCOUNT : CREATE_ACCOUNT),
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(kSplashColor),
+              ),
             ),
             SizedBox(height: 20),
             AuthLoginButton(
@@ -135,10 +139,14 @@ class _AuthPageState extends State<AuthPage> {
 
                 if (isAuth) {
                   bloc.add(ProfileAuthInternalEvent(
-                      loginController.text, passwordController.text));
+                    loginController.text,
+                    passwordController.text,
+                  ));
                 } else {
                   bloc.add(ProfileLogInEvent(
-                      loginController.text, passwordController.text));
+                    loginController.text,
+                    passwordController.text,
+                  ));
                 }
               },
             ),
@@ -204,6 +212,7 @@ class _AuthPageState extends State<AuthPage> {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        splashColor: kSplashColor,
         borderRadius: BorderRadius.circular(90),
         onTap: () => Navigator.of(context).pop(),
         child: Container(

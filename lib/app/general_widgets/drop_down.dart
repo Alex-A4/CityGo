@@ -1,4 +1,4 @@
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:flutter/material.dart';
 
 /// Кастомный выпадающий вниз виджет. Основан на анимации и расширяет содержимое

@@ -3,11 +3,10 @@ import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-abstract class RouteMapBlocState extends Equatable {}
 
 /// Состояние карты, которое содержит определенный набор данных, которые необходимы
 /// карте.
-class RouteMapBlocMapState extends RouteMapBlocState {
+class RouteMapBlocState extends Equatable {
   /// Контроллер карты, с помощью которого идёт взаимодействие с картой
   /// Может быть null.
   final GoogleMapController? controller;
@@ -24,7 +23,7 @@ class RouteMapBlocMapState extends RouteMapBlocState {
 
   final bool isLocationSearching;
 
-  RouteMapBlocMapState({
+  RouteMapBlocState({
     this.controller,
     this.route,
     this.userPosition,

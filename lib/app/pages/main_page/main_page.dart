@@ -3,7 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/audio_player_widget.dart';
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/app/navigator/router.dart';
 import 'package:city_go/app/widgets/main_page/place_type_card.dart';
 import 'package:city_go/data/core/localization_constants.dart';
@@ -53,8 +53,12 @@ class MainPage extends StatelessWidget {
           title: AutoSizeText(context.localization(YAROSLAVL_WORD)),
           actions: [
             IconButton(
-              icon: Icon(Icons.account_circle_outlined),
+              icon: Icon(
+                Icons.account_circle_outlined,
+                size: 30,
+              ),
               onPressed: () => Navigator.of(context).pushNamed(PROFILE),
+              splashColor: kSplashColor,
             ),
           ],
         ),

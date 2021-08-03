@@ -1,3 +1,4 @@
+import 'package:city_go/styles/styles.dart';
 import 'package:flutter/material.dart';
 
 /// Кнопка с картинкой для входа через внешние источники
@@ -16,6 +17,7 @@ class LoginExternalButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        splashColor: kSplashColor,
         onTap: () => onTap(context),
         borderRadius: BorderRadius.circular(90),
         child: Padding(

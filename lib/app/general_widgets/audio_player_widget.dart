@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:city_go/data/repositories/audio_player/audio_player.dart';
 import 'package:city_go/data/repositories/audio_player/player_data.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -66,6 +67,7 @@ class CityAudioPlayerWidget extends StatelessWidget {
               color: Colors.white,
               icon: Icon(Icons.play_arrow),
               onPressed: () => player.continuePlayer(),
+              splashColor: kSplashColor,
             );
           }
 
@@ -74,6 +76,7 @@ class CityAudioPlayerWidget extends StatelessWidget {
               color: Colors.white,
               icon: Icon(Icons.pause_outlined),
               onPressed: () => player.pausePlayer(),
+              splashColor: kSplashColor,
             );
           }
 
@@ -111,6 +114,7 @@ class CityAudioPlayerWidget extends StatelessWidget {
                   color: Colors.white,
                   icon: Icon(Icons.close),
                   onPressed: () => player.closePlayer(),
+                  splashColor: kSplashColor,
                 ),
               ],
             ),

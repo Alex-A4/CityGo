@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:flutter/material.dart';
 
 /// Виджет рейтинга, который показывает 5 звезд и заполняет их в соответствии

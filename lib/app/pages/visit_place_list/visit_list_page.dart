@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:city_go/app/general_widgets/custom_appbar.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/app/widgets/visit_place_list/bloc/bloc.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/filter_widget.dart';
 import 'package:city_go/app/widgets/visit_place_list/ui/visit_item.dart';
@@ -10,28 +10,28 @@ import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:city_go/domain/repositories/visit_place/place_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/localization/localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Экран, отображающий список мест, который пользователь может посетить.
 /// Тип места должен быть заложен в [bloc].
 /// [titleCode] используется для заголовка, чтобы не определять его по типу.
 class VisitListPage extends StatefulWidget {
   final String titleCode;
-  final VisitListBloc bloc;
+  final PlaceType type;
 
   VisitListPage({
     Key? key,
     required this.titleCode,
-    required this.bloc,
-  }) : super(key: key) {
-    bloc.add(VisitListBlocLoadPlacesEvent());
-  }
+    required this.type,
+  }) : super(key: key);
 
   @override
   _VisitListPageState createState() => _VisitListPageState();
 }
 
 class _VisitListPageState extends State<VisitListPage> {
-  final ScrollController controller = ScrollController();
+  final controller = ScrollController();
+  late VisitListBloc bloc;
   bool isLoading = true;
   bool isEndOfList = false;
 
@@ -39,13 +39,16 @@ class _VisitListPageState extends State<VisitListPage> {
 
   @override
   void initState() {
-    controller.addListener(_scrollListener);
     super.initState();
+    bloc = sl.call(param1: widget.type);
+    controller.addListener(_scrollListener);
+    bloc.add(VisitListBlocLoadPlacesEvent());
   }
 
   @override
   void dispose() {
     controller.removeListener(_scrollListener);
+    bloc.close();
     super.dispose();
   }
 
@@ -54,12 +57,18 @@ class _VisitListPageState extends State<VisitListPage> {
     final mq = MediaQuery.of(context);
     final height = (mq.size.height - mq.padding.top - kToolbarHeight) / 3;
 
-    return StreamBuilder<VisitListBlocState>(
+    return BlocConsumer<VisitListBloc, VisitListBlocState>(
       key: Key('VisitListStreamBuilder'),
-      stream: widget.bloc.stream,
-      initialData: widget.bloc.state,
-      builder: (c, snap) {
-        final state = snap.data;
+      bloc: bloc,
+      listener: (context, state) {
+        if (state is VisitListBlocPlaceState && state.errorCode != null) {
+          isEndOfList = true;
+          WidgetsBinding.instance!.addPostFrameCallback(
+            (_) => CityToast.showToast(context, state.errorCode!),
+          );
+        }
+      },
+      builder: (c, state) {
         PlaceSortType sortType = PlaceSortType.Rating;
         List<ClippedVisitPlace> places = [];
 
@@ -71,11 +80,6 @@ class _VisitListPageState extends State<VisitListPage> {
           isLoading = false;
           sortType = state.sortType;
           places = state.places;
-          if (state.errorCode != null) {
-            isEndOfList = true;
-            WidgetsBinding.instance!.addPostFrameCallback(
-                (_) => CityToast.showToast(c, state.errorCode!));
-          }
           isEndOfList = state.isEndOfList;
         }
 
@@ -84,7 +88,7 @@ class _VisitListPageState extends State<VisitListPage> {
           appBar = FilterWidget(
             activeType: sortType,
             onTap: (type) {
-              widget.bloc.add(VisitListBlocChangeSortType(type));
+              bloc.add(VisitListBlocChangeSortType(type));
               setState(() => displayFilter = !displayFilter);
             },
           );
@@ -95,6 +99,7 @@ class _VisitListPageState extends State<VisitListPage> {
               IconButton(
                 onPressed: () => setState(() => displayFilter = !displayFilter),
                 icon: Icon(Icons.filter_list_alt),
+                splashColor: kSplashColor,
               ),
             ],
           );
@@ -111,7 +116,8 @@ class _VisitListPageState extends State<VisitListPage> {
               if (index == places.length) {
                 return Center(
                   child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(orangeColor)),
+                    valueColor: AlwaysStoppedAnimation(orangeColor),
+                  ),
                 );
               }
 
@@ -120,7 +126,7 @@ class _VisitListPageState extends State<VisitListPage> {
                 place: places[index],
                 height: height,
                 client: sl(),
-                placeRepository: widget.bloc.repository,
+                placeRepository: bloc.repository,
               );
             },
           ),
@@ -132,7 +138,7 @@ class _VisitListPageState extends State<VisitListPage> {
   void _scrollListener() {
     if (controller.position.extentAfter < 200 && !isLoading && !isEndOfList) {
       isLoading = true;
-      widget.bloc.add(VisitListBlocLoadPlacesEvent());
+      bloc.add(VisitListBlocLoadPlacesEvent());
     }
   }
 }

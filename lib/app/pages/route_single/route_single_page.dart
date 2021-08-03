@@ -1,6 +1,7 @@
 import 'package:city_go/app/general_widgets/info_app_bar.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/data/core/service_locator.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
 import 'package:city_go/app/general_widgets/description_widget.dart';
 import 'package:city_go/app/widgets/route_single/ui/single_content.dart';
@@ -8,42 +9,54 @@ import 'package:city_go/data/helpers/http_client.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
 import 'package:city_go/domain/entities/routes/route_clipped.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Экран отображения информации об одном конкретном маршруте
 class RouteSinglePage extends StatefulWidget {
   final RouteClipped clipped;
-  final RouteSingleBloc bloc;
   final HttpClient client;
 
   RouteSinglePage({
     Key key = const Key('RouteSinglePage'),
     required this.clipped,
-    required this.bloc,
     required this.client,
-  }) : super(key: key) {
-    bloc.add(RouteSingleBlocLoadEvent());
-  }
+  }) : super(key: key);
 
   @override
   _RouteSinglePageState createState() => _RouteSinglePageState();
 }
 
 class _RouteSinglePageState extends State<RouteSinglePage> {
-  RouteSingleBloc get bloc => widget.bloc;
+  late RouteSingleBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = sl.call<RouteSingleBloc>(param1: widget.clipped.id);
+    bloc.add(RouteSingleBlocLoadEvent());
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<RouteSingleBlocState>(
-        stream: bloc.stream,
-        initialData: bloc.state,
-        builder: (_, snap) {
-          final state = snap.data;
+      body: BlocConsumer<RouteSingleBloc, RouteSingleBlocState>(
+        bloc: bloc,
+        listener: (context, state) {
+          if (state is RouteSingleBlocDataState && state.errorCode != null) {
+            WidgetsBinding.instance!.addPostFrameCallback(
+              (_) => CityToast.showToast(context, state.errorCode!),
+            );
+          }
+        },
+        builder: (_, state) {
           r.Route? route;
           if (state is RouteSingleBlocDataState) {
-            if (state.errorCode != null)
-              WidgetsBinding.instance!.addPostFrameCallback(
-                  (_) => CityToast.showToast(context, state.errorCode!));
             route = state.route;
           }
           return LayoutBuilder(

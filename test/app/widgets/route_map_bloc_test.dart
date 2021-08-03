@@ -67,7 +67,7 @@ void main() {
     'должен инициализироваться с состоянием без данных',
     () async {
       // assert
-      expect(bloc.state, RouteMapBlocMapState());
+      expect(bloc.state, RouteMapBlocState());
     },
   );
 
@@ -90,18 +90,17 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               isLocationSearching: true,
             ),
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
             ),
           ]),
         );
 
-        expect(bloc.showError, isTrue);
         verify(geolocator.getPosition());
       },
     );
@@ -123,22 +122,21 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               isLocationSearching: true,
             ),
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
             ),
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               route: FutureResponse.fail(NO_INTERNET),
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
             )
           ]),
         );
-        expect(bloc.showError, isTrue);
         verify(repo.calculatePathForRoute(route));
         verify(geolocator.getPosition());
       },
@@ -165,15 +163,15 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               isLocationSearching: true,
             ),
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               userPosition: FutureResponse.success(userPosition),
             ),
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               route: FutureResponse.success(mapRoute),
               userPosition: FutureResponse.success(userPosition),
@@ -181,7 +179,6 @@ void main() {
           ]),
         );
 
-        expect(bloc.showError, isFalse);
         verify(repo.calculatePathForRoute(route));
         verify(geolocator.getPosition());
       },
@@ -205,12 +202,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               route: FutureResponse.success(mapRoute),
               isLocationSearching: true,
             ),
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               route: FutureResponse.success(mapRoute),
               userPosition: FutureResponse.fail(LOCATION_SERVICE_DISABLED),
@@ -218,7 +215,6 @@ void main() {
           ]),
         );
 
-        expect(bloc.showError, isTrue);
         verify(geolocator.getPosition());
       },
     );
@@ -239,12 +235,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               route: FutureResponse.success(mapRoute),
               isLocationSearching: true,
             ),
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               route: FutureResponse.success(mapRoute),
               userPosition: FutureResponse.fail(LOCATION_ACCESS_DENIED),
@@ -252,7 +248,6 @@ void main() {
           ]),
         );
 
-        expect(bloc.showError, isTrue);
         verify(geolocator.getPosition());
       },
     );
@@ -274,12 +269,12 @@ void main() {
         await expectLater(
           bloc.stream,
           emitsInOrder([
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               route: FutureResponse.success(mapRoute),
               isLocationSearching: true,
             ),
-            RouteMapBlocMapState(
+            RouteMapBlocState(
               controller: controller,
               route: FutureResponse.success(mapRoute),
               userPosition: FutureResponse.success(userPosition),
@@ -287,7 +282,6 @@ void main() {
           ]),
         );
 
-        expect(bloc.showError, isFalse);
         verify(geolocator.getPosition());
       },
     );

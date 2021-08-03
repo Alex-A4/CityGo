@@ -1,7 +1,7 @@
 import 'package:city_go/app/general_widgets/adaptive_button.dart';
 import 'package:city_go/app/general_widgets/place_dialog.dart';
 import 'package:city_go/app/general_widgets/toast_widget.dart';
-import 'package:city_go/app/general_widgets/ui_constants.dart';
+import 'package:city_go/styles/styles.dart';
 import 'package:city_go/app/widgets/route_map/bloc/bloc.dart';
 import 'package:city_go/constants.dart';
 import 'package:city_go/data/core/service_locator.dart';
@@ -11,6 +11,7 @@ import 'package:city_go/domain/entities/visit_place/clipped_visit_place.dart';
 import 'package:city_go/domain/entities/visit_place/full_visit_place.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /// Страница для построения маршрута route.
@@ -28,8 +29,8 @@ class RouteMapPage extends StatefulWidget {
 }
 
 class _RouteMapPageState extends State<RouteMapPage> {
-  // ignore: close_sinks
   late RouteMapBloc bloc;
+
   LatLng? userPosition;
 
   /// Флаг, обозначающий, что нужно переключиться на позицию пользователя.
@@ -55,6 +56,7 @@ class _RouteMapPageState extends State<RouteMapPage> {
 
   @override
   void dispose() {
+    bloc.close();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeLeft,
@@ -69,27 +71,20 @@ class _RouteMapPageState extends State<RouteMapPage> {
 
     return Scaffold(
       key: Key('RoutePageScaffold'),
-      body: StreamBuilder<RouteMapBlocState>(
+      body: BlocConsumer<RouteMapBloc, RouteMapBlocState>(
         key: Key('RoutePageStreamBuilder'),
-        initialData: bloc.state,
-        stream: bloc.stream,
-        builder: (_, snap) {
-          var state = snap.data as RouteMapBlocMapState;
-
-          if (markers.isEmpty &&
-              widget.route.routePlaces.isNotEmpty &&
-              bloc.pointIcons != null)
-            initPlaceMarkers(widget.route.routePlaces, context);
-
-          if (state.route?.hasData == true) initPolylines(state.route!.data!);
-
+        bloc: bloc,
+        listener: (context, state) {
           if (state.route?.hasData == true &&
               state.controller != null &&
               needShowRoute) {
             needShowRoute = false;
             var data = state.route!.data!;
-            changeCameraPositionAfterWayFound(state.controller!,
-                data.coordinates.first, data.coordinates.last);
+            changeCameraPositionAfterWayFound(
+              state.controller!,
+              data.coordinates.first,
+              data.coordinates.last,
+            );
           }
 
           if (state.userPosition?.hasData == true && needShowPosition) {
@@ -102,16 +97,27 @@ class _RouteMapPageState extends State<RouteMapPage> {
             );
           }
 
-          if (state.userPosition?.hasError == true && bloc.showError) {
-            bloc.showError = false;
-            WidgetsBinding.instance!.addPostFrameCallback((_) =>
-                CityToast.showToast(context, state.userPosition!.errorCode!));
-          }
-          if (state.route?.hasError == true && bloc.showError) {
-            bloc.showError = false;
+          if (state.userPosition?.hasError == true) {
             WidgetsBinding.instance!.addPostFrameCallback(
-                (_) => CityToast.showToast(context, state.route!.errorCode!));
+              (_) => CityToast.showToast(
+                context,
+                state.userPosition!.errorCode!,
+              ),
+            );
           }
+          if (state.route?.hasError == true) {
+            WidgetsBinding.instance!.addPostFrameCallback(
+              (_) => CityToast.showToast(context, state.route!.errorCode!),
+            );
+          }
+        },
+        builder: (_, state) {
+          if (markers.isEmpty &&
+              widget.route.routePlaces.isNotEmpty &&
+              bloc.pointIcons != null)
+            initPlaceMarkers(widget.route.routePlaces, context);
+
+          if (state.route?.hasData == true) initPolylines(state.route!.data!);
 
           return Stack(
             key: Key('RouteMapStackKey'),

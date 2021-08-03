@@ -8,8 +8,6 @@ import 'package:city_go/app/pages/route_single/route_single_page.dart';
 import 'package:city_go/app/pages/simple_map/simple_map_page.dart';
 import 'package:city_go/app/pages/visit_place_list/visit_list_page.dart';
 import 'package:city_go/app/pages/visit_place_single/visit_single_page.dart';
-import 'package:city_go/app/widgets/route_single/bloc/bloc.dart';
-import 'package:city_go/app/widgets/visit_place_single/bloc/bloc.dart';
 import 'package:city_go/data/core/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:city_go/domain/entities/routes/route.dart' as r;
@@ -31,9 +29,9 @@ const SIMPLE_MAP = '/map';
 final routes = <String, WidgetBuilder>{
   INTRO_ANIMATION: (_) => IntroPage(),
   ROOT: (_) => MainPage(),
-  PROFILE: (_) => ProfileAuthPage(bloc: sl()),
-  ROUTE_LIST: (_) => RouteListPage(bloc: sl()),
-  SIMPLE_MAP: (_) => SimpleMapPage(bloc: sl()),
+  PROFILE: (_) => ProfileAuthPage(),
+  ROUTE_LIST: (_) => RouteListPage(),
+  SIMPLE_MAP: (_) => SimpleMapPage(),
 };
 
 /// Роуты, в которые необходимо передавать данные.
@@ -58,25 +56,20 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => VisitListPage(
           titleCode: map['title'],
-          bloc: sl.call(param1: map['type']),
+          type: map['type'],
         ),
         settings: settings,
       );
     case ROUTE_SINGLE:
       final route = settings.arguments as dynamic;
       return MaterialPageRoute(
-        builder: (_) => RouteSinglePage(
-          clipped: route,
-          bloc: sl.call<RouteSingleBloc>(param1: route.id),
-          client: sl(),
-        ),
+        builder: (_) => RouteSinglePage(clipped: route, client: sl()),
       );
     case VISIT_SINGLE:
       final place = settings.arguments;
       return MaterialPageRoute(
         builder: (_) => VisitSinglePage(
-          bloc: sl.call<VisitSingleBloc>(param1: (place as dynamic).id),
-          place: place,
+          place: place as dynamic,
           client: sl(),
         ),
       );
