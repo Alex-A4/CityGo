@@ -72,8 +72,9 @@ class AdaptiveButton extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     Color currentColor = onTap == null ? theme.disabledColor : iconBorderColor;
 
-    return InkResponse(
+    return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(90),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(90),
