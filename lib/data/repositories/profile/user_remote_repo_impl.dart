@@ -54,7 +54,7 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
         '/auth/oauth/',
         data: {
           'service': user.type.backend,
-          'code': user.accessToken,
+          'code': user.externalToken,
         },
       );
       final idResponse = await client.get(
