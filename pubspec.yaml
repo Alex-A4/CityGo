@@ -16,29 +16,29 @@ dependencies:
   # UI section
   cupertino_icons: ^1.0.3
   provider: ^5.0.0
-  google_maps_flutter: ^2.0.3
+  google_maps_flutter: ^2.0.6
   flutter_polyline_points: ^1.0.0
-  webview_flutter: ^2.0.4
+  webview_flutter: ^2.0.10
   auto_size_text: ^3.0.0-nullsafety.0
-  flare_flutter: ^3.0.0
+  flare_flutter: ^3.0.2
   sliding_up_panel: ^2.0.0+1
 
   # Logic section
   flutter_bloc: ^7.1.0
   hive: ^2.0.4
-  equatable: ^2.0.0
-  rxdart: ^0.26.0
-  get_it: ^7.1.2
+  equatable: ^2.0.3
+  rxdart: ^0.27.1
+  get_it: ^7.2.0
   mockito: ^5.0.7
-  package_info: ^2.0.0
-  device_info: ^2.0.0
-  connectivity: ^3.0.3
+  package_info: ^2.0.2
+  device_info: ^2.0.2
+  connectivity: ^3.0.6
   dio: ^4.0.0
   permission_handler: ^7.1.0
-  geolocator: ^7.0.3
-  path_provider: ^2.0.1
-  just_audio: ^0.7.4
-  audio_service: ^0.17.0
+  geolocator: ^7.4.0
+  path_provider: ^2.0.2
+  just_audio: ^0.9.5
+  audio_service: ^0.17.1
   url_launcher: ^6.0.2
 
 dev_dependencies:
