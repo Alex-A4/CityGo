@@ -174,7 +174,7 @@ class _AuthPageState extends State<AuthPage> {
                     print(mapData);
                     final user = mapData == null
                         ? null
-                        : VKUser(externalToken: mapData['access_token']);
+                        : VKUser(externalToken: mapData['code']);
                     if (user != null) bloc.add(ProfileAuthExternalEvent(user));
                   },
                 ),

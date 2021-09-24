@@ -9,7 +9,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 /// user_id - идентификатор пользователя.
 class VkLoginWidget extends StatelessWidget {
   final url = 'https://oauth.vk.com/authorize?client_id=7957525&' +
-      'display=page&scope=65538&response_type=token&v=5.124';
+      'display=page&scope=email&response_type=code&v=5.131&redirect_uri=https://oauth.vk.com/blank.html';
 
   VkLoginWidget({Key? key}) : super(key: key);
 
