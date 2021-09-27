@@ -57,18 +57,12 @@ class UserRemoteRepositoryImpl extends UserRemoteRepository {
           'code': user.externalToken,
         },
       );
-      final idResponse = await client.get(
-        '/auth/users/me/',
-        options: Options(
-          headers: {'Authorization': 'Token ${response.data['auth_token']}'},
-          responseType: ResponseType.json,
-        ),
-      );
 
       return FutureResponse.success(
         user.updateUserData(
-          accessToken: response.data['auth_token'],
-          userId: idResponse.data['id'],
+          accessToken: response.data['token'],
+          userId: response.data['user_id'],
+          userName: response.data['username'],
         ),
       );
     } on DioError catch (e) {
