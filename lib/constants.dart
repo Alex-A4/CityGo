@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-const MAP_API_KEY = 'AIzaSyD2k7DPFq9u8w2FcQgjtD1mzXoE9ULTEJc';
+const MAP_API_KEY = 'AIzaSyC_Dj3ZmcVb3XG2OTJCH_NMU9l5e2zv95Q';
 const minZoom = 12.0;
 const CameraPosition kYaroslavlPos = CameraPosition(
   target: LatLng(57.62967635359928, 39.8791329190135),

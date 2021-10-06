@@ -17,7 +17,8 @@ dependencies:
   cupertino_icons: ^1.0.3
   provider: ^5.0.0
   google_maps_flutter: ^2.0.6
-  flutter_polyline_points: ^1.0.0
+  flutter_polyline_points:
+    git: https://github.com/aaqibism/flutter_polyline_points.git
   webview_flutter: ^2.0.10
   auto_size_text: ^3.0.0-nullsafety.0
   flare_flutter: ^3.0.2
@@ -37,7 +38,7 @@ dependencies:
   permission_handler: ^7.1.0
   geolocator: ^7.4.0
   path_provider: ^2.0.2
-  just_audio: ^0.9.5
+  just_audio: ^0.9.7
   audio_service: ^0.17.1
   url_launcher: ^6.0.2
 

@@ -22,6 +22,7 @@ class CityGoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       /// Сперва устанавливается locale, затем получаем фактический язык
       /// приложения на основе языка устройства, поддерживаемых языков и
       /// языка, который был определен приложением (может быть null).

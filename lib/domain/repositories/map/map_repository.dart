@@ -14,7 +14,10 @@ abstract class MapRepository {
   /// Функция для расчёта пути между двумя точками [start] и [dest].
   /// [type] указывается для указания алгоритма построения маршрута.
   Future<FutureResponse<MapRoute>> calculatePathBetweenPoints(
-      LatLng start, LatLng dest, PathType type);
+    LatLng start,
+    LatLng dest,
+    PathType type,
+  );
 
   /// Метод для расчёта длины пути
   double calculatePathLength(List<LatLng> points);

@@ -21,7 +21,7 @@ import 'package:city_go/data/storages/profile_storage.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart' as pl;
 import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
@@ -46,7 +46,7 @@ Future<void> initServiceLocator() async {
   sl.registerFactory<Dio>(() => Dio());
   sl.registerSingleton<Geolocator>(GeolocatorImpl());
 
-  sl.registerSingleton<PolylinePoints>(PolylinePoints());
+  sl.registerSingleton<pl.PolylinePoints>(pl.PolylinePoints());
   sl.registerSingleton<NetworkChecker>(NetworkCheckerImpl(sl()));
   sl.registerSingleton<DistanceCalculator>(DistanceCalculatorImpl());
   sl.registerFactory<HttpClient>(() => HttpClientImpl(sl()));

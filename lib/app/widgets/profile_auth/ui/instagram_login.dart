@@ -7,8 +7,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 /// !!!code - токен доступа
 class InstagramWidget extends StatelessWidget {
   static const redirect = 'https://localhost:5000';
-  final url = 'https://api.instagram.com/oauth/authorize?client_id=523284702248055&'
-      'redirect_uri=$redirect&response_type=code&scope=user_profile,user_media';
+
+  final url = 'https://api.instagram.com/oauth/authorize?client_id=1498085750532342&redirect_uri=$redirect/&scope=user_profile,user_media&response_type=code';
 
   InstagramWidget({Key? key}) : super(key: key);
 

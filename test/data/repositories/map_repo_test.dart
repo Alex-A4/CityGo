@@ -5,14 +5,14 @@ import 'package:city_go/data/repositories/map/distance_calculator.dart';
 import 'package:city_go/data/repositories/map/map_repository_impl.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart' as pl;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as g;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'map_repo_test.mocks.dart';
 
-@GenerateMocks([PolylinePoints, DistanceCalculator, NetworkChecker])
+@GenerateMocks([pl.PolylinePoints, DistanceCalculator, NetworkChecker])
 void main() {
   final start = g.LatLng(31.0, 12.0);
   final dest = g.LatLng(32.0, 12.0);
@@ -62,19 +62,26 @@ void main() {
       () async {
         // arrange
         when(checker.hasInternet).thenAnswer((_) => Future.value(true));
-        when(
-          polyline.getRouteBetweenCoordinates(any, any, any,
-              travelMode: anyNamed('travelMode')),
-        ).thenAnswer(
-          (_) => Future.value(PolylineResult(points: [], errorMessage: 'fas')),
+        when(polyline.getRouteBetweenCoordinates(
+          any,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: anyNamed('travelMode'),
+        )).thenAnswer(
+          (_) =>
+              Future.value(pl.PolylineResult(routes: [], errorMessage: 'fas')),
         );
 
         // act
         await mapRepository.calculatePathBetweenPoints(start, dest, walk);
 
         // assert
-        verify(polyline.getRouteBetweenCoordinates(MAP_API_KEY, any, any,
-            travelMode: TravelMode.walking));
+        verify(polyline.getRouteBetweenCoordinates(
+          MAP_API_KEY,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: pl.TravelMode.walking,
+        ));
       },
     );
 
@@ -83,19 +90,27 @@ void main() {
       () async {
         // arrange
         when(checker.hasInternet).thenAnswer((_) => Future.value(true));
-        when(
-          polyline.getRouteBetweenCoordinates(any, any, any,
-              travelMode: anyNamed('travelMode')),
-        ).thenAnswer(
-          (_) => Future.value(PolylineResult(points: [], errorMessage: 'fas')),
+        when(polyline.getRouteBetweenCoordinates(
+          any,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: anyNamed('travelMode'),
+        )).thenAnswer(
+          (_) => Future.value(
+            pl.PolylineResult(routes: [], errorMessage: 'fas'),
+          ),
         );
 
         // act
         await mapRepository.calculatePathBetweenPoints(start, dest, car);
 
         // assert
-        verify(polyline.getRouteBetweenCoordinates(MAP_API_KEY, any, any,
-            travelMode: TravelMode.driving));
+        verify(polyline.getRouteBetweenCoordinates(
+          MAP_API_KEY,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: pl.TravelMode.driving,
+        ));
       },
     );
 
@@ -104,11 +119,14 @@ void main() {
       () async {
         // arrange
         when(checker.hasInternet).thenAnswer((_) => Future.value(true));
-        when(
-          polyline.getRouteBetweenCoordinates(any, any, any,
-              travelMode: anyNamed('travelMode')),
-        ).thenAnswer(
-          (_) => Future.value(PolylineResult(points: [], errorMessage: 'fas')),
+        when(polyline.getRouteBetweenCoordinates(
+          any,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: anyNamed('travelMode'),
+        )).thenAnswer(
+          (_) =>
+              Future.value(pl.PolylineResult(routes: [], errorMessage: 'fas')),
         );
 
         // act
@@ -117,8 +135,12 @@ void main() {
 
         // assert
         verify(checker.hasInternet);
-        verify(polyline.getRouteBetweenCoordinates(MAP_API_KEY, any, any,
-            travelMode: TravelMode.walking));
+        verify(polyline.getRouteBetweenCoordinates(
+          MAP_API_KEY,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: pl.TravelMode.walking,
+        ));
         expect(response.errorCode, UNEXPECTED_ERROR);
       },
     );
@@ -128,14 +150,20 @@ void main() {
       () async {
         // arrange
         when(checker.hasInternet).thenAnswer((_) => Future.value(true));
-        when(
-          polyline.getRouteBetweenCoordinates(any, any, any,
-              travelMode: anyNamed('travelMode')),
-        ).thenAnswer(
-          (_) => Future.value(PolylineResult(points: [
-            PointLatLng(start.latitude, start.longitude),
-            PointLatLng(dest.latitude, dest.longitude),
-          ])),
+        when(polyline.getRouteBetweenCoordinates(
+          any,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: anyNamed('travelMode'),
+        )).thenAnswer(
+          (_) => Future.value(
+            pl.PolylineResult(routes: [
+              pl.Route(null, [], [
+                pl.PointLatLng(start.latitude, start.longitude),
+                pl.PointLatLng(dest.latitude, dest.longitude),
+              ])
+            ]),
+          ),
         );
         when(calculator.coordinateDistance(any, any, any, any))
             .thenReturn(10.0);
@@ -146,8 +174,12 @@ void main() {
 
         // assert
         verify(checker.hasInternet);
-        verify(polyline.getRouteBetweenCoordinates(MAP_API_KEY, any, any,
-            travelMode: TravelMode.walking));
+        verify(polyline.getRouteBetweenCoordinates(
+          MAP_API_KEY,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: pl.TravelMode.walking,
+        ));
         expect(response.data, MapRoute(10.0, [start, dest]));
       },
     );
@@ -174,11 +206,14 @@ void main() {
       () async {
         // arrange
         when(checker.hasInternet).thenAnswer((_) => Future.value(true));
-        when(
-          polyline.getRouteBetweenCoordinates(any, any, any,
-              travelMode: anyNamed('travelMode')),
-        ).thenAnswer(
-          (_) => Future.value(PolylineResult(points: [], errorMessage: 'fas')),
+        when(polyline.getRouteBetweenCoordinates(
+          any,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: anyNamed('travelMode'),
+        )).thenAnswer(
+          (_) =>
+              Future.value(pl.PolylineResult(routes: [], errorMessage: 'fas')),
         );
 
         // act
@@ -186,8 +221,12 @@ void main() {
 
         // assert
         verify(checker.hasInternet);
-        verify(polyline.getRouteBetweenCoordinates(MAP_API_KEY, any, any,
-            travelMode: TravelMode.walking));
+        verify(polyline.getRouteBetweenCoordinates(
+          MAP_API_KEY,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: pl.TravelMode.walking,
+        ));
         expect(response.errorCode, UNEXPECTED_ERROR);
       },
     );
@@ -197,13 +236,17 @@ void main() {
       () async {
         // arrange
         when(checker.hasInternet).thenAnswer((_) => Future.value(true));
-        when(
-          polyline.getRouteBetweenCoordinates(any, any, any,
-              travelMode: anyNamed('travelMode')),
-        ).thenAnswer(
-          (_) => Future.value(PolylineResult(points: [
-            PointLatLng(start.latitude, start.longitude),
-            PointLatLng(dest.latitude, dest.longitude),
+        when(polyline.getRouteBetweenCoordinates(
+          any,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: anyNamed('travelMode'),
+        )).thenAnswer(
+          (_) => Future.value(pl.PolylineResult(routes: [
+            pl.Route(null, [], [
+              pl.PointLatLng(start.latitude, start.longitude),
+              pl.PointLatLng(dest.latitude, dest.longitude),
+            ]),
           ])),
         );
 
@@ -212,9 +255,12 @@ void main() {
 
         // assert
         verify(checker.hasInternet);
-        verify(polyline.getRouteBetweenCoordinates(MAP_API_KEY, any, any,
-                travelMode: TravelMode.walking))
-            .called(2);
+        verify(polyline.getRouteBetweenCoordinates(
+          MAP_API_KEY,
+          origin: anyNamed('origin'),
+          destination: anyNamed('destination'),
+          travelMode: pl.TravelMode.walking,
+        )).called(2);
 
         /// Список точек указывается для каждой пары
         expect(

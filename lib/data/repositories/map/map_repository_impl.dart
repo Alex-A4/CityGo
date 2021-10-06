@@ -5,7 +5,7 @@ import 'package:city_go/domain/entities/future_response.dart';
 import 'package:city_go/domain/entities/map/map_route.dart';
 import 'package:city_go/domain/entities/routes/route.dart';
 import 'package:city_go/domain/repositories/map/map_repository.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart' as pl;
 import 'package:google_maps_flutter/google_maps_flutter.dart' as g;
 
 import 'distance_calculator.dart';
@@ -14,7 +14,7 @@ export 'package:city_go/domain/repositories/map/map_repository.dart';
 
 /// Реализация репозитория карт, который позволяет строить маршруты между точками
 class MapRepositoryImpl extends MapRepository {
-  final PolylinePoints pathCreator;
+  final pl.PolylinePoints pathCreator;
   final NetworkChecker checker;
   final DistanceCalculator calculator;
 
@@ -22,20 +22,25 @@ class MapRepositoryImpl extends MapRepository {
 
   @override
   Future<FutureResponse<MapRoute>> calculatePathBetweenPoints(
-      g.LatLng start, g.LatLng dest, PathType type) async {
+    g.LatLng start,
+    g.LatLng dest,
+    PathType type,
+  ) async {
     try {
       if (!await checker.hasInternet) throw NO_INTERNET;
 
       final result = await pathCreator.getRouteBetweenCoordinates(
         MAP_API_KEY,
-        PointLatLng(start.latitude, start.longitude),
-        PointLatLng(dest.latitude, dest.longitude),
+        origin: pl.PointLatLng(start.latitude, start.longitude),
+        destination: pl.PointLatLng(dest.latitude, dest.longitude),
         travelMode: _convertMode(type),
       );
-      if (result.points.isEmpty) throw UNEXPECTED_ERROR;
+      if (result.routes.isEmpty || result.routes.first.points.isEmpty) {
+        throw UNEXPECTED_ERROR;
+      }
 
       final pathPoints = <g.LatLng>[];
-      result.points
+      result.routes.first.points
           .forEach((e) => pathPoints.add(g.LatLng(e.latitude, e.longitude)));
 
       return FutureResponse.success(
@@ -58,13 +63,18 @@ class MapRepositoryImpl extends MapRepository {
       for (int i = 0; i < sorted.length - 1; i++) {
         final result = await pathCreator.getRouteBetweenCoordinates(
           MAP_API_KEY,
-          PointLatLng(sorted[i].latitude, sorted[i].longitude),
-          PointLatLng(sorted[i + 1].latitude, sorted[i + 1].longitude),
-          travelMode: TravelMode.walking,
+          origin: pl.PointLatLng(sorted[i].latitude, sorted[i].longitude),
+          destination: pl.PointLatLng(
+            sorted[i + 1].latitude,
+            sorted[i + 1].longitude,
+          ),
+          travelMode: pl.TravelMode.walking,
         );
-        if (result.points.isEmpty) throw UNEXPECTED_ERROR;
+        if (result.routes.isEmpty || result.routes.first.points.isEmpty) {
+          throw UNEXPECTED_ERROR;
+        }
 
-        result.points
+        result.routes.first.points
             .forEach((e) => pathPoints.add(g.LatLng(e.latitude, e.longitude)));
       }
 
@@ -91,12 +101,12 @@ class MapRepositoryImpl extends MapRepository {
   }
 
   /// Метод для конвертации внутреннего типа маршрута в режим плагина.
-  TravelMode _convertMode(PathType type) {
+  pl.TravelMode _convertMode(PathType type) {
     switch (type) {
       case PathType.Walk:
-        return TravelMode.walking;
+        return pl.TravelMode.walking;
       case PathType.Car:
-        return TravelMode.driving;
+        return pl.TravelMode.driving;
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:city_go/styles/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CityAppBar extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
@@ -31,7 +32,7 @@ class CityAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       bottom: bottom,
       elevation: 10,
-      brightness: Brightness.dark,
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       centerTitle: true,
     );
   }
